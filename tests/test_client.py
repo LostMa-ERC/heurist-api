@@ -2,17 +2,20 @@ from heurist_api.client import HeuristAPIClient
 import unittest
 from pathlib import Path
 from lxml import etree
+import yaml
 
-TEST_COOKIE = Path(__file__).parent.parent.joinpath("COOKIE")
+TEST_CONFIG = Path(__file__).parent.joinpath("config.yaml")
+
+
 NS = "https://heuristnetwork.org"
 
 
 class APITest(unittest.TestCase):
-    db = "jbcamps_gestes"
-
     def setUp(self) -> None:
-        with open(TEST_COOKIE, "r") as f:
-            self.cookie = f.readline().strip()
+        with open(TEST_CONFIG) as f:
+            config = yaml.safe_load(f)
+            self.cookie = config["cookie"]
+            self.db = config["db"]
         self.client = HeuristAPIClient(db=self.db, session_id=self.cookie)
 
     def test_xml_export(self):
