@@ -1,9 +1,6 @@
 from pathlib import Path
 
 
-DUMP_DIR = Path(__file__).parent.parent.parent.joinpath("export")
-DUMP_DIR.mkdir(exist_ok=True)
-
 NS = {"hml": "https://heuristnetwork.org"}
 
 

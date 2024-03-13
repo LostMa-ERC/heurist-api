@@ -1,6 +1,6 @@
 import requests
 
-from heurist_api.constants import EXPORT, DUMP_DIR, DB_STRUCTURE
+from heurist_api.constants import EXPORT, DB_STRUCTURE
 from pathlib import Path
 
 
@@ -17,7 +17,7 @@ class HeuristAPIClient:
         self.db = db
         self.session_id = session_id
 
-    def export_records(self, record_type_id: int | str) -> Path:
+    def export_records(self, record_type_id: int | str, output: Path) -> Path:
         """Export all records of a given record type.
 
         Parameters:
@@ -31,14 +31,14 @@ class HeuristAPIClient:
 
         r = requests.get(url=url, cookies=cookie)
 
-        fp = DUMP_DIR.joinpath(f"records_{record_type_id}.html")
+        fp = output.joinpath(f"records_{record_type_id}.html")
 
         with open(fp, "wb") as f:
             f.write(r.content)
 
         return fp
 
-    def export_structure(self) -> Path:
+    def export_structure(self, output: Path) -> Path:
         """Export the database's structure.
 
         Returns:
@@ -49,7 +49,7 @@ class HeuristAPIClient:
 
         r = requests.get(url=url, cookies=cookie)
 
-        fp = DUMP_DIR.joinpath("db_structure.html")
+        fp = output.joinpath("db_structure.html")
 
         with open(fp, "wb") as f:
             f.write(r.content)

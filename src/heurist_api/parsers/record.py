@@ -4,18 +4,18 @@ from typing import Dict, Generator
 import csv
 
 
-from heurist_api.constants import NS, DUMP_DIR
+from heurist_api.constants import NS
 from heurist_api.parsers.db_structure import Table
 
 
 class RecordParser:
-    def __init__(self, record_xml: Path, table: Table) -> None:
+    def __init__(self, record_xml: Path, table: Table, output: Path) -> None:
         self.tree = etree.parse(record_xml)
         self.table = table
         self.field_index = {f.detail_ID: f for f in table.fields}
         query = self.tree.find("hml:query", namespaces=NS)
         self.record_type_id = query.get("q").split(":")[-1]
-        self.outfile = DUMP_DIR.joinpath(f"records_{self.record_type_id}.csv")
+        self.outfile = output.joinpath(f"records_{self.record_type_id}.csv")
 
     def pivoter(self) -> Generator[Dict | None, None, None]:
         for record in self.tree.xpath(".//hml:record", namespaces=NS):

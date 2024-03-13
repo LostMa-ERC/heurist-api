@@ -17,13 +17,15 @@ class APITest(unittest.TestCase):
             self.cookie = config["cookie"]
             self.db = config["db"]
         self.client = HeuristAPIClient(db=self.db, session_id=self.cookie)
+        self.output = Path(__file__).parent.joinpath("export")
+        self.output.mkdir()
 
     def test_xml_export(self):
         RECORD_TYPE = 102
         QUERY = "t:102"
 
         # Export the records to an HTML file
-        fp = self.client.export_records(RECORD_TYPE)
+        fp = self.client.export_records(RECORD_TYPE, output=self.output)
 
         # Parse the HTML file
         tree = etree.parse(fp)
@@ -33,7 +35,12 @@ class APITest(unittest.TestCase):
         self.assertEqual(QUERY, query.get("q"))
 
     def test_db_structure_export(self):
-        fp = self.client.export_structure()
+        fp = self.client.export_structure(output=self.output)
+
+    def tearDown(self) -> None:
+        for file in self.output.iterdir():
+            file.unlink()
+        self.output.rmdir()
 
 
 if __name__ == "__main__":
