@@ -24,7 +24,7 @@ class RecordParser:
 
             record_type_id = record.find("hml:type", namespaces=NS).attrib["id"]
             if record_type_id != self.record_type_id:
-                yield None
+                continue
 
             record_id = record.find("hml:id", namespaces=NS).text
             row.update({"record H-ID": record_id})
