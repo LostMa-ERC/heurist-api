@@ -20,7 +20,7 @@ class APITest(unittest.TestCase):
         table = Table(name="test", record_id=200)
         export_xml = Path(__file__).parent.joinpath("mock.html")
         parser = RecordParser(record_xml=export_xml, table=table, output=self.output)
-        print(parser.outfile)
+        self.assertEqual(parser.outfile.name, "test_RecID-200.csv")
 
     def tearDown(self) -> None:
         for file in self.output.iterdir():
