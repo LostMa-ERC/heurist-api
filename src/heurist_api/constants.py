@@ -9,7 +9,8 @@ HEURIST_SERVER = "https://heurist.huma-num.fr/heurist"
 
 API_EXPORT = f"{HEURIST_SERVER}/export/xml/flathml.php"
 EXPORT = (
-    API_EXPORT + "?q=t%%3A%s&a=1&db=%s&depth=all&linkmode=direct"
+    API_EXPORT
+    + '?q=[{"t"%%3A"%s"}%%2C{"sortby"%%3A"t"}]&a=1&db=%s&depth=all&linkmode=direct'
 )  # %(record_type_id, database_name)
 
 
