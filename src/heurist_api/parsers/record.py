@@ -4,7 +4,7 @@ from typing import Dict, Generator
 import csv
 
 
-from heurist_api.constants import NS
+from heurist_api.constants import NS, Query
 from heurist_api.parsers.db_structure import Table
 
 
@@ -14,7 +14,8 @@ class RecordParser:
         self.table = table
         self.field_index = {f.detail_ID: f for f in table.fields}
         query = self.tree.find("hml:query", namespaces=NS)
-        self.record_type_id = query.get("q").split(":")[-1]
+        q = query.get("q")
+        self.record_type_id = Query(query_string=q).id
         self.outfile = output.joinpath(f"{table.name}_RecID-{self.record_type_id}.csv")
 
     def pivoter(self) -> Generator[Dict | None, None, None]:
