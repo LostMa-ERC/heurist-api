@@ -16,7 +16,7 @@ class RecordParser:
         query = self.tree.find("hml:query", namespaces=NS)
         q = query.get("q")
         self.record_type_id = Query(query_string=q).id
-        self.outfile = output.joinpath(f"{table.name}_RecID-{self.record_type_id}.csv")
+        self.outfile = output.joinpath(f"{table.name}.csv")
 
     def pivoter(self) -> Generator[Dict | None, None, None]:
         for record in self.tree.xpath(".//hml:record", namespaces=NS):
