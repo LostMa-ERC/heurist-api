@@ -1,57 +1,33 @@
 import requests
+from typing import ByteString
 
-from heurist_api.constants import EXPORT, DB_STRUCTURE
-from pathlib import Path
+from heurist_api.url_builder import URLBuilder
 
 
 class HeuristAPIClient:
-    """API Client for Heurist Database."""
+    """Client for Heurist API."""
 
-    def __init__(self, db: str, session_id: str) -> None:
-        """Initialize the API client.
-
-        Parameters:
-            db (str): Name of the database.
-            session_id (str): Session ID cookie for authenticating user.
-        """
-        self.db = db
+    def __init__(self, database_name: str, session_id: str) -> None:
+        self.database_name = database_name
         self.session_id = session_id
+        self.cookie = {"heurist-sessionid": session_id}
+        self.url_builder = URLBuilder(database_name=database_name)
 
-    def export_records(self, record_type_id: int | str, output: Path) -> Path:
-        """Export all records of a given record type.
+    def get_records(
+        self, record_type_id: str | int, format: str = "xml"
+    ) -> bytes | None:
+        url = self.url_builder.record(record_type_id=record_type_id, format=format)
+        return self.request_bytes(url)
 
-        Parameters:
-            record_type_id (int|str): Heurist ID of the record type.
+    def get_structure(self) -> bytes | None:
+        url = self.url_builder.structure
+        return self.request_bytes(url)
 
-        Returns:
-            fp (Path): A path to the HTML file containing the records.
-        """
-        url = EXPORT % (record_type_id, self.db)
-        cookie = {"heurist-sessionid": self.session_id}
+    def request_bytes(self, url: str) -> ByteString | None:
+        response = requests.get(url, cookies=self.cookie)
+        if response.status_code == 200:
+            return self.validator(response.content)
 
-        r = requests.get(url=url, cookies=cookie)
-
-        fp = output.joinpath(f"records_{record_type_id}.html")
-
-        with open(fp, "wb") as f:
-            f.write(r.content)
-
-        return fp
-
-    def export_structure(self, output: Path) -> Path:
-        """Export the database's structure.
-
-        Returns:
-            fp (Path): A path to the HTML containing the database structure.
-        """
-        url = DB_STRUCTURE % (self.db)
-        cookie = {"heurist-sessionid": self.session_id}
-
-        r = requests.get(url=url, cookies=cookie)
-
-        fp = output.joinpath("db_structure.html")
-
-        with open(fp, "wb") as f:
-            f.write(r.content)
-
-        return fp
+    def validator(self, byte_string: ByteString) -> ByteString | None:
+        if "Cannot connect to database" != byte_string.decode("utf-8"):
+            return byte_string
