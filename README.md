@@ -10,6 +10,13 @@ $ git checkout dev
 $ pip install git+https://github.com/LostMa-ERC/heurist-api.git
 ```
 
+## Linter
+
+```
+pylint heurist_api
+```
+
+
 ## Run tests
 
 1. Test the URL builder.
