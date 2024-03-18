@@ -1,3 +1,6 @@
+# pylint: disable=consider-using-f-string
+# pylint: disable=line-too-long
+
 from heurist_api.constants import (
     HEURIST_SERVER,
     RECORD_JSON_EXPORT_PATH,
@@ -12,17 +15,27 @@ class URLBuilder:
     """
 
     server = HEURIST_SERVER
-    xml_record_api = HEURIST_SERVER + RECORD_XML_EXPORT_PATH
-    json_record_api = HEURIST_SERVER + RECORD_JSON_EXPORT_PATH
-    db_api = HEURIST_SERVER + STRUCTURE_EXPORT_PATH
+    xml_record_api = f"{HEURIST_SERVER}{RECORD_XML_EXPORT_PATH}"
+    json_record_api = f"{HEURIST_SERVER}{RECORD_JSON_EXPORT_PATH}"
+    db_api = f"{HEURIST_SERVER}{STRUCTURE_EXPORT_PATH}"
 
     def __init__(self, database_name: str) -> None:
+        """_summary_
+
+        Args:
+            database_name (str): _description_
+        """
         self.database_name = database_name
 
     def join_parts(self, *args) -> str:
+        """_summary_
+
+        Returns:
+            str: _description_
+        """
         return "&".join([a for a in args if a is not None])
 
-    def record(self, record_type_id: str | int, format: str = "xml") -> str:
+    def record(self, record_type_id: str | int, form: str = "xml") -> str:
         """Build a URL to retrieve records of a certain type.
 
         Examples:
@@ -33,7 +46,7 @@ class URLBuilder:
 
             >>> db = "jbcamps_gestes"
             >>> builder = URLBuilder(db)
-            >>> builder.record(102, format="json")
+            >>> builder.record(102, form="json")
             'https://heurist.huma-num.fr/heurist/hserv/controller/record_output.php?q=t%3A102&a=1&db=jbcamps_gestes&depth=all&linkmode=direct&format=json&defs=0&extended=2'
 
         Args:
@@ -49,7 +62,7 @@ class URLBuilder:
         depth = "depth=all"
         link_mode = "linkmode=direct"
 
-        if format == "json":
+        if form == "json":
             api = self.json_record_api
             query = "?q=t%%3A%s" % (record_type_id)
             format_args = "format=json&defs=0&extended=2"
@@ -58,7 +71,8 @@ class URLBuilder:
             query = '?q=[{"t"%%3A"%s"}%%2C{"sortby"%%3A"t"}]' % (record_type_id)
             format_args = None
 
-        return api + self.join_parts(query, a, db, depth, link_mode, format_args)
+        path = self.join_parts(query, a, db, depth, link_mode, format_args)
+        return f"{api}{path}"
 
     @property
     def structure(self) -> str:
@@ -74,6 +88,7 @@ class URLBuilder:
         Returns:
             str: URL to retrieve the database structure.
         """
-        db = "?db=%s" % (self.database_name)
+        db = f"?db={self.database_name}"
         version = "ll=H6Default"
-        return self.db_api + self.join_parts(db, version)
+        path = self.join_parts(db, version)
+        return f"{self.db_api}{path}"

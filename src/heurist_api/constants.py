@@ -1,4 +1,6 @@
-import re
+# Heurist API constants
+
+# pylint: disable=missing-module-docstring
 
 
 NAMESPACE = {"hml": "https://heuristnetwork.org"}

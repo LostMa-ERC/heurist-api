@@ -34,7 +34,7 @@ class APITest(unittest.TestCase):
         RECORD_TYPE = 100
 
         # Get all the records in JSON format
-        json_results = self.client.get_records(RECORD_TYPE, format="json")
+        json_results = self.client.get_records(RECORD_TYPE, form="json")
 
         # Confirm the test client correctly connected
         self.assertIsNotNone(
