@@ -68,7 +68,7 @@ class HeuristAPIClient:
         Returns:
             ByteString | None: _description_
         """
-        result = byte_string.decode("utf-8")
-        if "Cannot connect to database" == result:
+        result = byte_string
+        if "Cannot connect to database" == byte_string.decode("utf-8"):
             result = None
         return result
