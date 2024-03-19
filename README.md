@@ -33,6 +33,7 @@ $ python -m pytest tests/test_client.py
 
 3. Test the database structure parser.
 
-```shell
-# to do
+```console
+$ python -m pytest tests/test_record_schema.py
+$ python -m pytest tests/test_db_structure.py
 ```
