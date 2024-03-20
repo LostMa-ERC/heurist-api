@@ -12,6 +12,7 @@ EXPORT_DIR.mkdir(exist_ok=True)
 def make_test_client() -> HeuristAPIClient:
     with open(TEST_CONFIG) as f:
         config = yaml.safe_load(f)
-        cookie = config["cookie"]
+        login = config["login"]
+        password = config["password"]
         db = config["db"]
-    return HeuristAPIClient(database_name=db, session_id=cookie)
+    return HeuristAPIClient(database_name=db, login=login, password=password)

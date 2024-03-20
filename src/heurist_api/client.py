@@ -3,24 +3,41 @@
 
 from typing import ByteString
 import requests
+from requests import Session
 
 from heurist_api.url_builder import URLBuilder
+
+
+class HeuristSession:
+    def __init__(self, db: str, login: str, password: str) -> None:
+        self.db = db
+        self.login = login
+        self.password = password
+
+    def __enter__(self) -> Session:
+        self.session = requests.Session()
+        url = "https://heurist.huma-num.fr/heurist/api/login"
+
+        body = {
+            "db": self.db,
+            "login": self.login,
+            "password": self.password,
+        }
+        _ = self.session.post(url=url, data=body)
+        return self.session
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.session.close()
 
 
 class HeuristAPIClient:
     """Client for Heurist API."""
 
-    def __init__(self, database_name: str, session_id: str) -> None:
-        """_summary_
-
-        Args:
-            database_name (str): _description_
-            session_id (str): _description_
-        """
+    def __init__(self, database_name: str, login: str, password: str) -> None:
         self.database_name = database_name
-        self.session_id = session_id
-        self.cookie = {"heurist-sessionid": session_id}
         self.url_builder = URLBuilder(database_name=database_name)
+        self.__login = login  # Private variable
+        self.__password = password  # Private variable
 
     def get_records(self, record_type_id: str | int, form: str = "xml") -> bytes | None:
         """_summary_
@@ -54,9 +71,12 @@ class HeuristAPIClient:
             ByteString | None: _description_
         """
         result = None
-        response = requests.get(url, cookies=self.cookie, timeout=10)
-        if response and response.status_code == 200:
-            result = self.validator(response.content)
+        with HeuristSession(
+            db=self.database_name, login=self.__login, password=self.__password
+        ) as session:
+            response = session.get(url, timeout=10)
+            if response and response.status_code == 200:
+                result = self.validator(response.content)
         return result
 
     def validator(self, byte_string: ByteString) -> ByteString | None:
