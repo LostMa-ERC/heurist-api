@@ -34,6 +34,12 @@ $ python -m pytest tests/test_client.py
 3. Test the database structure parser.
 
 ```console
-$ python -m pytest tests/test_record_schema.py
+$ python -m pytest tests/test_schemas.py
 $ python -m pytest tests/test_db_structure.py
+```
+
+4. Test the record parser.
+
+```console
+$ python -m pytest tests/test_record.py 
 ```
