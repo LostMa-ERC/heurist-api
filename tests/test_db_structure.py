@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 from tests import make_test_client
 from heurist_api.db_structure_parser import DBStructureParser
-from heurist_api.schemas.dynamic_record import create_record_model
+from heurist_api.schemas.dynamic_record import Record
 
 
 class SchemaTest(unittest.TestCase):
@@ -22,11 +22,8 @@ class SchemaTest(unittest.TestCase):
             self.assertIsInstance(f, BaseModel)
 
     def test_create_record_model(self):
-        record_fields = self.parser.parse_record_field_params(self.record_type_id)
-        RecordModel = create_record_model(
-            name=f"rec_{self.record_type_id}", fields=record_fields
-        )
-        model = RecordModel()
+        model = self.parser.create_record_model(self.record_type_id)
+        model = model(rec_ID=1)
         self.assertIsInstance(model, BaseModel)
 
 

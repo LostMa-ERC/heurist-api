@@ -51,4 +51,4 @@ class RecordField(BaseModel):
         s = re.sub(r"_+", "_", s)
         # Trim underscores
         s = s.strip("_")
-        return s.lower() + f"_detail_{self.dty_ID}"
+        return s.lower() + f"_DType_{self.dty_ID}"

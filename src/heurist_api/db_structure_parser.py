@@ -2,9 +2,16 @@ import duckdb
 import polars as pl
 from typing import ByteString, Iterable, List
 from lxml import etree
+from pydantic import BaseModel
 
 from heurist_api.sql_functions import SQLSafeFunction, ConvertReqFunction
-from heurist_api.schemas import RecordType, RecordStructure, DetailType, RecordField
+from heurist_api.schemas import (
+    RecordType,
+    RecordStructure,
+    DetailType,
+    RecordField,
+)
+from heurist_api.schemas.dynamic_record import RecordBaseModel
 
 
 class DBStructureParser:
@@ -74,6 +81,15 @@ ORDER BY rst.rst_DisplayOrder
         )
 
     def parse_record_field_params(self, record_type: int) -> List[RecordField]:
+        """_summary_
+
+        Args:
+            record_type (int): _description_
+
+        Returns:
+            List[RecordField]: _description_
+        """
+
         sql = f"""
 SELECT
     rty.rty_Name,
@@ -84,5 +100,19 @@ JOIN main.record_types AS rty
 WHERE rty.rty_ID = '{record_type}'
         """
         rel = self.conn.sql(sql)
-        df = [dict(zip(rel.columns, r)) for r in rel.fetchall()]
-        return [RecordField(**d) for d in df]
+        dicts = [dict(zip(rel.columns, r)) for r in rel.fetchall()]
+        return [RecordField(**d) for d in dicts]
+
+    def create_record_model(self, record_type: int) -> BaseModel:
+        """_summary_
+
+        Args:
+            record_type (int): _description_
+
+        Returns:
+            BaseModel: _description_
+        """
+
+        fields = self.parse_record_field_params(record_type)
+        model_name = f"RecType_{record_type}"
+        return RecordBaseModel.from_payload(model_name=model_name, fields=fields)
