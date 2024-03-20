@@ -3,10 +3,13 @@ import json
 
 from tests import make_test_client
 from heurist_api.db_structure_parser import DBStructureParser
+from heurist_api.record_parser import Records
+
+from tests import EXPORT_DIR
 
 
 class SchemaTest(unittest.TestCase):
-    record_type_id = 105
+    record_type_id = 101
 
     def setUp(self) -> None:
         self.client = make_test_client()
@@ -17,7 +20,7 @@ class SchemaTest(unittest.TestCase):
 
     def test(self):
         # Set up a model for the record
-        model = self.parser.create_record_model(record_type=self.record_type_id)
+        record_models = Records(parser=self.parser, record_type_id=self.record_type_id)
 
         # Collect the record's JSON export
         json_bytes = self.client.get_records(self.record_type_id, form="json")
@@ -25,13 +28,14 @@ class SchemaTest(unittest.TestCase):
         json_load = json.loads(json_string)
 
         # Modelize each record
-        models = []
         records = json_load.get("heurist", {}).get("records")
         for record in records:
-            models.append(model(**record))
+            record_models(record)
 
         # Confirm all the records were converted into data models
-        self.assertEqual(len(models), len(records))
+        self.assertEqual(len(record_models.data), len(records))
+
+        record_models.to_delimited_json(EXPORT_DIR.joinpath("records.json"))
 
 
 if __name__ == "__main__":

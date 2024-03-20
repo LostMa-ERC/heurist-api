@@ -18,7 +18,7 @@ def create_annotated_fields(fields: List[RecordField]):
 
     for field in fields:
         # Convert Heurist's DetailType (dty_Type) to a Pydantic field type
-        dtype = HeuristDataType.to_pydantic(field.dty_Type)
+        dtype, validator = HeuristDataType.to_pydantic(field.dty_Type)
 
         # Create the keyword arguments for the Pydantic Field
         kwargs = {
@@ -35,6 +35,8 @@ def create_annotated_fields(fields: List[RecordField]):
         # (<type>, <default value>)
         # Create the tuple
         t = (dtype, Annotated[dtype, Field(**kwargs)])
+        if validator:
+            t = (dtype, Annotated[dtype, Field(**kwargs), validator])
 
         # Update the dictionary of the record's fields
         d.update({f"dty_{field.dty_ID}": t})
