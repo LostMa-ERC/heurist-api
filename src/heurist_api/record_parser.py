@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import Dict
 import logging
 
-from heurist_api.schemas.dynamic_record import RecordBaseModel
 from heurist_api.db_structure_parser import DBStructureParser
 
 
