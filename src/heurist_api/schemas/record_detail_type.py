@@ -1,12 +1,14 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
+import re
 from datetime import datetime
 from typing import Optional, List
 
 
-class Field(BaseModel):
+class RecordField(BaseModel):
 
     dty_ID: int
     dty_Name: str
+    dty_Type: str
     rst_RecTypeID: int
     rst_RequirementType: str
     rty_ID: int
@@ -32,3 +34,21 @@ class Field(BaseModel):
     rty_ShowDescriptionOnEditForm: bool
     rty_Modified: datetime
     rty_LocallyModified: bool
+
+    @computed_field
+    @property
+    def fieldname(self) -> str:
+        s = self.dty_Name
+        # Remove parentheses
+        s = re.sub(r"\(.+\)", "", s)
+        # Remove non-letters
+        s = re.sub(r"\W", "_", s)
+        # Remove backslashes
+        s = re.sub(r"/", "_", s)
+        # Remove spaces
+        s = re.sub(r"\s", "_", s)
+        # Remove double underscores
+        s = re.sub(r"_+", "_", s)
+        # Trim underscores
+        s = s.strip("_")
+        return s.lower() + f"_dty_{self.dty_ID}"

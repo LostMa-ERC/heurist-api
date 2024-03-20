@@ -18,7 +18,7 @@ class SQLSafeFunction:
     name: str = "sql_safe_name"
     drop_stmt: str = DROP_FUNCTION.format(name)
     create_stmt: str = f"""
-CREATE FUNCTION {name} (s, i) as concat('dty_', i, '_', lower({TRIM}))
+CREATE FUNCTION {name} (s, i) as concat(lower({TRIM}), '_dty_', i)
     """
 
     @classmethod

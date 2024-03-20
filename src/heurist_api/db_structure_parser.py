@@ -4,7 +4,7 @@ from typing import ByteString, Iterable, List
 from lxml import etree
 
 from heurist_api.sql_functions import SQLSafeFunction, ConvertReqFunction
-from heurist_api.schemas import RecordType, RecordStructure, DetailType, Field
+from heurist_api.schemas import RecordType, RecordStructure, DetailType, RecordField
 
 
 class DBStructureParser:
@@ -73,7 +73,7 @@ ORDER BY rst.rst_DisplayOrder
 """
         )
 
-    def parse_record_field_params(self, record_type: int) -> List[Field]:
+    def parse_record_field_params(self, record_type: int) -> List[RecordField]:
         sql = f"""
 SELECT
     rty.rty_Name,
@@ -85,4 +85,4 @@ WHERE rty.rty_ID = '{record_type}'
         """
         rel = self.conn.sql(sql)
         df = [dict(zip(rel.columns, r)) for r in rel.fetchall()]
-        return [Field(**d) for d in df]
+        return [RecordField(**d) for d in df]
