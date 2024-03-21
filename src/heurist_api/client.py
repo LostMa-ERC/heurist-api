@@ -1,10 +1,9 @@
 # Heurist API client wrapper
-
-
+import click
 from typing import ByteString
 import requests
 from requests import Session
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import os
 
 from heurist_api.url_builder import URLBuilder
@@ -36,6 +35,13 @@ class HeuristAPIClient:
     """Client for Heurist API."""
 
     def __init__(self, database_name: str, login: str, password: str) -> None:
+        if not database_name:
+            raise ValueError("Database cannot be None.")
+        if not login:
+            raise ValueError("Login cannot be None.")
+        if not password:
+            raise ValueError("Password cannot be None.")
+
         self.database_name = database_name
         self.url_builder = URLBuilder(database_name=database_name)
         self.__login = login  # Private variable
@@ -101,19 +107,12 @@ def make_client(
     login: str | None = None,
     password: str | None = None,
 ) -> HeuristAPIClient:
-    load_dotenv()
+    load_dotenv(find_dotenv())
     if not database_name:
-        database_name = os.getenv("DB_NAME")
+        database_name = os.environ["DB_NAME"]
     if not login:
-        login = os.getenv("DB_LOGIN")
+        login = os.environ["DB_LOGIN"]
     if not password:
-        password = os.getenv("DB_PASSWORD")
-
-    if not database_name:
-        raise ValueError("Missing database")
-    if not login:
-        raise ValueError("Missing login")
-    if not password:
-        raise ValueError("Missing password")
+        password = os.environ["DB_PASSWORD"]
 
     return HeuristAPIClient(database_name=database_name, login=login, password=password)

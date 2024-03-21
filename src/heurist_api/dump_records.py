@@ -39,42 +39,42 @@ def dump_records(
     parser = DBStructureParser(xml=db_xml)
 
     # Dump each selected record type
-    # with Progress(
-    #     TextColumn("{task.description}"),
-    #     BarColumn(),
-    #     MofNCompleteColumn(),
-    #     TimeElapsedColumn(),
-    # ) as p:
-    # task = p.add_task("Record Types", total=len(record_ids))
+    with Progress(
+        TextColumn("{task.description}"),
+        BarColumn(),
+        MofNCompleteColumn(),
+        TimeElapsedColumn(),
+    ) as p:
+        task = p.add_task("Record Types", total=len(record_ids))
 
-    for id in record_ids:
-        # Design a model for the record type
-        model = parser.create_record_model(record_type=id)
-        records = Records(model=model)
+        for id in record_ids:
+            # Design a model for the record type
+            model = parser.create_record_model(record_type=id)
+            records = Records(model=model)
 
-        # Collect the record type's JSON export
-        json_load = load_json(client=client, record_id=id)
-        data = json_load.get("heurist", {}).get("records")
+            # Collect the record type's JSON export
+            json_load = load_json(client=client, record_id=id)
+            data = json_load.get("heurist", {}).get("records")
 
-        n = len(data)
-        print(f"{n} records found for record type {id}.")
-        if n == 0:
-            print(f"Skipping record type {id}.")
-            # p.advance(task)
-            continue
+            n = len(data)
+            print(f"{n} records found for record type {id}.")
+            if n == 0:
+                print(f"Skipping record type {id}.")
+                p.advance(task)
+                continue
 
-        # Validate the export according to the model
-        records.validate_data(data)
+            # Validate the export according to the model
+            records.validate_data(data)
 
-        # Write validated record results
-        model_name = model.get_model_name()
+            # Write validated record results
+            model_name = model.get_model_name()
 
-        if form == "json":
-            outfile = output.joinpath(f"{model_name}.json")
-            records.to_delimited_json(outfile=outfile)
+            if form == "json":
+                outfile = output.joinpath(f"{model_name}.json")
+                records.to_delimited_json(outfile=outfile)
 
-        elif form == "csv":
-            outfile = output.joinpath(f"{model_name}.csv")
-            records.to_csv(outfile=outfile)
+            elif form == "csv":
+                outfile = output.joinpath(f"{model_name}.csv")
+                records.to_csv(outfile=outfile)
 
-            # p.advance(task)
+                p.advance(task)
