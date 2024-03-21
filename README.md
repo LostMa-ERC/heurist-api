@@ -48,3 +48,30 @@ Example of line-delimited JSON:
 ```console
 $ pytest tests/
 ```
+
+## Read into DuckDB
+
+Read either flattened data format into a relational DuckDB database.
+
+### From flattened CSV
+
+```sql
+create table 'RECORD' as
+	*,
+	case when len(foo.split_dates) != 0 then strptime(list_extract(foo.split_dates, 1), '%Y-%m-%d %H:%M:%S') else null end as start_date,
+	case when len(foo.split_dates) = 2 then strptime(list_extract(foo.split_dates, 2), '%Y-%m-%d %H:%M:%S') else null end as end_date
+from (
+	select *, string_split(DATE_COLUMN, '|') as split_dates
+	from read_csv('FILE')
+) foo
+```
+
+### From flattened, line-delimited JSON
+
+```sql
+create table 'RECORD' as
+select *,
+	case when len(DATE_COLUMN) != 0 then strptime(list_extract(DATE_COLUMN, 1), '%Y-%m-%dT%H:%M:%S') else null end as start_date,
+	case when len(DATE_COLUMN) = 2 then strptime(list_extract(DATE_COLUMN, 2), '%Y-%m-%dT%H:%M:%S') else null end as end_date
+from read_json('FILE')
+```
