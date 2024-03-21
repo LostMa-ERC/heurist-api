@@ -56,6 +56,9 @@ def dump_records(
             json_load = load_json(client=client, record_id=id)
             data = json_load.get("heurist", {}).get("records")
 
+            # Only flatten the targeted record type
+            data = [d for d in data if d["rec_RecTypeID"] == id]
+
             n = len(data)
             print(f"{n} records found for record type {id}.")
             if n == 0:

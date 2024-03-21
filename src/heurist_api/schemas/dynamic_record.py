@@ -52,6 +52,11 @@ class RecordBaseModel(PydanticBaseModel):
         return instance_repr.removesuffix("'>")
 
     @classmethod
+    def get_record_type(cls) -> str:
+        name = cls.get_model_name()
+        return name.split("_")[-1]
+
+    @classmethod
     def from_payload(cls, model_name, fields):
         context = cls.build_fields(fields=fields)
         return create_model(model_name, __base__=cls, **context)
@@ -60,7 +65,7 @@ class RecordBaseModel(PydanticBaseModel):
     def build_rec_ID_params(cls) -> Tuple:
         kwargs = {
             "alias": "rec_ID",
-            "serialization_alias": "rec_ID",
+            "serialization_alias": "id",
             "validation_alias": "rec_ID",
             "primary_key": True,
             "required": True,
@@ -71,7 +76,7 @@ class RecordBaseModel(PydanticBaseModel):
     def build_RecTypeID_params(cls) -> Tuple:
         kwargs = {
             "alias": "rec_TypeID",
-            "serialization_alias": "rec_TypeID",
+            "serialization_alias": "type_id",
             "validation_alias": "rec_TypeID",
             "required": True,
         }
@@ -81,8 +86,8 @@ class RecordBaseModel(PydanticBaseModel):
     def build_fields(cls, fields: List[Field]):
         rec_ID = cls.build_rec_ID_params()
         rec_TypeID = cls.build_RecTypeID_params()
-        context = create_annotated_fields(fields=fields)
-        context.update({"rec_ID": rec_ID, "rec_TypeID": rec_TypeID})
+        context = {"rec_ID": rec_ID, "rec_TypeID": rec_TypeID}
+        context.update(create_annotated_fields(fields=fields))
         return context
 
     @model_validator(mode="before")
@@ -90,15 +95,32 @@ class RecordBaseModel(PydanticBaseModel):
     def format_heurist_json(cls, record: Dict):
         formatted_json = {}
         rec_ID = record["rec_ID"]
+
+        model_record_type = cls.get_record_type()
         record_type_ID = record["rec_RecTypeID"]
+
+        if not model_record_type == record_type_ID:
+            return
+
         formatted_json.update({"rec_ID": rec_ID, "rec_TypeID": record_type_ID})
 
         details = record["details"]
         for detail in details:
             key = f"dty_{detail['dty_ID']}"
-            value = detail["value"]
+
+            fieldtype = detail["fieldType"]
+            if fieldtype == "enum":
+                value = detail["termLabel"]
+            elif fieldtype == "geo":
+                geo = detail["value"]["geo"]
+                if geo["type"] == "p":
+                    value = geo["wkt"]
+            else:
+                value = detail["value"]
+
             if not isinstance(value, Dict):
                 formatted_json.update({key: value})
+
         return formatted_json
 
     @model_serializer
