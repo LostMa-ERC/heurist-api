@@ -101,3 +101,6 @@ venv.bak/
 **/*.yaml
 **/*.xml
 *.log
+**/*.txt
+**/*.*db
+**/*.json

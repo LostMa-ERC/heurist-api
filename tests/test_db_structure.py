@@ -1,16 +1,17 @@
 import unittest
 from pydantic import BaseModel
 
-from tests import make_test_client
+from heurist_api.client import make_client
 from heurist_api.db_structure_parser import DBStructureParser
-from heurist_api.schemas.dynamic_record import Record
+from heurist_api.schemas import RecordBaseModel
+from heurist_api.utils import mock_data
 
 
-class SchemaTest(unittest.TestCase):
+class DBParserTest(unittest.TestCase):
     record_type_id = 105
 
     def setUp(self) -> None:
-        self.client = make_test_client()
+        self.client = make_client()
         xml = self.client.get_structure()
 
         # Parse the structure
@@ -23,8 +24,7 @@ class SchemaTest(unittest.TestCase):
 
     def test_create_record_model(self):
         model = self.parser.create_record_model(self.record_type_id)
-        model = model(rec_ID=1)
-        self.assertIsInstance(model, BaseModel)
+        self.assertIsInstance(model(**mock_data), RecordBaseModel)
 
 
 if __name__ == "__main__":

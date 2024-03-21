@@ -47,6 +47,11 @@ def create_annotated_fields(fields: List[RecordField]):
 
 class RecordBaseModel(PydanticBaseModel):
     @classmethod
+    def get_model_name(cls):
+        instance_repr = repr(cls).split(".")[-1]
+        return instance_repr.removesuffix("'>")
+
+    @classmethod
     def from_payload(cls, model_name, fields):
         context = cls.build_fields(fields=fields)
         return create_model(model_name, __base__=cls, **context)
@@ -100,9 +105,10 @@ class RecordBaseModel(PydanticBaseModel):
     def ser_model(self) -> Dict[str, Any]:
         result = {}
         for fieldname, annotation in self.model_fields.items():
+            key = annotation.default.__metadata__[0].serialization_alias
             value = getattr(self, fieldname)
+            # If the value is the field's Annotated default, make it None
             if isinstance(value, _AnnotatedAlias):
                 value = None
-            key = annotation.default.__metadata__[0].serialization_alias
             result.update({key: value})
         return result

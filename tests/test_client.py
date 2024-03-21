@@ -3,13 +3,13 @@ from lxml import etree
 import re
 import json
 
-from tests import make_test_client
+from heurist_api.client import make_client
 from heurist_api.constants import NAMESPACE
 
 
 class APITest(unittest.TestCase):
     def setUp(self) -> None:
-        self.client = make_test_client()
+        self.client = make_client()
 
     def test_xml_record_export(self):
         RECORD_TYPE = 100

@@ -2,15 +2,13 @@ import unittest
 from lxml import etree
 
 
-from tests import make_test_client
+from heurist_api.client import make_client
 from heurist_api.schemas import RecordType, RecordStructure, DetailType
 
 
 class SchemaTest(unittest.TestCase):
-    record_type_id = 101
-
     def setUp(self) -> None:
-        self.client = make_test_client()
+        self.client = make_client()
         xml = self.client.get_structure()
 
         # Parse the structure

@@ -4,6 +4,8 @@
 from typing import ByteString
 import requests
 from requests import Session
+from dotenv import load_dotenv
+import os
 
 from heurist_api.url_builder import URLBuilder
 
@@ -92,3 +94,19 @@ class HeuristAPIClient:
         if "Cannot connect to database" == byte_string.decode("utf-8"):
             result = None
         return result
+
+
+def make_client(
+    database_name: str | None = None,
+    login: str | None = None,
+    password: str | None = None,
+) -> HeuristAPIClient:
+    load_dotenv()
+    if not database_name:
+        database_name = os.getenv("DB_NAME")
+    if not login:
+        login = os.getenv("DB_LOGIN")
+    if not password:
+        password = os.getenv("DB_PASSWORD")
+
+    return HeuristAPIClient(database_name=database_name, login=login, password=password)

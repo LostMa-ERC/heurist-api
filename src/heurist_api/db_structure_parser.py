@@ -10,8 +10,8 @@ from heurist_api.schemas import (
     RecordStructure,
     DetailType,
     RecordField,
+    RecordBaseModel,
 )
-from heurist_api.schemas.dynamic_record import RecordBaseModel
 
 
 class DBStructureParser:
