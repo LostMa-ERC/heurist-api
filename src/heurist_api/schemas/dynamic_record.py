@@ -7,9 +7,10 @@ from pydantic import (
     BaseModel as PydanticBaseModel,
 )
 from typing import Any, List, Annotated, Dict, Tuple
+from collections import Counter
 
 from heurist_api.schemas import RecordField
-from heurist_api.schemas.utils import HeuristDataType
+from heurist_api.schemas.utils import HeuristDataType, flatten_record_detail
 
 
 def create_annotated_fields(fields: List[RecordField]):
@@ -18,7 +19,7 @@ def create_annotated_fields(fields: List[RecordField]):
 
     for field in fields:
         # Convert Heurist's DetailType (dty_Type) to a Pydantic field type
-        dtype, validator = HeuristDataType.to_pydantic(field.dty_Type)
+        dtype = HeuristDataType.to_pydantic(field.dty_Type)
 
         # Create the keyword arguments for the Pydantic Field
         kwargs = {
@@ -35,8 +36,6 @@ def create_annotated_fields(fields: List[RecordField]):
         # (<type>, <default value>)
         # Create the tuple
         t = (dtype, Annotated[dtype, Field(**kwargs)])
-        if validator:
-            t = (dtype, Annotated[dtype, Field(**kwargs), validator])
 
         # Update the dictionary of the record's fields
         d.update({f"dty_{field.dty_ID}": t})
@@ -95,31 +94,15 @@ class RecordBaseModel(PydanticBaseModel):
     def format_heurist_json(cls, record: Dict):
         formatted_json = {}
         rec_ID = record["rec_ID"]
-
-        model_record_type = cls.get_record_type()
         record_type_ID = record["rec_RecTypeID"]
-
-        if not model_record_type == record_type_ID:
-            return
 
         formatted_json.update({"rec_ID": rec_ID, "rec_TypeID": record_type_ID})
 
         details = record["details"]
         for detail in details:
-            key = f"dty_{detail['dty_ID']}"
-
-            fieldtype = detail["fieldType"]
-            if fieldtype == "enum":
-                value = detail["termLabel"]
-            elif fieldtype == "geo":
-                geo = detail["value"]["geo"]
-                if geo["type"] == "p":
-                    value = geo["wkt"]
-            else:
-                value = detail["value"]
-
-            if not isinstance(value, Dict):
-                formatted_json.update({key: value})
+            key_value_pair = flatten_record_detail(detail)
+            if key_value_pair:
+                formatted_json.update(key_value_pair)
 
         return formatted_json
 

@@ -60,7 +60,7 @@ class URLBuilder:
         api = self.xml_record_api
         db = "db=%s" % (self.database_name)
         depth = "depth=all"
-        link_mode = "linkmode=direct"
+        link_mode = "linkmode=direct_links"
 
         if form == "json":
             api = self.json_record_api

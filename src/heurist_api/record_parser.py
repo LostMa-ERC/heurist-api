@@ -1,7 +1,7 @@
 import json
 import csv
 from pathlib import Path
-from typing import Dict, List, Generator
+from typing import Any, Dict, List, Generator
 import logging
 from pydantic import ValidationError
 
@@ -9,7 +9,7 @@ from heurist_api.schemas.dynamic_record import RecordBaseModel
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="warnings.log", level=logging.WARN)
+logging.basicConfig(filename="warnings.log", level=logging.WARN, filemode="w")
 
 
 class Records:
@@ -23,13 +23,11 @@ class Records:
     def validate_data(self, data: List[Dict]):
         for record in data:
             try:
+                # Validate the data in the model
                 modeled_data = self.model(**record)
-                if not isinstance(modeled_data, self.model):
-                    raise TypeError
+                self.root.append(modeled_data)
             except ValidationError as e:
                 logger.warn(msg=e)
-            else:
-                self.root.append(modeled_data)
 
     def __len__(self) -> int:
         return len(self.root)
@@ -59,4 +57,18 @@ class Records:
             writer.writeheader()
             for record in self.root:
                 row = record.model_dump()
-                writer.writerow(rowdict=row)
+                csv_safe_row = self.make_row_csv_safe(row)
+                writer.writerow(rowdict=csv_safe_row)
+
+    @classmethod
+    def make_row_csv_safe(cls, row: Dict):
+        return {k: cls.concat_list(v) for k, v in row.items()}
+
+    @classmethod
+    def concat_list(cls, v: Any, separator: str = "|"):
+        if isinstance(v, List):
+            if len(v) == 1:
+                v = f"{v[0]}"
+            else:
+                v = separator.join(f"{d}" for d in v)
+        return v

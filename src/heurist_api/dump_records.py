@@ -80,4 +80,4 @@ def dump_records(
                 outfile = output.joinpath(f"{model_name}.csv")
                 records.to_csv(outfile=outfile)
 
-                p.advance(task)
+            p.advance(task)
