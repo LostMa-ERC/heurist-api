@@ -1,5 +1,5 @@
 # Heurist API client wrapper
-import click
+from pathlib import Path
 from typing import ByteString
 import requests
 from requests import Session
@@ -107,7 +107,9 @@ def make_client(
     login: str | None = None,
     password: str | None = None,
 ) -> HeuristAPIClient:
-    load_dotenv(find_dotenv())
+    loaded_env_vars = load_dotenv(find_dotenv())
+    if not loaded_env_vars:
+        load_dotenv(find_dotenv(Path.cwd().joinpath(".env")))
     if not database_name:
         database_name = os.environ["DB_NAME"]
     if not login:
