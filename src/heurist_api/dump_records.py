@@ -27,8 +27,8 @@ def dump_records(
     # Check output directory
     if not isinstance(output, Path):
         output = Path(output)
-    if not output.is_dir():
-        raise TypeError("Output needs to be a directory")
+    if output.is_file():
+        raise FileExistsError("Output needs to be a directory")
     output.mkdir(exist_ok=True)
 
     # Build a Heurist API client
@@ -55,6 +55,13 @@ def dump_records(
             # Collect the record type's JSON export
             json_load = load_json(client=client, record_id=id)
             data = json_load.get("heurist", {}).get("records")
+
+            n = len(data)
+            print(f"{n} records found for record type {id}.")
+            if n == 0:
+                print(f"Skipping record type {id}.")
+                p.advance(task)
+                continue
 
             # Validate the export according to the model
             records.validate_data(data)

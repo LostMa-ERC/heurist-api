@@ -10,36 +10,43 @@ $ git checkout dev
 $ pip install git+https://github.com/LostMa-ERC/heurist-api.git
 ```
 
-## Linter
+## Run from command line
 
+The command to dump records from Heurist into validated, flattened files is `heurist dump`.
+
+To specify the record types to export, list each one after the option `-i` (`--id`).
+
+To specify the type of out-file, it requires the following options: `-f` (`--format`), which can be either "csv" or "json," and `-o` (`--outdir`), which is a directory into which the record types' files will be written.
+
+To connect to the Heuirst database, you can either provide your login credentials as options afer the command (`--database`, `--login`, `--password`), or you can store them in an environment variable file, `.env`, with the following syntax:
+
+`.env`
 ```
-pylint heurist_api
+DB_NAME=your_database
+DB_LOGIN=your.login
+DB_PASSWORD=your-password
 ```
 
-
-## Run tests
-
-1. Test the URL builder.
+Relying on the `.env` file, a command to export records of type 101 and 102 would look like the following:
 
 ```console
-$ python -m doctest src/heurist_api/url_builder.py
+$ heurist dump -o ./export -f csv -i 101 -i 102
 ```
 
-2. Test the API calls.
+### File formats
 
-```console
-$ python -m pytest tests/test_client.py
+The `heurist dump` command validates the Heurist data with Pydantic and flattens it, un-nesting Heurist's record pointers and way of structuring geospatial data. The flattened data can then be written to a CSV file or to a line-delimited JSON file.
+
+Example of line-delimited JSON:
+
+```json
+{"name_or_title_DType_1": "Anglais", "rec_ID": 26, "rec_TypeID": 102}
+{"name_or_title_DType_1": "Anglais – Bueve de Hanstonne", "rec_ID": 37, "rec_TypeID": 102}
 ```
 
-3. Test the database structure parser.
+
+## Tests
 
 ```console
-$ python -m pytest tests/test_schemas.py
-$ python -m pytest tests/test_db_structure.py
-```
-
-4. Test the record parser.
-
-```console
-$ python -m pytest tests/test_record.py 
+$ pytest tests/
 ```

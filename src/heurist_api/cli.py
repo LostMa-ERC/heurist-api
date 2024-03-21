@@ -14,15 +14,15 @@ def cli():
 @click.option("-p", "--password", type=click.STRING, required=False)
 @click.option("-o", "--outdir", type=click.Path(), required=True)
 @click.option("-f", "--form", type=click.Choice(["json", "csv"], case_sensitive=False))
-@click.option("-i", "--ids", type=click.STRING, multiple=True)
-def dump(database, login, password, outdir, form, ids):
+@click.option("-i", "--id", type=click.STRING, multiple=True)
+def dump(database, login, password, outdir, form, id):
     """_summary_"""
     dump_records(
         database=database,
         login=login,
         password=password,
         output=outdir,
-        record_ids=ids,
+        record_ids=id,
         form=form,
     )
 
