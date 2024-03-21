@@ -1,16 +1,14 @@
 # Heurist API
 
-Development of Heurist API.
+Command-line tool for requesting data from Heurist database.
 
-## Install development branch
+## Install
 
 ```console
-$ git clone https://github.com/LostMa-ERC/heurist-api.git
-$ git checkout dev
 $ pip install git+https://github.com/LostMa-ERC/heurist-api.git
 ```
 
-## Run from command line
+## Run from the command line
 
 The command to dump records from Heurist into validated, flattened files is `heurist dump`.
 
