@@ -16,7 +16,7 @@ To specify the record types to export, list each one after the option `-i` (`--i
 
 To specify the type of out-file, it requires the following options: `-f` (`--format`), which can be either "csv" or "json," and `-o` (`--outdir`), which is a directory into which the record types' files will be written.
 
-To connect to the Heuirst database, you can either provide your login credentials as options afer the command (`--database`, `--login`, `--password`), or you can store them in an environment variable file, `.env`, with the following syntax:
+To connect to the Heuirst database, you can either provide your login credentials as options afer the command (`--database`, `--login`, `--password`), or you can store them in an environment variable file, `.env`, which should be (a) in your current working directory / from where you run the command and (b) have the following syntax:
 
 `.env`
 ```
