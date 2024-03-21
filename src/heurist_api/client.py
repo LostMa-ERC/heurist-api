@@ -109,4 +109,11 @@ def make_client(
     if not password:
         password = os.getenv("DB_PASSWORD")
 
+    if not database_name:
+        raise ValueError("Missing database")
+    if not login:
+        raise ValueError("Missing login")
+    if not password:
+        raise ValueError("Missing password")
+
     return HeuristAPIClient(database_name=database_name, login=login, password=password)

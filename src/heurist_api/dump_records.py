@@ -36,8 +36,6 @@ def dump_records(
 
     # Parse the Heurist database structure
     db_xml = client.get_structure()
-    print("Trying to reproduce error from install")
-    print(db_xml)
     parser = DBStructureParser(xml=db_xml)
 
     # Dump each selected record type

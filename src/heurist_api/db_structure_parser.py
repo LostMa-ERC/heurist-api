@@ -18,8 +18,6 @@ class DBStructureParser:
     def __init__(self, xml: ByteString, sql_connection: str | None = "") -> None:
         if not isinstance(xml, ByteString):
             raise TypeError()
-        else:
-            print(xml)
         parser = etree.XMLParser(ns_clean=True)
         self.root = etree.fromstring(xml, parser)
         self.conn = duckdb.connect(sql_connection)
