@@ -1,36 +1,30 @@
 import click
-from heurist_api.client import HeuristAPIClient
-from heurist_api.parsers.db_structure import DBStructure
-from heurist_api.parsers.record import RecordParser
-from pathlib import Path
+
+from heurist_api.dump_records import dump_records
 
 
-@click.command("dump")
-@click.option("-d", "--db", type=click.STRING, help="Name of the database")
-@click.option("-s", "--sessionid", type=click.STRING, help="Session ID cookie")
-@click.option(
-    "-r", "--record", "records", type=(click.INT, click.STRING), multiple=True
-)
-@click.option("-o", "--outdir", type=click.Path(file_okay=False, dir_okay=True))
-def cli(db, sessionid, records, outdir):
-    outdir = Path(outdir)
-    if not outdir.is_dir():
-        outdir.mkdir()
+@click.group
+def cli():
+    pass
 
-    client = HeuristAPIClient(db=db, session_id=sessionid)
 
-    fp = client.export_structure(output=outdir)
-
-    parser = DBStructure(db_xml=fp)
-
-    for record_id, record_name in records:
-        table = parser.build_table(rst_ID=record_id, name=record_name)
-
-        fp = client.export_records(record_type_id=record_id, output=outdir)
-
-        record_parser = RecordParser(record_xml=fp, table=table, output=outdir)
-
-        record_parser.convert()
+@cli.command("dump")
+@click.option("-d", "--database", type=click.STRING, required=False)
+@click.option("-l", "--login", type=click.STRING, required=False)
+@click.option("-p", "--password", type=click.STRING, required=False)
+@click.option("-o", "--outdir", type=click.Path(), required=True)
+@click.option("-f", "--form", type=click.Choice(["json", "csv"], case_sensitive=False))
+@click.option("-i", "--id", type=click.STRING, multiple=True)
+def dump(database, login, password, outdir, form, id):
+    """_summary_"""
+    dump_records(
+        database=database,
+        login=login,
+        password=password,
+        output=outdir,
+        record_ids=id,
+        form=form,
+    )
 
 
 if __name__ == "__main__":

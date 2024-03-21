@@ -1,46 +1,70 @@
-from heurist_api.client import HeuristAPIClient
 import unittest
-from pathlib import Path
 from lxml import etree
-import yaml
+import re
+import json
 
-TEST_CONFIG = Path(__file__).parent.joinpath("config.yaml")
-
-
-NS = "https://heuristnetwork.org"
+from heurist_api.client import make_client
+from heurist_api.constants import NAMESPACE
 
 
 class APITest(unittest.TestCase):
     def setUp(self) -> None:
-        with open(TEST_CONFIG) as f:
-            config = yaml.safe_load(f)
-            self.cookie = config["cookie"]
-            self.db = config["db"]
-        self.client = HeuristAPIClient(db=self.db, session_id=self.cookie)
-        self.output = Path(__file__).parent.joinpath("export")
-        self.output.mkdir()
+        self.client = make_client()
 
-    def test_xml_export(self):
-        RECORD_TYPE = 102
-        QUERY = "t:102"
+    def test_xml_record_export(self):
+        RECORD_TYPE = 100
 
-        # Export the records to an HTML file
-        fp = self.client.export_records(RECORD_TYPE, output=self.output)
+        # Get all the records in XML format
+        xml = self.client.get_records(RECORD_TYPE)
 
-        # Parse the HTML file
-        tree = etree.parse(fp)
+        # Confirm the test client correctly connected
+        self.assertIsNotNone(xml, msg="Client did not connect to the database.")
 
-        # Confirm the query is what is expected
-        query = tree.find("hml:query", namespaces={"hml": NS})
-        self.assertEqual(QUERY, query.get("q"))
+        if xml:
+            # Parse the results' query
+            parser = etree.XMLParser(ns_clean=True)
+            xml_root = etree.fromstring(xml, parser)
+            query_string = xml_root.find("hml:query", namespaces=NAMESPACE).get("q")
+            record_type_id = re.search(r"(\d+)", query_string).group(0)
 
-    def test_db_structure_export(self):
-        fp = self.client.export_structure(output=self.output)
+            # Confirm the queried result type ID
+            self.assertEqual(RECORD_TYPE, int(record_type_id))
 
-    def tearDown(self) -> None:
-        for file in self.output.iterdir():
-            file.unlink()
-        self.output.rmdir()
+    def test_json_record_export(self):
+        RECORD_TYPE = 100
+
+        # Get all the records in JSON format
+        json_results = self.client.get_records(RECORD_TYPE, form="json")
+
+        # Confirm the test client correctly connected
+        self.assertIsNotNone(
+            json_results, msg="Client did not connect to the database."
+        )
+
+        if json_results:
+            # Parse the results' database name
+            json_string = json_results.decode("utf-8")
+            d = json.loads(json_string)
+            database_in_query_result = d["heurist"]["database"]["db"]
+
+            # Confirm the queried database name
+            self.assertEqual(database_in_query_result, self.client.database_name)
+
+    def test_xml_structure_export(self):
+        # Get structure in XML format
+        xml = self.client.get_structure()
+
+        # Confirm the test client correctly connected
+        self.assertIsNotNone(xml, msg="Client did not connect to the database.")
+
+        if xml:
+            # Parse the results' database name
+            parser = etree.XMLParser(ns_clean=True)
+            xml_root = etree.fromstring(xml, parser)
+            database_name = xml_root.find("HeuristDBName").text
+
+            # Confirm the queried database name
+            self.assertEqual(database_name, self.client.database_name)
 
 
 if __name__ == "__main__":

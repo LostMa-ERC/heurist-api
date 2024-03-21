@@ -1,57 +1,112 @@
-import requests
+# Heurist API client wrapper
 
-from heurist_api.constants import EXPORT, DB_STRUCTURE
-from pathlib import Path
+
+from typing import ByteString
+import requests
+from requests import Session
+from dotenv import load_dotenv
+import os
+
+from heurist_api.url_builder import URLBuilder
+
+
+class HeuristSession:
+    def __init__(self, db: str, login: str, password: str) -> None:
+        self.db = db
+        self.login = login
+        self.password = password
+
+    def __enter__(self) -> Session:
+        self.session = requests.Session()
+        url = "https://heurist.huma-num.fr/heurist/api/login"
+
+        body = {
+            "db": self.db,
+            "login": self.login,
+            "password": self.password,
+        }
+        _ = self.session.post(url=url, data=body)
+        return self.session
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.session.close()
 
 
 class HeuristAPIClient:
-    """API Client for Heurist Database."""
+    """Client for Heurist API."""
 
-    def __init__(self, db: str, session_id: str) -> None:
-        """Initialize the API client.
+    def __init__(self, database_name: str, login: str, password: str) -> None:
+        self.database_name = database_name
+        self.url_builder = URLBuilder(database_name=database_name)
+        self.__login = login  # Private variable
+        self.__password = password  # Private variable
 
-        Parameters:
-            db (str): Name of the database.
-            session_id (str): Session ID cookie for authenticating user.
-        """
-        self.db = db
-        self.session_id = session_id
+    def get_records(self, record_type_id: str | int, form: str = "xml") -> bytes | None:
+        """_summary_
 
-    def export_records(self, record_type_id: int | str, output: Path) -> Path:
-        """Export all records of a given record type.
-
-        Parameters:
-            record_type_id (int|str): Heurist ID of the record type.
+        Args:
+            record_type_id (str | int): _description_
+            form (str, optional): _description_. Defaults to "xml".
 
         Returns:
-            fp (Path): A path to the HTML file containing the records.
+            bytes | None: _description_
         """
-        url = EXPORT % (record_type_id, self.db)
-        cookie = {"heurist-sessionid": self.session_id}
+        url = self.url_builder.record(record_type_id=record_type_id, form=form)
+        return self.request_bytes(url)
 
-        r = requests.get(url=url, cookies=cookie)
-
-        fp = output.joinpath(f"records_{record_type_id}.html")
-
-        with open(fp, "wb") as f:
-            f.write(r.content)
-
-        return fp
-
-    def export_structure(self, output: Path) -> Path:
-        """Export the database's structure.
+    def get_structure(self) -> bytes | None:
+        """_summary_
 
         Returns:
-            fp (Path): A path to the HTML containing the database structure.
+            bytes | None: _description_
         """
-        url = DB_STRUCTURE % (self.db)
-        cookie = {"heurist-sessionid": self.session_id}
+        url = self.url_builder.structure
+        return self.request_bytes(url)
 
-        r = requests.get(url=url, cookies=cookie)
+    def request_bytes(self, url: str) -> ByteString | None:
+        """_summary_
 
-        fp = output.joinpath("db_structure.html")
+        Args:
+            url (str): _description_
 
-        with open(fp, "wb") as f:
-            f.write(r.content)
+        Returns:
+            ByteString | None: _description_
+        """
+        result = None
+        with HeuristSession(
+            db=self.database_name, login=self.__login, password=self.__password
+        ) as session:
+            response = session.get(url, timeout=10)
+            if response and response.status_code == 200:
+                result = self.validator(response.content)
+        return result
 
-        return fp
+    def validator(self, byte_string: ByteString) -> ByteString | None:
+        """_summary_
+
+        Args:
+            byte_string (ByteString): _description_
+
+        Returns:
+            ByteString | None: _description_
+        """
+        result = byte_string
+        if "Cannot connect to database" == byte_string.decode("utf-8"):
+            result = None
+        return result
+
+
+def make_client(
+    database_name: str | None = None,
+    login: str | None = None,
+    password: str | None = None,
+) -> HeuristAPIClient:
+    load_dotenv()
+    if not database_name:
+        database_name = os.getenv("DB_NAME")
+    if not login:
+        login = os.getenv("DB_LOGIN")
+    if not password:
+        password = os.getenv("DB_PASSWORD")
+
+    return HeuristAPIClient(database_name=database_name, login=login, password=password)

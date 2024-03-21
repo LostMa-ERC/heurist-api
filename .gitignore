@@ -99,3 +99,8 @@ venv.bak/
 **/*.csv
 **/*.yml
 **/*.yaml
+**/*.xml
+*.log
+**/*.txt
+**/*.*db
+**/*.json
