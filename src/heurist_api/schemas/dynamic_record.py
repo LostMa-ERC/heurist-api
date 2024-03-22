@@ -64,7 +64,7 @@ class RecordBaseModel(PydanticBaseModel):
     def build_rec_ID_params(cls) -> Tuple:
         kwargs = {
             "alias": "rec_ID",
-            "serialization_alias": "id",
+            "serialization_alias": "H-ID",
             "validation_alias": "rec_ID",
             "primary_key": True,
             "required": True,
