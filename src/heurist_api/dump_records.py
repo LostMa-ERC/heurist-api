@@ -12,6 +12,7 @@ from rich.progress import (
 from heurist_api.client import make_client
 from heurist_api.db_structure_parser import DBStructureParser
 from heurist_api.record_parser import Records
+from heurist_api.relational_tables import IDTypeRelations
 from heurist_api.utils import load_json
 
 
@@ -36,6 +37,9 @@ def dump_records(
     # Parse the Heurist database structure
     db_xml = client.get_structure()
     parser = DBStructureParser(xml=db_xml)
+
+    # Create empty array for relational ID table
+    ids = IDTypeRelations()
 
     # Dump each selected record type
     with Progress(
@@ -74,5 +78,10 @@ def dump_records(
             elif form == "csv":
                 outfile = output.joinpath(f"{model_name}.csv")
                 records.to_csv(outfile=outfile)
+                ids.append(records)
 
             p.advance(task)
+
+    if form == "csv":
+        outfile = output.joinpath(f"all_records_and_types.csv")
+        ids.to_csv(outfile=outfile)

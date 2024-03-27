@@ -104,14 +104,21 @@ class RecordBaseModel(PydanticBaseModel):
 
         return formatted_json
 
+    @classmethod
+    def serialized_aliases(self) -> list[tuple[str, str]]:
+        names = []
+        for fieldname, annotation in self.model_fields.items():
+            serialized_name = annotation.default.__metadata__[0].serialization_alias
+            names.append((fieldname, serialized_name))
+        return names
+
     @model_serializer
     def ser_model(self) -> dict[str, Any]:
         result = {}
-        for fieldname, annotation in self.model_fields.items():
-            key = annotation.default.__metadata__[0].serialization_alias
+        for fieldname, serialized_alias in self.serialized_aliases():
             value = getattr(self, fieldname)
             # If the value is the field's Annotated default, make it None
             if isinstance(value, _AnnotatedAlias):
                 value = None
-            result.update({key: value})
+            result.update({serialized_alias: value})
         return result

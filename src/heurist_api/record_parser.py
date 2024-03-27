@@ -1,7 +1,7 @@
 import json
 import csv
 from pathlib import Path
-from typing import Any, Dict, List, Generator
+from typing import Any, Generator
 import logging
 from pydantic import ValidationError
 
@@ -14,13 +14,13 @@ logging.basicConfig(filename="warnings.log", level=logging.WARN, filemode="w")
 
 class Records:
     model: RecordBaseModel
-    root: List[RecordBaseModel]
+    root: list[RecordBaseModel]
 
     def __init__(self, model: RecordBaseModel) -> None:
         self.model = model
         self.root = []
 
-    def validate_data(self, data: List[Dict]):
+    def validate_data(self, data: list[dict]):
         model_record_type_id = self.model.get_record_type()
         for record in data:
             record_type_id = record["rec_RecTypeID"]
@@ -39,15 +39,17 @@ class Records:
     def __iter__(self) -> Generator[RecordBaseModel | None, None, None]:
         yield from self.root
 
+    def to_json_strings(self) -> list:
+        return [json.loads(m.model_dump_json()) for m in self.root]
+
     def to_delimited_json(self, outfile: Path):
-        json_strings = [json.loads(m.model_dump_json()) for m in self.root]
         with open(outfile, "w") as f:
-            for s in json_strings:
+            for s in self.to_json_strings():
                 l = f"{json.dumps(s, ensure_ascii=False)}\n"
                 f.write(l)
 
     @property
-    def serialized_model_fieldnames(self) -> List:
+    def serialized_model_fieldnames(self) -> list:
         fieldnames = []
         for annotation in self.model.model_fields.values():
             key = annotation.default.__metadata__[0].serialization_alias
@@ -65,12 +67,12 @@ class Records:
                 writer.writerow(rowdict=csv_safe_row)
 
     @classmethod
-    def make_row_csv_safe(cls, row: Dict):
+    def make_row_csv_safe(cls, row: dict):
         return {k: cls.concat_list(v) for k, v in row.items()}
 
     @classmethod
     def concat_list(cls, v: Any, separator: str = "|"):
-        if isinstance(v, List):
+        if isinstance(v, list):
             if len(v) == 1:
                 v = f"{v[0]}"
             else:
