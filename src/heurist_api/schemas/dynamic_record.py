@@ -6,14 +6,13 @@ from pydantic import (
     Field,
     BaseModel as PydanticBaseModel,
 )
-from typing import Any, List, Annotated, Dict, Tuple
-from collections import Counter
+from typing import Any, Annotated
 
 from heurist_api.schemas import RecordField
 from heurist_api.schemas.utils import HeuristDataType, flatten_record_detail
 
 
-def create_annotated_fields(fields: List[RecordField]):
+def create_annotated_fields(fields: list[RecordField]):
     # Initiatlize a dictionary of all of the record's fields
     d = {}
 
@@ -61,28 +60,27 @@ class RecordBaseModel(PydanticBaseModel):
         return create_model(model_name, __base__=cls, **context)
 
     @classmethod
-    def build_rec_ID_params(cls) -> Tuple:
-        kwargs = {
-            "alias": "rec_ID",
-            "serialization_alias": "H-ID",
-            "validation_alias": "rec_ID",
-            "primary_key": True,
-            "required": True,
-        }
-        return (int, Annotated[int, Field(**kwargs)])
+    def build_rec_ID_params(cls) -> tuple:
+        field = Field(
+            alias="rec_ID",
+            serialization_alias="H-ID",
+            validation_alias="rec_ID",
+            default=0,  # cannot be None
+        )
+        return (int, Annotated[int, field])
 
     @classmethod
-    def build_RecTypeID_params(cls) -> Tuple:
-        kwargs = {
-            "alias": "rec_TypeID",
-            "serialization_alias": "type_id",
-            "validation_alias": "rec_TypeID",
-            "required": True,
-        }
-        return (int, Annotated[int, Field(**kwargs)])
+    def build_RecTypeID_params(cls) -> tuple:
+        field = Field(
+            alias="rec_TypeID",
+            serialization_alias="type_id",
+            validation_alias="rec_TypeID",
+            default=0,  # cannot be None
+        )
+        return (int, Annotated[int, field])
 
     @classmethod
-    def build_fields(cls, fields: List[Field]):
+    def build_fields(cls, fields: list[Field]):
         rec_ID = cls.build_rec_ID_params()
         rec_TypeID = cls.build_RecTypeID_params()
         context = {"rec_ID": rec_ID, "rec_TypeID": rec_TypeID}
@@ -91,7 +89,7 @@ class RecordBaseModel(PydanticBaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def format_heurist_json(cls, record: Dict):
+    def format_heurist_json(cls, record: dict):
         formatted_json = {}
         rec_ID = record["rec_ID"]
         record_type_ID = record["rec_RecTypeID"]
@@ -107,7 +105,7 @@ class RecordBaseModel(PydanticBaseModel):
         return formatted_json
 
     @model_serializer
-    def ser_model(self) -> Dict[str, Any]:
+    def ser_model(self) -> dict[str, Any]:
         result = {}
         for fieldname, annotation in self.model_fields.items():
             key = annotation.default.__metadata__[0].serialization_alias

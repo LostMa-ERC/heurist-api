@@ -21,7 +21,11 @@ class Records:
         self.root = []
 
     def validate_data(self, data: List[Dict]):
+        model_record_type_id = self.model.get_record_type()
         for record in data:
+            record_type_id = record["rec_RecTypeID"]
+            if record_type_id != model_record_type_id:
+                continue
             try:
                 # Validate the data in the model
                 modeled_data = self.model(**record)

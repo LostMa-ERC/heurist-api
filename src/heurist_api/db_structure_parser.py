@@ -1,6 +1,5 @@
 import duckdb
 import polars as pl
-from typing import ByteString, Iterable, List
 from lxml import etree
 from pydantic import BaseModel
 
@@ -15,8 +14,8 @@ from heurist_api.schemas import (
 
 
 class DBStructureParser:
-    def __init__(self, xml: ByteString, sql_connection: str | None = "") -> None:
-        if not isinstance(xml, ByteString):
+    def __init__(self, xml: bytes, sql_connection: str | None = "") -> None:
+        if not isinstance(xml, bytes):
             raise TypeError()
         parser = etree.XMLParser(ns_clean=True)
         self.root = etree.fromstring(xml, parser)
@@ -29,7 +28,7 @@ class DBStructureParser:
         ConvertReqFunction.create(self.conn)
 
     @property
-    def record_types(self) -> Iterable:
+    def record_types(self) -> list:
         f = []
         records = self.root.find("RecTypes")
         for record_type in records.xpath("./rty"):
@@ -38,7 +37,7 @@ class DBStructureParser:
         return f
 
     @property
-    def record_structures(self) -> Iterable:
+    def record_structures(self) -> list:
         f = []
         records = self.root.find("RecStructure")
         for record_structure in records.xpath("./rst"):
@@ -47,7 +46,7 @@ class DBStructureParser:
         return f
 
     @property
-    def detail_types(self) -> Iterable:
+    def detail_types(self) -> list:
         f = []
         details = self.root.find("DetailTypes")
         for detail in details.xpath("./dty"):
@@ -82,7 +81,7 @@ ORDER BY rst.rst_DisplayOrder
 """
         )
 
-    def parse_record_field_params(self, record_type: int) -> List[RecordField]:
+    def parse_record_field_params(self, record_type: int) -> list[RecordField]:
         """_summary_
 
         Args:

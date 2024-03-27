@@ -1,6 +1,5 @@
 # Main workflow for dumping records from Heurist database
-
-from typing import List, Literal
+from typing import Literal
 from pathlib import Path
 from rich.progress import (
     Progress,
@@ -20,7 +19,7 @@ def dump_records(
     database: str | None,
     login: str | None,
     password: str | None,
-    record_ids: List[int],
+    record_ids: list[int],
     output: Path | str,
     form: Literal["json", "xml"],
 ):
@@ -55,10 +54,6 @@ def dump_records(
             # Collect the record type's JSON export
             json_load = load_json(client=client, record_id=id)
             data = json_load.get("heurist", {}).get("records")
-
-            # Only flatten the targeted record type
-            data = [d for d in data if d["rec_RecTypeID"] == id]
-
             n = len(data)
             print(f"{n} records found for record type {id}.")
             if n == 0:

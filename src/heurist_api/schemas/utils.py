@@ -1,4 +1,4 @@
-from typing import Any, Optional, Dict, List
+from typing import Optional, Any
 import dateutil.parser
 import dateutil.relativedelta
 import dateutil
@@ -9,14 +9,14 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def flatten_record_detail(detail: Dict) -> Dict:
+def flatten_record_detail(detail: dict) -> dict:
     """Transforms the Heurist detail into a key-value pair.
 
     Args:
-        detail (Dict): Heurist detail JSON object
+        detail (dict): Heurist detail JSON object
 
     Returns:
-        Dict: flattened key-value
+        dict: flattened key-value
     """
     # Construct the field's name
     key = f"dty_{detail['dty_ID']}"
@@ -40,7 +40,7 @@ def flatten_record_detail(detail: Dict) -> Dict:
     elif fieldtype == "date":
         handler = HeuristDateHandler()
         if (
-            isinstance(value, Dict)
+            isinstance(value, dict)
             and "end" in value.keys()
             and "start" in value.keys()
         ):
@@ -54,11 +54,10 @@ def flatten_record_detail(detail: Dict) -> Dict:
 
     # If the data is a resource pointer, parse the id
     elif fieldtype == "resource":
-        target_record_type = value["type"]
         target_record_id = value["id"]
-        value = f"RecType {target_record_type} H-ID {target_record_id}"
+        value = target_record_id
 
-    if not isinstance(value, Dict):
+    if not isinstance(value, dict):
         return {key: value}
 
 
@@ -67,8 +66,8 @@ class HeuristDateHandler:
         pass
 
     @classmethod
-    def __call__(cls, v: str | int | List[str]) -> List[datetime]:
-        if isinstance(v, List):
+    def __call__(cls, v: str | int | list[str]) -> list[datetime]:
+        if isinstance(v, list):
             d1, d2 = cls.parse(v[0]), cls.parse(v[1])
             l = sorted([d1, d2])
         else:
@@ -123,7 +122,7 @@ class HeuristDataType:
             return Optional[str]
 
         elif datatype == cls.date_time:
-            return List[Optional[datetime]]
+            return list[Optional[datetime]]
 
         elif datatype == cls.geospatial:
             return Optional[str]

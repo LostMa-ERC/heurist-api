@@ -51,4 +51,7 @@ class RecordField(BaseModel):
         s = re.sub(r"_+", "_", s)
         # Trim underscores
         s = s.strip("_")
-        return s.lower() + f"_DType_{self.dty_ID}"
+        s = s.lower() + f" {self.dty_ID}"
+        if self.dty_Type == "resource":
+            s += " H-ID"
+        return s
