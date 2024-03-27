@@ -1,9 +1,10 @@
 import unittest
-import csv
 
 from heurist_api.client import make_client
 from heurist_api.db_structure_parser import DBStructureParser
 from heurist_api.record_parser import Records
+from heurist_api.schemas import RelationshipMarker
+from heurist_api.relationship_marker_parser import RelationshipMarkers
 from heurist_api.utils import load_json
 from tests import EXPORT_DIR
 
@@ -34,17 +35,28 @@ class RelationalTableTest(unittest.TestCase):
             self.validated_data.append(records)
 
     def test_list_all_record_ids(self):
-        ids = []
         for data in self.validated_data:
             record_type = data.model.get_record_type()
+            self.assertIsNotNone(record_type)
             for json_string in data.to_json_strings():
                 id = json_string.get("H-ID")
                 self.assertIsNotNone(id)
-                ids.append((id, record_type))
-        with open(EXPORT_DIR.joinpath("all_ids.csv"), "w") as f:
-            writer = csv.writer(f)
-            writer.writerow(["H-ID", "Record Type"])
-            writer.writerows(ids)
+
+
+class RelationshipMarkerTest(unittest.TestCase):
+    record_type_id = 102
+
+    def setUp(self) -> None:
+        self.client = make_client()
+        self.markers = RelationshipMarkers(client=self.client)
+
+    def test_validation(self):
+        for marker in self.markers:
+            self.assertIsInstance(marker, RelationshipMarker)
+
+    def test_writing_to_json(self):
+        outfile = EXPORT_DIR.joinpath("relationship_markers.json")
+        self.markers.to_delimited_json(outfile=outfile)
 
 
 if __name__ == "__main__":

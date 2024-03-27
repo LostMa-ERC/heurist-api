@@ -1,9 +1,9 @@
 import duckdb
 import polars as pl
+from pathlib import Path
 from lxml import etree
 from pydantic import BaseModel
 
-from heurist_api.sql_functions import SQLSafeFunction, ConvertReqFunction
 from heurist_api.schemas import (
     RecordType,
     RecordStructure,
@@ -14,18 +14,15 @@ from heurist_api.schemas import (
 
 
 class DBStructureParser:
-    def __init__(self, xml: bytes, sql_connection: str | None = "") -> None:
+    def __init__(self, xml: bytes, sql_connection: str | Path | None = "") -> None:
         if not isinstance(xml, bytes):
             raise TypeError()
         parser = etree.XMLParser(ns_clean=True)
         self.root = etree.fromstring(xml, parser)
+        if isinstance(sql_connection, Path):
+            sql_connection = str(sql_connection)
         self.conn = duckdb.connect(sql_connection)
-        # self.build_sql_functions()
         self.join_detail_types_and_record_structures()
-
-    def build_sql_functions(self):
-        SQLSafeFunction.create(self.conn)
-        ConvertReqFunction.create(self.conn)
 
     @property
     def record_types(self) -> list:

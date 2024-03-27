@@ -14,6 +14,7 @@ from heurist_api.db_structure_parser import DBStructureParser
 from heurist_api.record_parser import Records
 from heurist_api.relational_tables import IDTypeRelations
 from heurist_api.utils import load_json
+from heurist_api.relationship_marker_parser import RelationshipMarkers
 
 
 def dump_records(
@@ -33,6 +34,11 @@ def dump_records(
 
     # Build a Heurist API client
     client = make_client(database_name=database, login=login, password=password)
+
+    # Export the relationship markers
+    markers = RelationshipMarkers(client=client)
+    outfile = output.joinpath(f"relationship_markers.json")
+    markers.to_delimited_json(outfile=outfile)
 
     # Parse the Heurist database structure
     db_xml = client.get_structure()
@@ -59,7 +65,6 @@ def dump_records(
             json_load = load_json(client=client, record_id=id)
             data = json_load.get("heurist", {}).get("records")
             n = len(data)
-            print(f"{n} records found for record type {id}.")
             if n == 0:
                 print(f"Skipping record type {id}.")
                 p.advance(task)

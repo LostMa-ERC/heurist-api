@@ -42,12 +42,12 @@ class URLBuilder:
             >>> db = "mock_db"
             >>> builder = URLBuilder(db)
             >>> builder.record(101)
-            'https://heurist.huma-num.fr/heurist/export/xml/flathml.php?q=[{"t"%3A"101"}%2C{"sortby"%3A"t"}]&a=1&db=mock_db&depth=all&linkmode=direct'
+            'https://heurist.huma-num.fr/heurist/export/xml/flathml.php?q=[{"t"%3A"101"}%2C{"sortby"%3A"t"}]&a=1&db=mock_db&depth=all&linkmode=direct_links'
 
-            >>> db = "jbcamps_gestes"
+            >>> db = "mock_db"
             >>> builder = URLBuilder(db)
             >>> builder.record(102, form="json")
-            'https://heurist.huma-num.fr/heurist/hserv/controller/record_output.php?q=t%3A102&a=1&db=jbcamps_gestes&depth=all&linkmode=direct&format=json&defs=0&extended=2'
+            'https://heurist.huma-num.fr/heurist/hserv/controller/record_output.php?q=t%3A102&a=1&db=mock_db&depth=all&linkmode=direct_links&format=json&defs=0&extended=2'
 
         Args:
             record_type_id (str | int): Heurist ID of the record type.
@@ -57,7 +57,6 @@ class URLBuilder:
         """
 
         a = "a=1"
-        api = self.xml_record_api
         db = "db=%s" % (self.database_name)
         depth = "depth=all"
         link_mode = "linkmode=direct_links"

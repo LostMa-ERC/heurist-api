@@ -3,3 +3,4 @@ from heurist_api.schemas.record_type import RecordType
 from heurist_api.schemas.detail_type import DetailType
 from heurist_api.schemas.record_detail_type import RecordField
 from heurist_api.schemas.dynamic_record import RecordBaseModel
+from heurist_api.schemas.relationship_marker import RelationshipMarker
