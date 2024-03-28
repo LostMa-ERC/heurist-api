@@ -16,7 +16,13 @@ class RecordModelTest(unittest.TestCase):
         xml = self.client.get_structure()
 
         # Parse the structure
-        self.parser = DBStructureParser(xml)
+        self.parser = DBStructureParser(
+            xml=xml, sql_connection=EXPORT_DIR.joinpath("heurist.duckdb")
+        )
+
+    def test_record_model_fields(self):
+        model = self.parser.create_record_model(record_type=102)
+        print(model.model_fields.keys())
 
     def test_record_type_in_model_name(self):
         model = self.parser.create_record_model(record_type=self.record_type_id)

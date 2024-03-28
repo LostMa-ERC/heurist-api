@@ -27,14 +27,14 @@ class DetailType(BaseModel):
     dty_EntryMask: Optional[str] = None
     dty_Status: str
     dty_OriginatingDBID: int
-    dty_NameInOriginatingDB: Optional[str]
+    dty_NameInOriginatingDB: Optional[str] = None
     dty_IDInOriginatingDB: int
     dty_DetailTypeGroupID: int
     dty_OrderInGroup: int
     dty_JsonTermIDTree: Optional[int] = None
-    dty_TermIDTreeNonSelectableIDs: List[Optional[int]]
-    dty_PtrTargetRectypeIDs: List[Optional[int]]
-    dty_FieldSetRectypeID: Optional[int]
+    dty_TermIDTreeNonSelectableIDs: List[Optional[int]] = []
+    dty_PtrTargetRectypeIDs: List[Optional[int]] = []
+    dty_FieldSetRectypeID: Optional[int] = None
     dty_ShowInLists: bool
     dty_NonOwnerVisibility: str
     dty_Modified: datetime
