@@ -8,6 +8,10 @@ Command-line tool for requesting data from Heurist database.
 $ pip install git+https://github.com/LostMa-ERC/heurist-api.git
 ```
 
+## Guide
+
+The documentation is a work in progress on this static GitHub Pages site: https://lostma-erc.github.io/heurist-api/
+
 ## Run from the command line
 
 The command to dump records from Heurist into validated, flattened files is `heurist dump`.
