@@ -48,8 +48,12 @@ class Database(DuckBase):
             flat_details = dict(
                 ChainMap(
                     *[
-                        HeuristRecordDetail.convert(detail)
-                        for detail in record["details"]
+                        kv
+                        for kv in [
+                            HeuristRecordDetail.convert(detail)
+                            for detail in record["details"]
+                        ]
+                        if kv
                     ]
                 )
             )

@@ -64,7 +64,8 @@ def dump(client, filepath, record_group, outdir):
     # Show results of DuckDB database
     with duckdb.connect(filepath) as new_conn:
         tables = new_conn.sql("show tables;")
-        print(print)
+        print("\nCreated the following tables")
+        print(tables)
         if outdir:
             outdir = Path(outdir)
             outdir.mkdir(exist_ok=True)
