@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=62", "setuptools_scm>8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "heurist"
+dependencies = [
+    "annotated-types==0.6.0",
+    "astroid==3.1.0",
+    "certifi==2024.2.2",
+    "charset-normalizer==3.3.2",
+    "click==8.1.7",
+    "dill==0.3.8",
+    "duckdb==0.10.1",
+    "ghp-import==2.1.0",
+    "idna==3.6",
+    "iniconfig==2.0.0",
+    "isort==5.13.2",
+    "Jinja2==3.1.3",
+    "lxml==5.1.0",
+    "Markdown==3.5.2",
+    "markdown-it-py==3.0.0",
+    "MarkupSafe==2.1.5",
+    "mccabe==0.7.0",
+    "mdurl==0.1.2",
+    "mergedeep==1.3.4",
+    "mkdocs==1.5.3",
+    "numpy==1.26.4",
+    "packaging==24.0",
+    "pathspec==0.12.1",
+    "platformdirs==4.2.0",
+    "pluggy==1.4.0",
+    "polars==0.20.16",
+    "pyarrow==15.0.2",
+    "pydantic==2.6.4",
+    "pydantic_core==2.16.3",
+    "pydantic-xml==2.9.0",
+    "Pygments==2.17.2",
+    "pylint==3.1.0",
+    "pytest==8.1.1",
+    "python-dateutil==2.9.0.post0",
+    "python-dotenv==1.0.1",
+    "PyYAML==6.0.1",
+    "pyyaml_env_tag==0.1",
+    "requests==2.31.0",
+    "rich==13.7.1",
+    "six==1.16.0",
+    "tomlkit==0.12.4",
+    "typing_extensions==4.10.0",
+    "urllib3==2.2.1",
+    "watchdog==4.0.0"
+]
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["heurist", "examples"]
+
+[tool.setuptools.dynamic]
+version = {attr = "heurist.VERSION"}
+
+[tool.setuptools_scm]
+# Leave empty for the dynamic version metadata
+
+[project.scripts]
+heurist = "heurist.__main__:cli"
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "heurist"]
+addopts = "-v -ra -q --doctest-modules"
+log_cli = true
+log_cli_level = "INFO"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+minversion = "6.0"
+filterwarnings = "ignore"
+# Specify a custom directory for pytest cache
+cache_dir = ".pytest_cache"
