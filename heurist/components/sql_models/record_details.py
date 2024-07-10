@@ -40,21 +40,32 @@ def to_camel_case(text: str) -> str:
     return "".join(i.capitalize() for i in s)
 
 
+def create_table_name(record_name: str, record_type_id: int) -> str:
+    camel_case_name = to_camel_case(record_name)
+    return f"T{record_type_id}_{camel_case_name}"
+
+
 class RecordTypeModeler:
     def __init__(self, rty_ID: int, rty_Name: str, detail_dicts: list[dict]) -> None:
         self.rty_ID = rty_ID
         self.rty_Name = rty_Name
-        self.table_name = to_camel_case(rty_Name)
+        self.table_name = create_table_name(record_name=rty_Name, record_type_id=rty_ID)
         self.model = self.to_pydantic_model(detail_dicts)
 
     def to_pydantic_model(self, detail_dicts: list[dict]) -> BaseModel:
-        """_summary_
+        """Take a list of key-value pairs (dict), which pair a record's detail (data field) with a value,
+            and convert that set of key-value pairs to a Pydantic model.
 
         Examples:
+            >>> # Example set of key-value pairs for a record that has one data field.
             >>> detail_dicts = [{'dty_ID': 1, 'dty_Name': 'Name or Title', 'dty_Type': 'freetext'}]
+            >>>
+            >>> # Model the data for the record's details (data fields), in this case one data field.
             >>> rectype = RecordTypeModeler(rty_ID=101, rty_Name="test record", detail_dicts=detail_dicts)
+            >>>
+            >>> # Confirm the record was succesfully modeled and has the correct name.
             >>> rectype.model.__name__
-            'TestRecord'
+            'T101_TestRecord'
 
         Args:
             detail_dicts (list[dict]): Details of a record type, including the following keys:
