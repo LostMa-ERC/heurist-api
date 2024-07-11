@@ -1,9 +1,11 @@
+import re
+
 from pydantic import BaseModel, Field, create_model
+
 from heurist.components.heurist.convert_record_detail import (
     HeuristDataType,
     HeuristRecordDetail,
 )
-import re
 
 
 def clean_name(name: str) -> str:
