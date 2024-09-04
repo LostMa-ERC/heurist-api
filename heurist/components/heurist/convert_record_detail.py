@@ -167,21 +167,24 @@ class HeuristRecordDetail:
             >>> detail = {
             ...     "dty_ID": 9,
             ...     "value": {
+            ...         "comment": "Some comments here about the fuzzy date.",
             ...         "start": {
-            ...             "earliest": "1272"
+            ...             "earliest": "1248",
+            ...             "latest": "1248-05-01"
             ...         },
             ...         "end": {
-            ...             "latest": "1300"
+            ...             "earliest": "1312-08-29",
+            ...             "latest": "1350"
             ...         },
-            ...         "estMinDate": 1272,
-            ...         "estMaxDate": 1300.1231
+            ...         "estMinDate": 1248,
+            ...         "estMaxDate": 1350.1231
             ...     },
             ...     "fieldName": "Date",
             ...     "fieldType": "date",
             ...     "conceptID": "2-9"
             ... }
             >>> HeuristRecordDetail.date(detail)
-            [datetime.datetime(1272, 1, 1, 0, 0), datetime.datetime(1300, 1, 1, 0, 0)]
+            [datetime.datetime(1248, 1, 1, 0, 0), datetime.datetime(1350, 12, 31, 0, 0)]
             >>>
             >>> detail = {
             ...     "dty_ID": 1111,
@@ -207,8 +210,8 @@ class HeuristRecordDetail:
             and "end" in value.keys()
             and "start" in value.keys()
         ):
-            end_date = value["end"]["latest"]
-            start_date = value["start"]["earliest"]
+            end_date = value["estMaxDate"]
+            start_date = value["estMinDate"]
             value = handler([start_date, end_date])
         elif isinstance(value, str) or isinstance(value, int):
             value = handler(value)

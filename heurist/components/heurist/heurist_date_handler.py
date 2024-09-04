@@ -27,6 +27,13 @@ class HeuristDateHandler:
         v = str(v)
         if len(v) == 4:
             v = f"{v}-01-01"
+        elif "." in v:
+            splits = v.split(".")
+            year, smaller_than_year = splits[0], splits[1]
+            if len(smaller_than_year) == 2:
+                v = f"{year}-{smaller_than_year}-01"
+            elif len(smaller_than_year) == 4:
+                v = f"{year}-{smaller_than_year[:2]}-{smaller_than_year[2:]}"
         else:
             parts = v.split("-")
             if len(parts) == 2:
