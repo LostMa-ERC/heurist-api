@@ -1,19 +1,24 @@
+from pathlib import Path
+
 import click
 import duckdb
-from pathlib import Path
-from heurist.client import HeuristClient
-from heurist.components.database.database import Database
 from rich.progress import (
-    Progress,
-    SpinnerColumn,
-    TimeElapsedColumn,
-    TextColumn,
     BarColumn,
     MofNCompleteColumn,
+    Progress,
+    SpinnerColumn,
+    TextColumn,
+    TimeElapsedColumn,
 )
+
+from heurist.client import HeuristClient
+from heurist.components.database.database import Database
+
+from .__version__ import __identifier__
 
 
 @click.group()
+@click.version_option(__identifier__)
 @click.option("-d", "--database", type=click.STRING)
 @click.option("-l", "--login", type=click.STRING)
 @click.option("-p", "--password", type=click.STRING)
@@ -72,7 +77,7 @@ def dump(client, filepath, record_group, outdir):
             for tup in tables.fetchall():
                 table_name = tup[0]
                 fp = outdir.joinpath(f"{table_name}.csv")
-                new_conn.table(table_name).write_csv(str(fp))
+                new_conn.table(table_name).sort("H-ID").write_csv(str(fp))
 
 
 if __name__ == "__main__":
