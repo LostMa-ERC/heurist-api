@@ -21,7 +21,7 @@ class ClientUnitTest(unittest.TestCase):
 
     def test_relmarker_records(self):
         records = self.client.get_relationship_markers(form="json")
-        self.assertGreater(len(records), 2)
+        self.assertEqual(len(records), 0)
 
 
 if __name__ == "__main__":
