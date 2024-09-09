@@ -75,7 +75,7 @@ class HeuristRecordDetail:
             # If the detail is a date, give the parsed datetime objects and the original JSON
             if fieldtype == "date":
                 value = detail["value"]
-                if type(value):
+                if type(value) == dict:
                     key = self._fieldname(detail, temp=True)
                     value = detail["value"]
                     supplemental_detail = {key: value}

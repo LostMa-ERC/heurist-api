@@ -55,7 +55,15 @@ class Database(DuckBase):
             )
 
             # Validate the flattened details inside the record type's Pydantic model
-            modeled_records.append(record_manager.model.model_validate(flat_details))
+            try:
+                modeled_records.append(
+                    record_manager.model.model_validate(flat_details)
+                )
+            except Exception as e:
+                from pprint import pprint
+
+                pprint(flat_details)
+                raise e
 
         # Return a list of validated Pydantic models
         return modeled_records
