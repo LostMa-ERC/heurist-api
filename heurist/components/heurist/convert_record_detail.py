@@ -1,5 +1,7 @@
 """Class for converting a record's detail before the Pydantic model validation."""
 
+from typing import Generator
+
 from heurist.components.heurist.heurist_data_type import HeuristDataType
 from heurist.components.heurist.heurist_date_handler import HeuristDateHandler
 
@@ -11,8 +13,11 @@ class HeuristRecordDetail:
         pass
 
     @classmethod
-    def _fieldname(cls, detail: dict) -> str:
-        return f"DTY{detail['dty_ID']}"
+    def _fieldname(cls, detail: dict, temp: bool = False) -> str:
+        supp = ""
+        if temp:
+            supp = "_TEMPORAL"
+        return f"DTY{detail['dty_ID']}{supp}"
 
     @classmethod
     def _convert_value(cls, detail: dict) -> str | int | list | None:
@@ -43,6 +48,40 @@ class HeuristRecordDetail:
 
         elif fieldtype == "resource":
             return cls.resource(detail)
+
+    def __call__(self, details: list[dict]) -> Generator[dict | None, None, None]:
+        """_summary_
+
+        Args:
+            details (list[dict]): _description_
+
+        Returns:
+            _type_: s_description_
+
+        Yields:
+            Generator[dict|None, None, None]: _description_
+        """
+
+        for detail in details:
+            fieldtype = HeuristDataType.from_json_record(detail)
+            flattened_detail = self.convert(detail)
+
+            # Skip this detail if it has no value
+            if not flattened_detail:
+                continue
+
+            results = [flattened_detail]
+
+            # If the detail is a date, give the parsed datetime objects and the original JSON
+            if fieldtype == "date":
+                value = detail["value"]
+                if type(value):
+                    key = self._fieldname(detail, temp=True)
+                    value = detail["value"]
+                    supplemental_detail = {key: value}
+                    results.append(supplemental_detail)
+
+            yield from results
 
     @classmethod
     def convert(cls, detail: dict) -> dict | None:

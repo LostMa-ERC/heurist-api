@@ -1,10 +1,10 @@
 import duckdb
+import polars as pl
 from duckdb import DuckDBPyConnection
 from pydantic_xml import BaseXmlModel
-import polars as pl
 
-from heurist.models.hml_structure import HMLStructure
 from heurist.components.sql_models.record_details import RecordTypeModeler
+from heurist.models.hml_structure import HMLStructure
 
 
 class DuckBase:
@@ -43,7 +43,8 @@ WHERE table_name like '{table_name}'
             self.conn.sql("DROP TABLE {}".format(table_name))
 
     def create(self, name: str, model: BaseXmlModel) -> None:
-        """_summary_
+        """Create a temporary, empty table in the DuckDB database connection
+        based on a Pydantic model.
 
         Examples:
             >>> from examples import DB_STRUCTURE_XML

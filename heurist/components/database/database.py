@@ -1,5 +1,4 @@
 from collections import ChainMap
-from collections.abc import Iterator
 
 import polars as pl
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
@@ -27,17 +26,18 @@ class Database(DuckBase):
     def model_record_data(
         self, record_manager: RecordTypeModeler, records: list[dict]
     ) -> list[BaseModel]:
-        """Model the data of each records.
+        """Model the data of each record in a list of records.
 
         Args:
-            record_type_id (int): _description_
-            records (list[dict]): _description_
+            record_type_id (int): ID of the type of record targeted for processing.
+            records (list[dict]): A list of raw JSON records.
 
         Yields:
             Iterator[BaseModel]: _description_
         """
 
         modeled_records = []
+        DetailConverter = HeuristRecordDetail()
 
         for record in records:
             # Skip any records in the data set that are not targeted
@@ -45,25 +45,19 @@ class Database(DuckBase):
                 continue
 
             # Flatten the detail JSON into a simple key-value dict
-            flat_details = dict(
-                ChainMap(
-                    *[
-                        kv
-                        for kv in [
-                            HeuristRecordDetail.convert(detail)
-                            for detail in record["details"]
-                        ]
-                        if kv
-                    ]
-                )
-            )
+            flat_details = {}
+            for detail in DetailConverter(record["details"]):
+                flat_details.update(detail)
 
             # Add in generic metadata for the record
             flat_details.update(
                 {"rec_ID": record["rec_ID"], "rec_RecTypeID": record["rec_RecTypeID"]}
             )
+
+            # Validate the flattened details inside the record type's Pydantic model
             modeled_records.append(record_manager.model.model_validate(flat_details))
 
+        # Return a list of validated Pydantic models
         return modeled_records
 
     def insert_records(
