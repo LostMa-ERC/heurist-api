@@ -3,10 +3,11 @@ Heurist API client wrapper
 """
 
 import json
-from typing import ByteString, Literal
-from dotenv import find_dotenv, load_dotenv
-from pathlib import Path
 import os
+from pathlib import Path
+from typing import ByteString, Literal
+
+from dotenv import find_dotenv, load_dotenv
 
 from heurist.client.session import HeuristRequestSession
 from heurist.client.url_builder import URLBuilder
