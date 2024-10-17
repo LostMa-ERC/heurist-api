@@ -22,6 +22,13 @@ class DetailTypes(BaseXmlModel):
         >>> first_detail_type = hml.DetailTypes.dty[0]
         >>> first_detail_type.dty_ID
         1
+        >>> singular_pointer = [d for d in hml.DetailTypes.dty if d.dty_ID == 1295][0]
+        >>> singular_pointer.dty_PtrTargetRectypeIDs
+        '101'
+        >>> plural_pointer = [d for d in hml.DetailTypes.dty if d.dty_ID == 1256][0]
+        >>> plural_pointer.dty_PtrTargetRectypeIDs
+        '101|105|106'
+
     """
 
     dty: list[DTY] = element()

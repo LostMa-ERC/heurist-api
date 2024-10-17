@@ -1,5 +1,3 @@
-from collections import ChainMap
-
 import polars as pl
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic import BaseModel
@@ -7,6 +5,7 @@ from pydantic import BaseModel
 from heurist.components.database.duckbase import DuckBase
 from heurist.components.heurist.convert_record_detail import HeuristRecordDetail
 from heurist.components.sql_models.record_details import RecordTypeModeler
+from heurist.components.sql_models.select_record_structure import QUERY
 
 
 class Database(DuckBase):
@@ -14,14 +13,28 @@ class Database(DuckBase):
         self,
         hml_xml: bytes,
         conn: DuckDBPyConnection | None = None,
+        save_structure: bool = False,
         db: str | None = ":memory:",
         record_type_groups: list[str] = ["My record types"],
     ) -> None:
-        super().__init__(hml_xml, conn, db)
+        super().__init__(hml_xml, conn, db, save_structure)
 
         self.managers_record_type = {
             r.rty_ID: r for r in self.yield_record_details(record_type_groups)
         }
+
+    def describe_record_fields(self, rty_ID: int) -> DuckDBPyRelation:
+        """Join the detail, record structure, and record type tables for a specific
+        record type and add the label and description of the last section / separator
+        preceding the detail.
+
+        Args:
+            rty_ID (int): ID of the targeted record.
+
+        Returns:
+            DuckDBPyRelation: A DuckDB Python relation that can be queried or converted.
+        """
+        return self.conn.from_query(query=QUERY, params=[rty_ID])
 
     def model_record_data(
         self, record_manager: RecordTypeModeler, records: list[dict]

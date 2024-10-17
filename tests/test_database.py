@@ -1,6 +1,6 @@
 import unittest
 
-from examples import DB_STRUCTURE_XML, RECORD_JSON, FUZZY_DATE_RECORD_JSON
+from examples import DB_STRUCTURE_XML, FUZZY_DATE_RECORD_JSON, RECORD_JSON
 from heurist.components.database.database import Database
 
 

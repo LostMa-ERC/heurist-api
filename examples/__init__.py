@@ -3,7 +3,7 @@ from pathlib import Path
 
 DIR = Path(__file__).parent
 
-DB_STRUCTURE_XML_FILE = DIR.joinpath("newer_hml.xml")
+DB_STRUCTURE_XML_FILE = DIR.joinpath("hml.xml")
 RECORD_JSON_FILE = DIR.joinpath("records.json")
 FUZZY_DATE_JSON_FILE = DIR.joinpath("fuzzydate_record.json")
 

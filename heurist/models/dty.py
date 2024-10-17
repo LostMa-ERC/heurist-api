@@ -69,8 +69,8 @@ class DTY(BaseXmlModel, tag="dty", search_mode="unordered"):
     dty_DetailTypeGroupID: int = element()
     dty_OrderInGroup: int = element()
     dty_JsonTermIDTree: Optional[str] = element(default=None)
-    dty_TermIDTreeNonSelectableIDs: list[Optional[int]] = element(default=[])
-    dty_PtrTargetRectypeIDs: list[Optional[int]] = element(default=[])
+    dty_TermIDTreeNonSelectableIDs: Optional[str] = element(default=None)
+    dty_PtrTargetRectypeIDs: Optional[str] = element(default=None)
     dty_FieldSetRectypeID: Optional[int] = element(default=None)
     dty_ShowInLists: bool = element()
     dty_NonOwnerVisibility: Literal["hidden", "viewable", "public"] = element()
@@ -78,12 +78,12 @@ class DTY(BaseXmlModel, tag="dty", search_mode="unordered"):
     dty_LocallyModified: bool = element()
     dty_SemanticReferenceURL: Optional[str] = element(default=None)
 
-    @field_validator("dty_TermIDTreeNonSelectableIDs", mode="before")
+    @field_validator("dty_TermIDTreeNonSelectableIDs")
     @classmethod
-    def validate_selectable_ids(cls, raw: str | None) -> list:
-        return split_ids(raw)
+    def validate_selectable_ids(cls, input_value: str | None) -> list:
+        return split_ids(input=input_value)
 
-    @field_validator("dty_PtrTargetRectypeIDs", mode="before")
+    @field_validator("dty_PtrTargetRectypeIDs")
     @classmethod
-    def validate_rectype_ids(cls, raw: str | None) -> list:
-        return split_ids(raw)
+    def validate_rectype_ids(cls, input_value: str | None) -> list:
+        return split_ids(input=input_value)

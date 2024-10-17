@@ -13,11 +13,13 @@ class DuckBase:
         hml_xml: bytes,
         conn: DuckDBPyConnection | None = None,
         db: str = ":memory:",
+        save_structure: bool = False,
     ) -> None:
         if not conn:
             conn = duckdb.connect(db)
         self.conn = conn
         self.hml = HMLStructure.from_xml(hml_xml)
+        self.save_structure = save_structure
 
         # Create generic tables
         basics = [
@@ -43,7 +45,7 @@ WHERE table_name like '{table_name}'
             self.conn.sql("DROP TABLE {}".format(table_name))
 
     def create(self, name: str, model: BaseXmlModel) -> None:
-        """Create a temporary, empty table in the DuckDB database connection
+        """Create an empty table in the DuckDB database connection
         based on a Pydantic model.
 
         Examples:
@@ -63,7 +65,10 @@ WHERE table_name like '{table_name}'
         """
         self.delete_existing_table(name)
         df = pl.DataFrame(model)
-        sql = "CREATE TEMPORARY TABLE {} AS FROM df".format(name)
+        if self.save_structure:
+            sql = "CREATE TABLE {} AS FROM df".format(name)
+        else:
+            sql = "CREATE TEMPORARY TABLE {} AS FROM df".format(name)
         self.conn.sql(sql)
 
     @classmethod

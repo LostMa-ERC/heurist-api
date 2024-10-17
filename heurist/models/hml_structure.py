@@ -31,4 +31,4 @@ class HMLStructure(BaseXmlModel, tag="hml_structure", search_mode="unordered"):
     RecTypeGroups: RecTypeGroupsModel = element(tag="RecTypeGroups")
 
 
-ModelNamedTuple = namedtuple("ModelNamedTuple", field_names=["name", "array"])
+# ModelNamedTuple = namedtuple("ModelNamedTuple", field_names=["name", "array"])
