@@ -80,10 +80,10 @@ class DTY(BaseXmlModel, tag="dty", search_mode="unordered"):
 
     @field_validator("dty_TermIDTreeNonSelectableIDs")
     @classmethod
-    def validate_selectable_ids(cls, input_value: str | None) -> list:
+    def validate_selectable_ids(cls, input_value: str | None) -> str:
         return split_ids(input=input_value)
 
     @field_validator("dty_PtrTargetRectypeIDs")
     @classmethod
-    def validate_rectype_ids(cls, input_value: str | None) -> list:
+    def validate_rectype_ids(cls, input_value: str | None) -> str:
         return split_ids(input=input_value)

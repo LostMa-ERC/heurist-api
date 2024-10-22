@@ -27,6 +27,43 @@ def cli(ctx, database, login, password):
     ctx.obj = HeuristClient(database_name=database, login=login, password=password)
 
 
+@cli.command("doc")
+@click.option(
+    "-r",
+    "--record-group",
+    required=False,
+    type=click.STRING,
+    multiple=True,
+    default=["My record types"],
+)
+@click.option(
+    "-o", "--outdir", required=True, type=click.Path(file_okay=False, dir_okay=True)
+)
+@click.pass_obj
+def doc(client, record_group, outdir):
+    DIR = Path(outdir)
+    DIR.mkdir(exist_ok=True)
+    with Progress(
+        TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
+    ) as p:
+        _ = p.add_task("Downloading architecture")
+        xml = client.get_structure()
+        db = Database(hml_xml=xml, record_type_groups=record_group)
+        record_types = list(db.managers_record_type.keys())
+
+    with Progress(
+        TextColumn("{task.description}"), BarColumn(), MofNCompleteColumn()
+    ) as p:
+        t = p.add_task("Describing record types", total=len(record_types))
+        for id in record_types:
+            r = db.describe_record_fields(id)
+            name = r.aggregate("rty_Name").fetchone()[0]
+            id = r.aggregate("rty_ID").fetchone()[0]
+            fp = DIR.joinpath(f"{name}_{id}.csv")
+            r.write_csv(file_name=str(fp), header=True)
+            p.advance(t)
+
+
 @cli.command("dump")
 @click.option(
     "-r",
