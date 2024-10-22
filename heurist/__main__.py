@@ -13,6 +13,7 @@ from rich.progress import (
 
 from heurist.client import HeuristClient
 from heurist.components.database.database import Database
+from heurist.components.sql_models.sql_safety import SafeSQLName
 
 from .__version__ import __identifier__
 
@@ -43,6 +44,7 @@ def cli(ctx, database, login, password):
 def doc(client, record_group, outdir):
     DIR = Path(outdir)
     DIR.mkdir(exist_ok=True)
+    namer = SafeSQLName()
     with Progress(
         TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
     ) as p:
@@ -58,8 +60,8 @@ def doc(client, record_group, outdir):
         for id in record_types:
             r = db.describe_record_fields(id)
             name = r.aggregate("rty_Name").fetchone()[0]
-            id = r.aggregate("rty_ID").fetchone()[0]
-            fp = DIR.joinpath(f"{name}_{id}.csv")
+            safe_name = SafeSQLName().create_table_name(name)
+            fp = DIR.joinpath(safe_name).with_suffix(".csv")
             r.write_csv(file_name=str(fp), header=True)
             p.advance(t)
 
