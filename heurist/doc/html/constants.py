@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from lxml import etree
 
-from heurist.doc.html.utils import escape_escape_characters
+from heurist.doc.html.utils import escape_escape_characters, build_element_with_text
 
 BASE = """
 <!doctype html>
@@ -56,7 +56,7 @@ class DataField:
         if not self.dty_SemanticReferenceURL:
             return etree.fromstring("<td/>")
         else:
-            a = f'<a class="link" target="_blank" href="{self.dty_SemanticReferenceURL}">{self.dty_SemanticReferenceURL}</a>'
+            a = f'<a class="link" target="_blank" rel="noreferrer noopener" href="{self.dty_SemanticReferenceURL}">{self.dty_SemanticReferenceURL}</a>'
             return etree.fromstring(f"<td>{a}</td>")
 
     def format_requirement_type(self):
@@ -102,13 +102,16 @@ class DataField:
             name = "Foreign key"
         return etree.fromstring(f"<td>{name}</td>")
 
+    def format_help_text(self):
+        return build_element_with_text("td", self.dty_HelpText)
+
     def transform_non_section_fields(
         self, present_records: list, record_name_index: dict
     ) -> list[etree.Element]:
         return [
             etree.fromstring(f"<td>{self.rst_DisplayName}</td>"),
             etree.fromstring(f"<td>{self.rst_DetailTypeID}</td>"),
-            etree.fromstring(f"<td>{self.dty_HelpText}</td>"),
+            self.format_help_text(),
             self.format_reference_url(),
             self.format_requirement_type(),
             self.format_data_type(),
