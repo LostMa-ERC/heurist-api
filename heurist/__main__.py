@@ -13,7 +13,7 @@ from rich.progress import (
 
 from heurist.client import HeuristClient
 from heurist.components.database.database import Database
-from heurist.doc import output_csv, Doc
+from heurist.doc import output_csv, OutputHtml
 
 from .__version__ import __identifier__
 
@@ -75,20 +75,12 @@ def doc(client, record_group, outdir, output_type):
                 p.advance(t)
 
         elif output_type == "html":
-            record_name_index = {
-                t[0]: t[1]
-                for t in db.conn.table("rty")
-                .select("rty_ID, rty_Name")
-                .order("rty_Name")
-                .fetchall()
-            }
-            doc = Doc(record_name_index=record_name_index, present_records=record_types)
             fp = DIR.joinpath("recordTypes.html")
+            html_builder = OutputHtml(db=db, record_types=record_types)
             for rty in record_types:
-                rel = db.describe_record_fields(rty_ID=rty)
-                doc.add_record(rel)
+                html_builder(rty)
                 p.advance(t)
-            doc.write(fp)
+            html_builder.write(fp=fp)
 
 
 @cli.command("dump")
