@@ -15,6 +15,7 @@ class DuckBase:
         db: str = ":memory:",
         save_structure: bool = False,
     ) -> None:
+        hml_xml = self.trim_xml_byes(xml=hml_xml)
         if not conn:
             conn = duckdb.connect(db)
         self.conn = conn
@@ -32,6 +33,10 @@ class DuckBase:
             name = b[0]
             model = getattr(getattr(self.hml, b[1]), b[0])
             self.create(name, model)
+
+    @classmethod
+    def trim_xml_byes(cls, xml: bytes) -> bytes:
+        return xml.decode("utf-8").strip().encode("utf-8")
 
     def delete_existing_table(self, table_name: str) -> None:
         if self.conn.sql(
