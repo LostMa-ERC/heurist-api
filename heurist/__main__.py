@@ -13,7 +13,7 @@ from rich.progress import (
 
 from heurist.client import HeuristClient
 from heurist.components.database.database import Database
-from heurist.components.sql_models.sql_safety import SafeSQLName
+from heurist.doc import output_csv, Doc
 
 from .__version__ import __identifier__
 
@@ -38,18 +38,29 @@ def cli(ctx, database, login, password):
     default=["My record types"],
 )
 @click.option(
-    "-o", "--outdir", required=True, type=click.Path(file_okay=False, dir_okay=True)
+    "-o",
+    "--outdir",
+    default=Path("recordTypeArchitecture"),
+    required=False,
+    type=click.Path(file_okay=False, dir_okay=True),
+)
+@click.option(
+    "-t",
+    "--output-type",
+    required=True,
+    type=click.Choice(["csv", "html"], case_sensitive=False),
 )
 @click.pass_obj
-def doc(client, record_group, outdir):
+def doc(client, record_group, outdir, output_type):
     DIR = Path(outdir)
     DIR.mkdir(exist_ok=True)
-    namer = SafeSQLName()
     with Progress(
         TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
     ) as p:
         _ = p.add_task("Downloading architecture")
         xml = client.get_structure()
+        with open("CURRENT_HML.xml", "wb") as f:
+            f.write(xml)
         db = Database(hml_xml=xml, record_type_groups=record_group)
         record_types = list(db.managers_record_type.keys())
 
@@ -57,13 +68,27 @@ def doc(client, record_group, outdir):
         TextColumn("{task.description}"), BarColumn(), MofNCompleteColumn()
     ) as p:
         t = p.add_task("Describing record types", total=len(record_types))
-        for id in record_types:
-            r = db.describe_record_fields(id)
-            name = r.aggregate("rty_Name").fetchone()[0]
-            safe_name = SafeSQLName().create_table_name(name)
-            fp = DIR.joinpath(safe_name).with_suffix(".csv")
-            r.write_csv(file_name=str(fp), header=True)
-            p.advance(t)
+
+        if output_type == "csv":
+            for id in record_types:
+                output_csv(db=db, dir=DIR, id=id)
+                p.advance(t)
+
+        elif output_type == "html":
+            record_name_index = {
+                t[0]: t[1]
+                for t in db.conn.table("rty")
+                .select("rty_ID, rty_Name")
+                .order("rty_Name")
+                .fetchall()
+            }
+            doc = Doc(record_name_index=record_name_index, present_records=record_types)
+            fp = DIR.joinpath("recordTypes.html")
+            for rty in record_types:
+                rel = db.describe_record_fields(rty_ID=rty)
+                doc.add_record(rel)
+                p.advance(t)
+            doc.write(fp)
 
 
 @cli.command("dump")
