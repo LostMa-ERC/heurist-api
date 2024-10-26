@@ -3,6 +3,7 @@ from pathlib import Path
 from heurist.components.database.database import Database
 from heurist.components.sql_models.sql_safety import SafeSQLName
 from heurist.doc.html import Doc
+from heurist.doc.js import JavaScriptOutput
 
 
 def output_csv(db: Database, dir: Path, id: str):

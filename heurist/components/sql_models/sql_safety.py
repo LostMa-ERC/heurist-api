@@ -48,12 +48,13 @@ class SafeSQLName:
         return s
 
     @classmethod
-    def to_camel_case(cls, text: str) -> str:
-        s = text.replace("-", " ").replace("_", " ")
-        s = s.split()
+    def to_pascal_case(cls, text: str) -> str:
+        text_string = text.replace("-", " ").replace("_", " ")
+        words = text_string.split()
         if len(text) == 0:
             return text
-        return "".join(i.capitalize() for i in s)
+        capitalized_words = ["".join(w[0].capitalize() + w[1:] for w in words)]
+        return "".join(capitalized_words)
 
     def create_column_name(self, field_name: str, field_type: str) -> str:
         """_summary_
@@ -90,7 +91,7 @@ class SafeSQLName:
             str: _description_
         """
 
-        camel_case_name = self.to_camel_case(record_name)
+        camel_case_name = self.to_pascal_case(record_name)
         if camel_case_name.lower() in self.all_keywords:
             final_name = f"{camel_case_name}Table"
         else:

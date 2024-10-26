@@ -25,7 +25,6 @@ class DocHTMLTest(unittest.TestCase):
             .fetchall()
         ]
 
-    @unittest.skip("")
     def test_html_base(self):
         doc = Doc()
         self.assertIsNone(doc.indented_html)

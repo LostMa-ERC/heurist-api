@@ -13,7 +13,7 @@ from rich.progress import (
 
 from heurist.client import HeuristClient
 from heurist.components.database.database import Database
-from heurist.doc import output_csv, OutputHtml
+from heurist.doc import OutputHtml, output_csv, JavaScriptOutput
 
 from .__version__ import __identifier__
 
@@ -48,7 +48,7 @@ def cli(ctx, database, login, password):
     "-t",
     "--output-type",
     required=True,
-    type=click.Choice(["csv", "html"], case_sensitive=False),
+    type=click.Choice(["csv", "html", "js"], case_sensitive=False),
 )
 @click.pass_obj
 def doc(client, record_group, outdir, output_type):
@@ -81,6 +81,12 @@ def doc(client, record_group, outdir, output_type):
                 html_builder(rty)
                 p.advance(t)
             html_builder.write(fp=fp)
+
+        elif output_type == "js":
+            js_builder = JavaScriptOutput(dir=DIR, db=db, record_types=record_types)
+            for rty in record_types:
+                js_builder(rty_ID=rty)
+                p.advance(t)
 
 
 @cli.command("dump")
