@@ -60,8 +60,6 @@ def doc(client, record_group, outdir, output_type, react_hash_router):
     ) as p:
         _ = p.add_task("Downloading architecture")
         xml = client.get_structure()
-        with open("CURRENT_HML.xml", "wb") as f:
-            f.write(xml)
         db = Database(hml_xml=xml, record_type_groups=record_group)
         record_types = list(db.managers_record_type.keys())
 
