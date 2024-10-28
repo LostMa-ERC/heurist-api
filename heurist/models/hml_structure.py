@@ -1,11 +1,10 @@
-from collections import namedtuple
-
 from pydantic_xml import BaseXmlModel, element
 
 from heurist.models.DetailTypes import DetailTypes as DetailTypesModel
 from heurist.models.RecStructure import RecStructure as RecStructureModel
 from heurist.models.RecTypeGroups import RecTypeGroups as RecTypeGroupsModel
 from heurist.models.RecTypes import RecTypes as RecTypesModel
+from heurist.models.Terms import Terms as TermsModel
 
 
 class HMLStructure(BaseXmlModel, tag="hml_structure", search_mode="unordered"):
@@ -29,6 +28,4 @@ class HMLStructure(BaseXmlModel, tag="hml_structure", search_mode="unordered"):
     RecStructure: RecStructureModel = element(tag="RecStructure")
     RecTypes: RecTypesModel = element(tag="RecTypes")
     RecTypeGroups: RecTypeGroupsModel = element(tag="RecTypeGroups")
-
-
-# ModelNamedTuple = namedtuple("ModelNamedTuple", field_names=["name", "array"])
+    Terms: TermsModel = element(tag="Terms")

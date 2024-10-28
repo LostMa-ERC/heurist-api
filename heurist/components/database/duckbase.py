@@ -28,6 +28,7 @@ class DuckBase:
             ("rst", "RecStructure"),
             ("rty", "RecTypes"),
             ("dty", "DetailTypes"),
+            ("trm", "Terms"),
         ]
         for b in basics:
             name = b[0]
