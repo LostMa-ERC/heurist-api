@@ -1,13 +1,22 @@
-from heurist.doc.html import Doc
-from lxml import etree
-from heurist.components.sql_models.sql_safety import SafeSQLName
-from heurist.doc.js.constants import BASE
-from heurist.components.database.database import Database
+import re
 from pathlib import Path
+
+from lxml import etree
+
+from heurist.components.database.database import Database
+from heurist.components.sql_models.sql_safety import SafeSQLName
+from heurist.doc.html import Doc
+from heurist.doc.js.constants import BASE
 
 
 class JavaScriptOutput:
-    def __init__(self, dir: Path, db: Database, record_types: list) -> None:
+    def __init__(
+        self,
+        dir: Path,
+        db: Database,
+        record_types: list,
+        react_hash_router: bool = False,
+    ) -> None:
         self.dir = dir
         self.db = db
         self.present_records = record_types
@@ -21,6 +30,27 @@ class JavaScriptOutput:
         self.doc = Doc(
             record_name_index=self.record_name_index, present_records=record_types
         )
+        self.react_hash_router = react_hash_router
+
+    @staticmethod
+    def change_to_hashlink(s: str) -> str:
+        """_summary_
+
+        Examples:
+            >>> s = '<td><a className="link" href="#102">storyverse</a></td><td><a className="link" href="#103">story</a></td>'
+            >>> JavaScriptOutput.change_to_hashlink(s)
+            '<td><HashLink to="#102">storyverse</HashLink></td><td><HashLink to="#103">story</HashLink></td>'
+
+        Args:
+            s (str): _description_
+
+        Returns:
+            str: _description_
+        """
+
+        pattern = re.compile(r'<a className="link" href=("#\w+")>(\w+)<\/a>')
+        repl = "<HashLink to=\\1>\\2</HashLink>"
+        return re.sub(pattern=pattern, repl=repl, string=s)
 
     @staticmethod
     def convert_html_to_jsx(s: str) -> str:
@@ -56,6 +86,16 @@ class JavaScriptOutput:
 
         js_string = BASE.format(function_name=component_name, html_block=html_string)
         clean_string = self.convert_html_to_jsx(js_string)
+
+        # If using react hash router, change <a> link to <HashLink> for intra-page links
+        if self.react_hash_router:
+            clean_hash_router_string = self.change_to_hashlink(clean_string)
+            # If the JavaScript requires HashLink, import the module
+            if clean_string != clean_hash_router_string:
+                clean_string = (
+                    "import { HashLink } from 'react-router-hash-link'\n\n"
+                    + clean_hash_router_string
+                )
 
         fp = self.dir.joinpath(f"{component_name}.js")
         with open(fp, "w") as f:
