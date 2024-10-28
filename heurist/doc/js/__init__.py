@@ -6,7 +6,13 @@ from lxml import etree
 from heurist.components.database.database import Database
 from heurist.components.sql_models.sql_safety import SafeSQLName
 from heurist.doc.html import Doc
-from heurist.doc.js.constants import BASE
+from heurist.doc.html.constants import Collapse, AriaExpanded, OnClick
+from heurist.doc.js.constants import (
+    BASE,
+    REACT_USE_STATE,
+    REACT_IMPORT,
+    HASHROUTER_IMPORT,
+)
 
 
 class JavaScriptOutput:
@@ -53,7 +59,7 @@ class JavaScriptOutput:
         return re.sub(pattern=pattern, repl=repl, string=s)
 
     @staticmethod
-    def convert_html_to_jsx(s: str) -> str:
+    def convert_classname(s: str) -> str:
         """_summary_
         style="font-size:24px;text-transform:uppercase">
         style={{fontSize: "24px", textTransform: "uppercase"}}
@@ -65,10 +71,30 @@ class JavaScriptOutput:
             str: _description_
         """
 
+        # Replace class with className
         s = s.replace("class=", "className=")
+
+        # Replace styling with jsx version
         fixed_card_styling = 'style="position: sticky;top: 0"'
         jsx_styling = r'style={{position: "sticky", top: "0"}}'
         s = s.replace(fixed_card_styling, jsx_styling)
+        return s
+
+    @staticmethod
+    def convert_react_button(s: str) -> str:
+        # Replace stand-ins for button with JavaScript
+        pattern = OnClick.placeholder
+        repl = OnClick.real
+        s = s.replace(pattern, repl)
+
+        pattern = AriaExpanded.placeholder
+        repl = AriaExpanded.real
+        s = s.replace(pattern, repl)
+
+        pattern = Collapse.placeholder
+        repl = Collapse.real
+        s = s.replace(pattern, repl)
+
         return s
 
     def __call__(self, rty_ID: int):
@@ -80,23 +106,36 @@ class JavaScriptOutput:
         component_name = SafeSQLName().create_table_name(name)
 
         # Convert the information into an HTML block
-        elem = self.doc.build_record(rel=rel)
+        elem = self.doc.build_record(rel=rel, react_bootstrap=self.react_hash_router)
         etree.indent(elem)
         html_string = etree.tostring(element_or_tree=elem).decode()
 
-        js_string = BASE.format(function_name=component_name, html_block=html_string)
-        clean_string = self.convert_html_to_jsx(js_string)
+        # Replace class with className
+        clean_string = self.convert_classname(html_string)
+        imports = ""
+        js_script = ""
 
-        # If using react hash router, change <a> link to <HashLink> for intra-page links
+        # Replace placeholders for React App / Bootstrap modules
         if self.react_hash_router:
+            # Change hash router
             clean_hash_router_string = self.change_to_hashlink(clean_string)
-            # If the JavaScript requires HashLink, import the module
             if clean_string != clean_hash_router_string:
-                clean_string = (
-                    "import { HashLink } from 'react-router-hash-link'\n\n"
-                    + clean_hash_router_string
-                )
+                imports += HASHROUTER_IMPORT
+                clean_string = clean_hash_router_string
+            # Change react button attributes
+            clean_react_button_string = self.convert_react_button(clean_string)
+            if clean_string != clean_react_button_string:
+                imports += REACT_IMPORT
+                clean_string = clean_react_button_string
+                js_script = REACT_USE_STATE
+
+        jsx = BASE.format(
+            function_name=component_name,
+            html_block=clean_string,
+            imports=imports,
+            js_script=js_script,
+        )
 
         fp = self.dir.joinpath(f"{component_name}.js")
         with open(fp, "w") as f:
-            f.write(clean_string)
+            f.write(jsx)

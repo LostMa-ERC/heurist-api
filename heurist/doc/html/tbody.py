@@ -1,44 +1,53 @@
 from duckdb import DuckDBPyRelation
 from lxml import etree
 
-from heurist.doc.html.constants import DataField
+from heurist.doc.html.data_row import SectionBlock, TableRow
 
 
 class TBody:
-    cols = ", ".join(DataField.__annotations__)
 
     def __init__(
-        self, rel: DuckDBPyRelation, record_name_index: dict, present_records: list
+        self,
+        rel: DuckDBPyRelation,
+        record_name_index: dict,
+        present_records: list,
     ) -> None:
-        rel = rel.filter("dty_Type NOT LIKE 'separator'")
-        sections = rel.aggregate("sec, min(rst_DisplayOrder) as m").order("m")
-        self.sections = [t[0] for t in sections.fetchall()]
-        self.fields = rel.select(self.cols)
         self.record_name_index = record_name_index
         self.present_records = present_records
+        self.rel = rel.filter("dty_Type NOT LIKE 'separator'")
+        self.sections = [
+            t[0]
+            for t in self.rel.aggregate("sec, min(rst_DisplayOrder) as m")
+            .order("m")
+            .fetchall()
+        ]
+        self.rty_ID = rel.select("rty_ID").limit(1).fetchone()[0]
 
-    def build(self) -> etree.Element:
+    def build(self, react_bootstrap: bool = False) -> etree.Element:
         tbody = etree.Element("tbody")
 
         for sec in self.sections:
-            fields_in_section = [
-                DataField.load_from_row(r)
-                for r in self.fields.filter(f"sec LIKE '{sec}'")
-                .select(self.cols)
-                .fetchall()
-            ]
-            rowspan = len(fields_in_section)
-            tr = fields_in_section[0].convert_to_first_row(
-                rowspan=rowspan,
+            sb = SectionBlock(section=sec, rel=self.rel)
+
+            # First row
+            tr = TableRow(
+                row=sb.first_row,
                 record_name_index=self.record_name_index,
                 present_records=self.present_records,
+                react_bootstrap=react_bootstrap,
             )
+            tr = tr.build_first_row(rowspan=sb.len)
             tbody.append(tr)
-            for row in fields_in_section[1:]:
-                tr = row.convert_n_row(
+
+            # Other rows
+            for row in sb.rows:
+                tr = TableRow(
+                    row=row,
                     record_name_index=self.record_name_index,
                     present_records=self.present_records,
+                    react_bootstrap=react_bootstrap,
                 )
+                tr = tr.build_main_columns()
                 tbody.append(tr)
 
         return tbody

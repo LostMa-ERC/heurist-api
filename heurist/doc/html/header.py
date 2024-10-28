@@ -10,7 +10,7 @@ class Header:
             "div",
             **{
                 "class": "card bg-light mb-3",
-                "style": "position: sticky;top: 0",
+                # "style": "position: sticky;top: 0",
             },
         )
         self.body = etree.SubElement(self.root, "div", **{"class": "card-body"})

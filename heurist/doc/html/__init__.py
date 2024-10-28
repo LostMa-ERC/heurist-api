@@ -25,10 +25,12 @@ class Doc:
         with open(fp, "w") as f:
             f.write(self.indented_html)
 
-    def build_record(self, rel: DuckDBPyRelation) -> etree.Element:
+    def build_record(
+        self, rel: DuckDBPyRelation, react_bootstrap: bool = False
+    ) -> etree.Element:
         # Add container for the record type to the page's body
         rty_ID = rel.select("rty_ID").limit(1).fetchone()[0]
-        div = etree.Element("div", **{"class": "container-lg", "id": str(rty_ID)})
+        div = etree.Element("div", **{"class": "container-fluid", "id": str(rty_ID)})
 
         # Header that describes the record type
         header = Header(rel=rel)
@@ -44,7 +46,7 @@ class Doc:
         )
 
         # First row of the table, column headers
-        thead = THead(rel=rel).build_header()
+        thead = THead(rel=rel, react_bootstrap=react_bootstrap).build_header()
         table.append(thead)
 
         # Remaining rows
@@ -52,7 +54,7 @@ class Doc:
             rel=rel.order("rst_DisplayOrder"),
             record_name_index=self.record_name_index,
             present_records=self.present_records,
-        ).build()
+        ).build(react_bootstrap=react_bootstrap)
         table.append(tbody)
 
         # Return the container
