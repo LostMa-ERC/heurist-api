@@ -13,7 +13,7 @@ from rich.progress import (
 
 from heurist.client import HeuristClient
 from heurist.components.database.database import Database
-from heurist.doc import OutputHtml, output_csv, JavaScriptOutput
+from heurist.doc import output_csv, output_json
 
 from .__version__ import __identifier__
 
@@ -23,12 +23,20 @@ from .__version__ import __identifier__
 @click.option("-d", "--database", type=click.STRING)
 @click.option("-l", "--login", type=click.STRING)
 @click.option("-p", "--password", type=click.STRING)
+@click.option("--testing", required=False, default=False, is_flag=True)
 @click.pass_context
-def cli(ctx, database, login, password):
-    ctx.obj = HeuristClient(database_name=database, login=login, password=password)
+def cli(ctx, database, login, password, testing):
+    ctx.ensure_object(dict)
+
+    ctx.obj["TESTING"] = testing
+    ctx.obj["CLIENT"] = HeuristClient(
+        database_name=database, login=login, password=password
+    )
 
 
-@cli.command("doc")
+@cli.command(
+    "doc", help="Download and parse the schema of record types in the database."
+)
 @click.option(
     "-r",
     "--record-group",
@@ -36,61 +44,65 @@ def cli(ctx, database, login, password):
     type=click.STRING,
     multiple=True,
     default=["My record types"],
+    show_default=True,
+    help="Group name of the record types to be described. Can be declared multiple times for multiple groups.",
 )
 @click.option(
     "-o",
     "--outdir",
-    default=Path("recordTypeArchitecture"),
     required=False,
     type=click.Path(file_okay=False, dir_okay=True),
+    help="Path to the directory in which the files will be written. Defaults to name of the database + '_schema'.",
 )
 @click.option(
     "-t",
     "--output-type",
     required=True,
-    type=click.Choice(["csv", "html", "js"], case_sensitive=False),
+    type=click.Choice(["csv", "json"], case_sensitive=False),
+    help="Data format in which the schema will be described. csv = 1 CSV file for each record type. json = 1 file that lists all records together",
 )
-@click.option("--react-hash-router", required=False, default=False, is_flag=True)
 @click.pass_obj
-def doc(client, record_group, outdir, output_type, react_hash_router):
+def doc(ctx, record_group, outdir, output_type):
+    client = ctx["CLIENT"]
+    testing = ctx["TESTING"]
+    # Set up the output directory
+    if not outdir:
+        outdir = f"{client.database_name}_schema"
     DIR = Path(outdir)
     DIR.mkdir(exist_ok=True)
-    with Progress(
-        TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
-    ) as p:
-        _ = p.add_task("Downloading architecture")
-        xml = client.get_structure()
-        db = Database(hml_xml=xml, record_type_groups=record_group)
+
+    # Get the database's schemas
+    if not testing:
+        with Progress(
+            TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
+        ) as p:
+            _ = p.add_task("Downloading schemas")
+            xml = client.get_structure()
+            db = Database(hml_xml=xml, record_type_groups=record_group)
+            record_types = list(db.managers_record_type.keys())
+    else:
+        from examples import DB_STRUCTURE_XML
+
+        db = Database(hml_xml=DB_STRUCTURE_XML, record_type_groups=record_group)
         record_types = list(db.managers_record_type.keys())
 
+    # Describe each targeted record type
     with Progress(
         TextColumn("{task.description}"), BarColumn(), MofNCompleteColumn()
     ) as p:
+        descriptions = []
         t = p.add_task("Describing record types", total=len(record_types))
+        for id in record_types:
+            descriptions.append(db.describe_record_fields(rty_ID=id))
+            p.advance(t)
 
-        if output_type == "csv":
-            for id in record_types:
-                output_csv(db=db, dir=DIR, id=id)
-                p.advance(t)
+    # Output the descriptions according to the desired data format
+    if output_type == "csv":
+        output_csv(dir=DIR, descriptions=descriptions)
 
-        elif output_type == "html":
-            fp = DIR.joinpath("recordTypes.html")
-            html_builder = OutputHtml(db=db, record_types=record_types)
-            for rty in record_types:
-                html_builder(rty)
-                p.advance(t)
-            html_builder.write(fp=fp)
-
-        elif output_type == "js":
-            js_builder = JavaScriptOutput(
-                dir=DIR,
-                db=db,
-                record_types=record_types,
-                react_hash_router=react_hash_router,
-            )
-            for rty in record_types:
-                js_builder(rty_ID=rty)
-                p.advance(t)
+    elif output_type == "json":
+        outfile = DIR.joinpath("recordTypes.json")
+        output_json(descriptions=descriptions, fp=outfile)
 
 
 @cli.command("dump")
@@ -109,7 +121,8 @@ def doc(client, record_group, outdir, output_type, react_hash_router):
     "-o", "--outdir", required=False, type=click.Path(file_okay=False, dir_okay=True)
 )
 @click.pass_obj
-def dump(client, filepath, record_group, outdir):
+def dump(ctx, filepath, record_group, outdir):
+    client = ctx["CLIENT"]
     # Export the Heurist database's structure
     with Progress(
         TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
