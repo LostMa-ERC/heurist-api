@@ -30,7 +30,9 @@ class Doc:
     ) -> etree.Element:
         # Add container for the record type to the page's body
         rty_ID = rel.select("rty_ID").limit(1).fetchone()[0]
-        div = etree.Element("div", **{"class": "container-fluid", "id": str(rty_ID)})
+        div = etree.Element(
+            "div", **{"class": "container-fluid recordTypeProfile", "id": str(rty_ID)}
+        )
 
         # Header that describes the record type
         header = Header(rel=rel)
