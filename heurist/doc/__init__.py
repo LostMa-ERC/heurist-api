@@ -3,6 +3,7 @@ from pathlib import Path
 import duckdb
 
 from heurist.components.sql_models.sql_safety import SafeSQLName
+from heurist.doc.json import output_json
 
 
 def output_csv(dir: Path, descriptions: list[duckdb.DuckDBPyRelation]) -> None:
