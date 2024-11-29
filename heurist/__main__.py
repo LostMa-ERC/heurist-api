@@ -27,10 +27,9 @@ from .__version__ import __identifier__
 @click.pass_context
 def cli(ctx, database, login, password, testing):
     ctx.ensure_object(dict)
-
     ctx.obj["TESTING"] = testing
     ctx.obj["CLIENT"] = HeuristClient(
-        database_name=database, login=login, password=password
+        database_name=database, login=login, password=password, testing=testing
     )
 
 
