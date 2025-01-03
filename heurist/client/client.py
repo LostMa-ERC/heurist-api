@@ -132,6 +132,7 @@ class HeuristAPIClientWrapper(HeuristAPIClient):
         database_name: str | None = None,
         login: str | None = None,
         password: str | None = None,
+        testing: bool = False,
     ) -> None:
         """Build the HeuristAPIClient from declared or environment variables.
 
@@ -141,13 +142,18 @@ class HeuristAPIClientWrapper(HeuristAPIClient):
             password (str | None): Heurist user's password.
         """
 
-        loaded_env_vars = load_dotenv(find_dotenv())
-        if not loaded_env_vars:
-            load_dotenv(find_dotenv(Path.cwd().joinpath(".env")))
-        if not database_name:
-            database_name = os.environ["DB_NAME"]
-        if not login:
-            login = os.environ["DB_LOGIN"]
-        if not password:
-            password = os.environ["DB_PASSWORD"]
+        if not testing:
+            loaded_env_vars = load_dotenv(find_dotenv())
+            if not loaded_env_vars:
+                load_dotenv(find_dotenv(Path.cwd().joinpath(".env")))
+            if not database_name:
+                database_name = os.environ["DB_NAME"]
+            if not login:
+                login = os.environ["DB_LOGIN"]
+            if not password:
+                password = os.environ["DB_PASSWORD"]
+        else:
+            database_name = "test_db"
+            login = "test_user"
+            password = "test_password"
         super().__init__(database_name, login, password)
