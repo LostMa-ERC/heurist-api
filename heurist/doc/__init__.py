@@ -1,9 +1,10 @@
+import json
 from pathlib import Path
 
 import duckdb
 
 from heurist.components.sql_models.sql_safety import SafeSQLName
-from heurist.doc.json import output_json
+from heurist.doc.json_tools.converter import convert_rty_description
 
 
 def output_csv(dir: Path, descriptions: list[duckdb.DuckDBPyRelation]) -> None:
@@ -14,24 +15,11 @@ def output_csv(dir: Path, descriptions: list[duckdb.DuckDBPyRelation]) -> None:
         rel.write_csv(file_name=str(fp), header=True)
 
 
-# class OutputHtml:
-#     def __init__(self, db: Database, record_types: list) -> None:
-#         self.db = db
-#         self.present_records = record_types
-#         self.record_name_index = {
-#             t[0]: t[1]
-#             for t in db.conn.table("rty")
-#             .select("rty_ID, rty_Name")
-#             .order("rty_Name")
-#             .fetchall()
-#         }
-#         self.doc = Doc(
-#             record_name_index=self.record_name_index, present_records=record_types
-#         )
+def output_json(descriptions: list[duckdb.DuckDBPyRelation], fp: Path) -> None:
+    data = {}
+    for desc in descriptions:
+        d = convert_rty_description(description=desc)
+        data.update(d)
 
-#     def __call__(self, rty_ID: int):
-#         rel = self.db.describe_record_fields(rty_ID=rty_ID)
-#         self.doc.add_record(rel)
-
-#     def write(self, fp: Path):
-#         self.doc.write(fp)
+    with open(fp, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)

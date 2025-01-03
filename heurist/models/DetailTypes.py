@@ -24,10 +24,10 @@ class DetailTypes(BaseXmlModel):
         1
         >>> singular_pointer = [d for d in hml.DetailTypes.dty if d.dty_ID == 1295][0]
         >>> singular_pointer.dty_PtrTargetRectypeIDs
-        '101'
+        [101]
         >>> plural_pointer = [d for d in hml.DetailTypes.dty if d.dty_ID == 1256][0]
         >>> plural_pointer.dty_PtrTargetRectypeIDs
-        '101|105|106'
+        [101, 105, 106]
 
     """
 

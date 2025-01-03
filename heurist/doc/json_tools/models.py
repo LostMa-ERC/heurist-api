@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 from pydantic.functional_validators import BeforeValidator
@@ -27,10 +27,13 @@ class DTY(BaseModel):
     rst_DisplayHelpText: str
     dty_ID: int
     dty_Type: str
+    dty_PtrTargetRectypeIDs: Optional[List[int]]
     dty_SemanticReferenceURL: Optional[str]
     trm_TreeID: Optional[int]
     trm_Label: Optional[str]
     trm_Description: Optional[str]
+    rst_RequirementType: str
+    rst_MaxValues: int
     vocabTerms: Optional[VocabTerms]
 
 

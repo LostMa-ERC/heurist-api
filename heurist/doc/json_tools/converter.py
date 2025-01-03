@@ -1,7 +1,7 @@
 import duckdb
 
 from heurist.components.sql_models import output_dicts
-from heurist.doc.json.models import DTY, RTY
+from heurist.doc.json_tools.models import DTY, RTY
 
 
 def convert_rty_description(description: duckdb.DuckDBPyRelation) -> dict:

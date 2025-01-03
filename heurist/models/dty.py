@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Literal, Optional
+from typing import Literal, Optional, List
 
 from pydantic import field_validator
 from pydantic_xml import BaseXmlModel, element
@@ -69,8 +69,8 @@ class DTY(BaseXmlModel, tag="dty", search_mode="unordered"):
     dty_DetailTypeGroupID: int = element()
     dty_OrderInGroup: int = element()
     dty_JsonTermIDTree: Optional[str] = element(default=None)
-    dty_TermIDTreeNonSelectableIDs: Optional[str] = element(default=None)
-    dty_PtrTargetRectypeIDs: Optional[str] = element(default=None)
+    dty_TermIDTreeNonSelectableIDs: List[Optional[int]] = element(default=[])
+    dty_PtrTargetRectypeIDs: List[Optional[int]] = element(default=[])
     dty_FieldSetRectypeID: Optional[int] = element(default=None)
     dty_ShowInLists: bool = element()
     dty_NonOwnerVisibility: Literal["hidden", "viewable", "public"] = element()
@@ -78,12 +78,18 @@ class DTY(BaseXmlModel, tag="dty", search_mode="unordered"):
     dty_LocallyModified: bool = element()
     dty_SemanticReferenceURL: Optional[str] = element(default=None)
 
-    @field_validator("dty_TermIDTreeNonSelectableIDs")
+    @field_validator("dty_TermIDTreeNonSelectableIDs", mode="before")
     @classmethod
-    def validate_selectable_ids(cls, input_value: str | None) -> str:
-        return split_ids(input=input_value)
+    def validate_selectable_ids(cls, input_value: str | None) -> list:
+        if input_value:
+            return split_ids(input=input_value)
+        else:
+            return []
 
-    @field_validator("dty_PtrTargetRectypeIDs")
+    @field_validator("dty_PtrTargetRectypeIDs", mode="before")
     @classmethod
-    def validate_rectype_ids(cls, input_value: str | None) -> str:
-        return split_ids(input=input_value)
+    def validate_rectype_ids(cls, input_value: str | None) -> list:
+        if input_value:
+            return split_ids(input=input_value)
+        else:
+            return []

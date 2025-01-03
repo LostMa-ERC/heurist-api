@@ -2,7 +2,7 @@ import unittest
 
 from examples import DB_STRUCTURE_XML
 from heurist.components.database.database import Database
-from heurist.doc.json import convert_rty_description
+from heurist.doc import convert_rty_description
 
 
 class DocJSONTest(unittest.TestCase):
