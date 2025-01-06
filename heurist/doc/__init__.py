@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from pathlib import Path
 
 import duckdb
@@ -16,10 +17,12 @@ def output_csv(dir: Path, descriptions: list[duckdb.DuckDBPyRelation]) -> None:
 
 
 def output_json(descriptions: list[duckdb.DuckDBPyRelation], fp: Path) -> None:
-    data = {}
+    date_string = date.today().isoformat()
+    data = {"lastModified": date_string, "items": []}
     for desc in descriptions:
-        d = convert_rty_description(description=desc)
-        data.update(d)
-
+        kv_dict = convert_rty_description(description=desc)
+        for id, metadata in kv_dict.items():
+            d = {"id": id} | metadata
+            data["items"].append(d)
     with open(fp, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
