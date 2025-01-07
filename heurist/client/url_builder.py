@@ -9,6 +9,9 @@ from heurist.client.constants import (
     STRUCTURE_EXPORT_PATH,
 )
 
+COMMA = "%2C"
+COLON = "%3A"
+
 
 class URLBuilder:
     """Class to construct endpoints for the Huma-Num Heurist API."""
@@ -22,13 +25,42 @@ class URLBuilder:
         self.database_name = database_name
 
     @classmethod
-    def _join_parts(cls, *args) -> str:
+    def _join_queries(cls, *args) -> str:
         """_summary_
 
         Returns:
             str: _description_
         """
         return "&".join([a for a in args if a is not None])
+
+    @classmethod
+    def _join_list_items(cls, *args) -> str:
+        """_summary_
+
+        Examples:
+            >>> item1 = '{"filter"%3A"value"}'
+            >>> item2 = '{"filter"%3A"value"}'
+            >>> item3 = '{"filter"%3A"value"}'
+            >>> URLBuilder._join_list_items(item1, item2, item3)
+            '[{"filter"%3A"value"}%2C{"filter"%3A"value"}%2C{"filter"%3A"value"}]'
+
+        Returns:
+            str: _description_
+        """
+        start = "["
+        end = "]"
+        items = COMMA.join([a for a in args if a is not None])
+        return f"{start}{items}{end}"
+
+    @classmethod
+    def _make_filter_obj(cls, filter: str, value: str | int) -> str:
+        start = "{"
+        end = "}"
+        return f'{start}"{filter}"{COLON}"{value}"{end}'
+
+    @classmethod
+    def _join_comma_separated_values(cls, *args) -> str:
+        return COMMA.join([str(a) for a in args if a is not None])
 
     def get_db_structure(self) -> str:
         """
@@ -45,11 +77,14 @@ class URLBuilder:
         """
         db = f"?db={self.database_name}"
         version = "ll=H6Default"
-        path = self._join_parts(db, version)
+        path = self._join_queries(db, version)
         return f"{self.db_api}{path}"
 
     def get_records(
-        self, record_type_id: int, form: Literal["xml", "json"] = "xml"
+        self,
+        record_type_id: int,
+        form: Literal["xml", "json"] = "xml",
+        users: tuple = (),
     ) -> str:
         """Build a URL to retrieve records of a certain type.
 
@@ -62,7 +97,13 @@ class URLBuilder:
             >>> db = "mock_db"
             >>> builder = URLBuilder(db)
             >>> builder.get_records(102, form="json")
-            'https://heurist.huma-num.fr/heurist/hserv/controller/record_output.php?q=t%3A102&a=1&db=mock_db&depth=all&linkmode=direct_links&format=json&defs=0&extended=2'
+            'https://heurist.huma-num.fr/heurist/hserv/controller/record_output.php?q=[{"t"%3A"102"}%2C{"sortby"%3A"t"}]&a=1&db=mock_db&depth=all&linkmode=direct_links&format=json&defs=0&extended=2'
+
+            >>> db = "mock_db"
+            >>> builder = URLBuilder(db)
+            >>> builder.get_records(102, users=(2,16,))
+            'https://heurist.huma-num.fr/heurist/export/xml/flathml.php?q=[{"t"%3A"102"}%2C{"sortby"%3A"t"}%2C{"addedby"%3A"2%2C16"}]&a=1&db=mock_db&depth=all&linkmode=direct_links'
+
 
         Args:
             record_type_id (int): Heurist ID of the record type.
@@ -79,12 +120,23 @@ class URLBuilder:
 
         if form == "json":
             api = self.json_record_api
-            query = "?q=t%%3A%s" % (record_type_id)
             format_args = "format=json&defs=0&extended=2"
         else:
             api = self.xml_record_api
-            query = '?q=[{"t"%%3A"%s"}%%2C{"sortby"%%3A"t"}]' % (record_type_id)
             format_args = None
 
-        path = self._join_parts(query, a, db, depth, link_mode, format_args)
+        # Make the query based on parameters
+        record_type_filter = self._make_filter_obj(filter="t", value=record_type_id)
+        sortby_filter = self._make_filter_obj(filter="sortby", value="t")
+        if len(users) > 0:
+            user_string = self._join_comma_separated_values(*users)
+            users_filter = self._make_filter_obj(filter="addedby", value=user_string)
+        else:
+            users_filter = None
+        query_path = self._join_list_items(
+            record_type_filter, sortby_filter, users_filter
+        )
+        query = f"?q={query_path}"
+
+        path = self._join_queries(query, a, db, depth, link_mode, format_args)
         return f"{api}{path}"

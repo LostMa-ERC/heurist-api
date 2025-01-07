@@ -114,13 +114,20 @@ def doc(ctx, record_group, outdir, output_type):
     default=["My record types"],
 )
 @click.option(
+    "-u",
+    "--user",
+    required=False,
+    type=click.INT,
+    multiple=True,
+)
+@click.option(
     "-f", "--filepath", required=True, type=click.Path(file_okay=True, dir_okay=False)
 )
 @click.option(
     "-o", "--outdir", required=False, type=click.Path(file_okay=False, dir_okay=True)
 )
 @click.pass_obj
-def dump(ctx, filepath, record_group, outdir):
+def dump(ctx, filepath, record_group, user: tuple[int], outdir):
     client = ctx["CLIENT"]
     # Export the Heurist database's structure
     with Progress(
@@ -140,7 +147,7 @@ def dump(ctx, filepath, record_group, outdir):
         t = p.add_task("Get Records", total=len(database.managers_record_type.keys()))
         for record_type in database.managers_record_type.values():
             rty_ID = record_type.rty_ID
-            records = client.get_records(rty_ID)
+            records = client.get_records(rty_ID, users=user)
             p.advance(t)
             database.insert_records(record_type_id=rty_ID, records=records)
 

@@ -7,6 +7,10 @@ class ClientUnitTest(unittest.TestCase):
     def setUp(self) -> None:
         self.client = HeuristClient()
 
+    def test_user_filter(self):
+        records = self.client.get_records(record_type_id=102, users=(6,))
+        self.assertEqual(len(records), 11)
+
     def test_hml_export(self):
         hml_bytes = self.client.get_structure()
         self.assertIsInstance(hml_bytes, bytes)

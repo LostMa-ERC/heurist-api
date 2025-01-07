@@ -71,7 +71,10 @@ class HeuristAPIClient:
                 return response.content
 
     def get_records(
-        self, record_type_id: int, form: Literal["xml", "json"] = "json"
+        self,
+        record_type_id: int,
+        form: Literal["xml", "json"] = "json",
+        users: tuple[int] = (),
     ) -> bytes | list | None:
         """Request all records of a certain type and in a certain data format.
 
@@ -88,17 +91,28 @@ class HeuristAPIClient:
         Args:
             record_type_id (int): Heurist ID of targeted record type.
             form (Literal["xml", "json"], optional): Data format for requested records. Defaults to "json".
+            users (tuple): Array of IDs of users who added the target records.
 
         Returns:
             bytes | list | None: If XML, binary response returned from Heurist server, else JSON array.
         """
 
-        url = self.url_builder.get_records(record_type_id=record_type_id, form=form)
+        url = self.url_builder.get_records(
+            record_type_id=record_type_id, form=form, users=users
+        )
         if form == "json":
             content = self.get_response_content(url)
             json_string = content.decode("utf-8")
-            records = json.loads(json_string)["heurist"]["records"]
-            return [r for r in records if r["rec_RecTypeID"] == str(record_type_id)]
+            all_records = json.loads(json_string)["heurist"]["records"]
+            # Filter out linked records of a not the target type
+            correct_ids = [
+                r for r in all_records if r["rec_RecTypeID"] == str(record_type_id)
+            ]
+            # Filter out records by non-targeted users
+            if users and len(users) > 0:
+                return [r for r in correct_ids if int(r["rec_AddedByUGrpID"]) in users]
+            else:
+                return correct_ids
         else:
             return self.get_response_content(url)
 
