@@ -91,3 +91,9 @@ Export records from a record group other than "My record types" and save to a Du
 ```shell
 $ heurist dump --record-group "Bibliography" -f DATABASE.db
 ```
+
+Export records that were created by a certain user or users (`-u` or `--user`).
+
+```shell
+$ heurist dump -u 2 -u 3 -u 4 -f DATABASE.db
+```
