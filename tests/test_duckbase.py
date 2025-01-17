@@ -1,7 +1,6 @@
 import unittest
 
 from examples import DB_STRUCTURE_XML
-
 from heurist.components.database.duckbase import DuckBase
 
 
