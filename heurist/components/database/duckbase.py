@@ -105,12 +105,13 @@ SELECT
     dty_ID,
     dty_Name,
     dty_Type
-FROM rty
-INNER JOIN rst ON rst.rst_RecTypeID = rty.rty_ID
-INNER JOIN dty ON dty.dty_ID = rst.rst_DetailTypeID
+FROM rst
+INNER JOIN rty ON rst.rst_RecTypeID = rty.rty_ID
+INNER JOIN dty ON rst.rst_DetailTypeID = dty.dty_ID
 WHERE rty.rty_ID = {}
 AND dty.dty_Type NOT LIKE 'separator'
 AND dty.dty_Type NOT LIKE 'relmarker'
+ORDER BY rst.rst_DisplayOrder
 """.format(
                 rty_ID
             )
