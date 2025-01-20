@@ -4,7 +4,9 @@ from typing import Optional
 from pydantic import BaseModel, Field, create_model
 
 from heurist.components.heurist.convert_record_detail import (
-    HeuristDataType, HeuristRecordDetail)
+    HeuristDataType,
+    HeuristRecordDetail,
+)
 from heurist.components.sql_models.sql_safety import SafeSQLName
 
 
@@ -15,7 +17,7 @@ class RecordTypeModeler:
         self.table_name = SafeSQLName().create_table_name(record_name=rty_Name)
         self.model = self.to_pydantic_model(detail_dicts)
 
-    def parse_detail(self, kwargs:dict, detail: dict) -> None:
+    def parse_detail(self, kwargs: dict, detail: dict) -> None:
         """_summary_
 
         Args:
@@ -26,35 +28,38 @@ class RecordTypeModeler:
         dtype = HeuristDataType.to_pydantic(detail["dty_Type"])
         name = HeuristRecordDetail._fieldname(detail)
         kwargs.update(
-                {
-                    name: (
-                        dtype,
-                        Field(
-                            alias=detail["dty_Name"],
-                            validation_alias=name,
-                            serialization_alias=SafeSQLName().create_column_name(
-                                field_name=detail["dty_Name"],
-                                field_type=detail["dty_Type"],
-                            ),
-                            default=None,
-                            required=False,
+            {
+                name: (
+                    dtype,
+                    Field(
+                        alias=detail["rst_DisplayName"],
+                        validation_alias=name,
+                        serialization_alias=SafeSQLName().create_column_name(
+                            field_name=detail["rst_DisplayName"],
+                            field_type=detail["dty_Type"],
                         ),
-                    )
-                }
-            )
+                        default=None,
+                        required=False,
+                    ),
+                )
+            }
+        )
 
         if dtype == list[Optional[datetime]]:
             name = HeuristRecordDetail._fieldname(detail, temp=True)
-            sql_safe_name = SafeSQLName().create_column_name(
-                                field_name=detail["dty_Name"],
-                                field_type=detail["dty_Type"],
-                            ) + "_temporal"
+            sql_safe_name = (
+                SafeSQLName().create_column_name(
+                    field_name=detail["rst_DisplayName"],
+                    field_type=detail["dty_Type"],
+                )
+                + "_temporal"
+            )
             kwargs.update(
                 {
                     name: (
                         Optional[dict],
                         Field(
-                            alias=f"{detail["dty_Name"]}_TEMPORAL",
+                            alias=f"{detail["rst_DisplayName"]}_TEMPORAL",
                             validation_alias=name,
                             serialization_alias=sql_safe_name,
                             default=None,
@@ -70,7 +75,7 @@ class RecordTypeModeler:
 
         Examples:
             >>> # Example set of key-value pairs for a record that has one data field.
-            >>> detail_dicts = [{'dty_ID': 1, 'dty_Name': 'Name or Title', 'dty_Type': 'freetext'}]
+            >>> detail_dicts = [{'dty_ID': 1, 'rst_DisplayName': 'Name or Title', 'dty_Type': 'freetext'}]
             >>>
             >>> # Model the data for the record's details (data fields), in this case one data field.
             >>> rectype = RecordTypeModeler(rty_ID=101, rty_Name="test record", detail_dicts=detail_dicts)
@@ -82,7 +87,7 @@ class RecordTypeModeler:
         Args:
             detail_dicts (list[dict]): Details of a record type, including the following keys:
                 dty_ID,
-                dty_Name,
+                rst_DisplayName,
                 dty_Type
 
         Returns:
