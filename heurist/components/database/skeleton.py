@@ -1,13 +1,16 @@
 import duckdb
 import polars as pl
-from duckdb import DuckDBPyConnection
+from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic_xml import BaseXmlModel
 
 from heurist.components.sql_models.record_details import RecordTypeModeler
+from heurist.components.sql_models.select_record_structure import QUERY
 from heurist.models.hml_structure import HMLStructure
 
 
-class DuckBase:
+class DatabaseSkeleton:
+    """Base class for the ingesting and parsing a Heurist schema."""
+
     def __init__(
         self,
         hml_xml: bytes,
@@ -15,7 +18,7 @@ class DuckBase:
         db: str = ":memory:",
         save_structure: bool = False,
     ) -> None:
-        hml_xml = self.trim_xml_byes(xml=hml_xml)
+        hml_xml = self.trim_xml_bytes(xml=hml_xml)
         if not conn:
             conn = duckdb.connect(db)
         self.conn = conn
@@ -36,7 +39,7 @@ class DuckBase:
             self.create(name, model)
 
     @classmethod
-    def trim_xml_byes(cls, xml: bytes) -> bytes:
+    def trim_xml_bytes(cls, xml: bytes) -> bytes:
         return xml.decode("utf-8").strip().encode("utf-8")
 
     def delete_existing_table(self, table_name: str) -> None:
@@ -58,7 +61,7 @@ WHERE table_name like '{table_name}'
             >>> from examples import DB_STRUCTURE_XML
             >>>
             >>>
-            >>> db = DuckBase(hml_xml=DB_STRUCTURE_XML)
+            >>> db = DatabaseSkeleton(hml_xml=DB_STRUCTURE_XML)
             >>> target = db.hml.RecTypeGroups.rtg
             >>> db.create("rtg", target)
             Deleting existing table rtg
@@ -103,7 +106,7 @@ INNER JOIN rtg ON rty.rty_RecTypeGroupID = rtg.rtg_ID
             sql = """
 SELECT
     dty_ID,
-    dty_Name,
+    rst_DisplayName,
     dty_Type
 FROM rst
 INNER JOIN rty ON rst.rst_RecTypeID = rty.rty_ID
@@ -121,3 +124,16 @@ ORDER BY rst.rst_DisplayOrder
             yield RecordTypeModeler(
                 rty_ID=rty_ID, rty_Name=rty_Name, detail_dicts=rel.pl().to_dicts()
             )
+
+    def describe_record_fields(self, rty_ID: int) -> DuckDBPyRelation:
+        """Join the tables 'dty' (detail), 'rst' (record structure), 'rty' (record type)
+        to get all the relevant information for a specific record type, plus add the label
+        and description of the section / separator associated with each detail (if any).
+
+        Args:
+            rty_ID (int): ID of the targeted record type.
+
+        Returns:
+            DuckDBPyRelation: A DuckDB Python relation that can be queried or converted.
+        """
+        return self.conn.from_query(query=QUERY, params=[rty_ID])

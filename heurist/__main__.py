@@ -112,9 +112,17 @@ def doc(ctx, record_group, outdir, output_type):
 def dump(ctx, filepath, record_group, user: tuple[int], outdir):
     # Get context variable
     client = ctx["CLIENT"]
+    testing = ctx["TESTING"]
 
     # Run the dump command
-    dump_command(client, filepath, record_group, user, outdir)
+    if not testing:
+        dump_command(client, filepath, record_group, user, outdir)
+    else:
+        print(
+            "\nCannot run 'dump' command in debugging mode.\nClient must connect to a remote Heurist database.\n"
+        )
+        print("Exiting.")
+        exit()
 
 
 if __name__ == "__main__":
