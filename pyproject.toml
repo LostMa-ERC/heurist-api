@@ -53,19 +53,19 @@ dependencies = [
 dynamic = ["version"]
 
 [tool.setuptools]
-packages = ["heurist", "examples"]
+packages = ["src", "examples"]
 
 [tool.setuptools.dynamic]
-version = {attr = "heurist.VERSION"}
+version = {attr = "src.VERSION"}
 
 [tool.setuptools_scm]
 # Leave empty for the dynamic version metadata
 
 [project.scripts]
-heurist = "heurist.__main__:cli"
+heurist = "src.__main__:cli"
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "heurist"]
+testpaths = ["tests", "src"]
 addopts = "-v -ra -q --doctest-modules"
 log_cli = true
 log_cli_level = "INFO"

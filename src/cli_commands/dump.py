@@ -1,0 +1,60 @@
+"""CLI command for extracting, transforming, and loading remote Heurist data."""
+
+from pathlib import Path
+
+from rich.progress import (
+    BarColumn,
+    MofNCompleteColumn,
+    Progress,
+    SpinnerColumn,
+    TextColumn,
+    TimeElapsedColumn,
+)
+import duckdb
+from src.api_client import HeuristClient
+from src.database import LoadedDatabase
+
+
+def dump_command(
+    client: HeuristClient,
+    filepath: Path,
+    record_group: tuple,
+    user: tuple,
+    outdir: Path,
+):
+    # Export the Heurist database's structure
+    with Progress(
+        TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
+    ) as p:
+        _ = p.add_task("Get DB Structure")
+        xml = client.get_structure()
+
+    # Export individual record sets and insert into the DuckDB database
+    with duckdb.connect(filepath) as conn, Progress(
+        TextColumn("{task.description}"),
+        BarColumn(),
+        MofNCompleteColumn(),
+        TimeElapsedColumn(),
+    ) as p:
+        database = LoadedDatabase(
+            conn=conn, hml_xml=xml, record_type_groups=record_group
+        )
+        t = p.add_task("Get Records", total=len(database.managers_record_type.keys()))
+        for record_type in database.managers_record_type.values():
+            rty_ID = record_type.rty_ID
+            records = client.get_records(rty_ID, users=user)
+            p.advance(t)
+            database.insert_records(record_type_id=rty_ID, records=records)
+
+    # Show results of DuckDB database
+    with duckdb.connect(filepath) as new_conn:
+        tables = new_conn.sql("show tables;")
+        print("\nCreated the following tables")
+        print(tables)
+        if outdir:
+            outdir = Path(outdir)
+            outdir.mkdir(exist_ok=True)
+            for tup in tables.fetchall():
+                table_name = tup[0]
+                fp = outdir.joinpath(f"{table_name}.csv")
+                new_conn.table(table_name).sort("H-ID").write_csv(str(fp))

@@ -1,259 +1,266 @@
-[
-    {
-        "rec_ID": "45068",
-        "rec_RecTypeID": "106",
-        "rec_Title": "Abbaye de Clervaux (Clervaux, Luxembourg), TEST FUZZY DATE",
-        "rec_URL": null,
-        "rec_ScratchPad": null,
-        "rec_OwnerUGrpID": "0",
-        "rec_NonOwnerVisibility": "viewable",
-        "rec_URLLastVerified": null,
-        "rec_URLErrorMessage": null,
-        "rec_Added": "2024-09-09 08:00:15",
-        "rec_Modified": "2024-09-09 08:05:20",
-        "rec_AddedByUGrpID": "6",
-        "rec_Hash": null,
-        "rec_FlagTemporary": "0",
-        "details": [
+{
+    "heurist": {
+        "records": [
             {
-                "dty_ID": 1183,
-                "value": "9697",
-                "termLabel": "Action required",
-                "fieldName": "review_status",
-                "fieldType": "enum",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1248,
-                "value": "TEST DOCUMENT - DELETE",
-                "fieldName": "review_note",
-                "fieldType": "blocktext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1266,
-                "value": "9483",
-                "termLabel": "No",
-                "fieldName": "is_hypothetical",
-                "fieldType": "enum",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1285,
-                "value": {
-                    "start": {
-                        "earliest": "1280",
-                        "latest": "1282",
-                        "profile": "2"
+                "rec_ID": "48072",
+                "rec_RecTypeID": "101",
+                "rec_Title": "[fragmentary] dum (Middle Dutch) \"Jourdain de Blaye\" (verse, 1276 to 1350)",
+                "rec_URL": null,
+                "rec_ScratchPad": "",
+                "rec_OwnerUGrpID": "0",
+                "rec_NonOwnerVisibility": "viewable",
+                "rec_URLLastVerified": null,
+                "rec_URLErrorMessage": null,
+                "rec_Added": "2025-01-26 13:43:19",
+                "rec_Modified": "2025-01-26 13:51:36",
+                "rec_AddedByUGrpID": "13",
+                "rec_Hash": null,
+                "rec_FlagTemporary": "0",
+                "details": [
+                    {
+                        "dty_ID": 1090,
+                        "value": "9728",
+                        "termLabel": "dum (Middle Dutch)",
+                        "termCode": "dum",
+                        "fieldName": "language",
+                        "fieldType": "enum",
+                        "conceptID": ""
                     },
-                    "end": {
-                        "latest": "1310",
-                        "earliest": "1305"
+                    {
+                        "dty_ID": 1094,
+                        "value": "' Zij lijken daarmee een datering in het eerste kwart van de veertiende eeuw te suggereren.'",
+                        "fieldName": "date_freetext",
+                        "fieldType": "freetext",
+                        "conceptID": ""
                     },
-                    "comment": "some comment about the fuzzy date",
-                    "estMinDate": 1280,
-                    "estMaxDate": 1310.1231
-                },
-                "fieldName": "date_of_creation",
-                "fieldType": "date",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1290,
-                "value": {
-                    "id": "43713",
-                    "type": "12",
-                    "title": "Clervaux, (Luxembourg)",
-                    "hhash": null
-                },
-                "fieldName": "place_of_creation",
-                "fieldType": "resource",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1307,
-                "value": "TEST FUZZY DATE",
-                "fieldName": "current_shelfmark",
-                "fieldType": "freetext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1308,
-                "value": {
-                    "id": "43844",
-                    "type": "108",
-                    "title": "Abbaye de Clervaux (Clervaux, Luxembourg)",
-                    "hhash": null
-                },
-                "fieldName": "is_preserved_in",
-                "fieldType": "resource",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1312,
-                "value": "9498",
-                "termLabel": "No",
-                "fieldName": "collection_of_fragments",
-                "fieldType": "enum",
-                "conceptID": ""
+                    {
+                        "dty_ID": 1097,
+                        "value": {
+                            "id": "73",
+                            "type": "103",
+                            "title": "Jourdain de Blaye",
+                            "hhash": null
+                        },
+                        "fieldName": "is_expression_of",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1101,
+                        "value": "9477",
+                        "termLabel": "fragmentary",
+                        "fieldName": "tradition_status",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1103,
+                        "value": "9483",
+                        "termLabel": "No",
+                        "fieldName": "has_lost_older_version",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1166,
+                        "value": "4245",
+                        "fieldName": "length",
+                        "fieldType": "float",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1167,
+                        "value": "9779",
+                        "termLabel": "full rhyme",
+                        "fieldName": "rhyme_type",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1183,
+                        "value": "9697",
+                        "termLabel": "Action required",
+                        "fieldName": "review_status",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1244,
+                        "value": "Jourdain de Blaye",
+                        "fieldName": "preferred_name",
+                        "fieldType": "freetext",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1248,
+                        "value": "Add reference Kuiper & Biemans?",
+                        "fieldName": "review_note",
+                        "fieldType": "blocktext",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1255,
+                        "value": {
+                            "id": "47485",
+                            "type": "77",
+                            "title": "2023. 'Van kopiist tot boekbinder. Een kwantitatieve beschouwing van de manier waarop de Middelnederlandse ridderepiek is overgeleverd.'.",
+                            "hhash": null
+                        },
+                        "fieldName": "described_by_source",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1255,
+                        "value": {
+                            "id": "47482",
+                            "type": "73",
+                            "title": "Caers, Bram, Kestemont, Mike. Verslagen & Mededelingen van de KANTL 121: 1 (1 Jan 2011)",
+                            "hhash": null
+                        },
+                        "fieldName": "described_by_source",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1255,
+                        "value": {
+                            "id": "47484",
+                            "type": "73",
+                            "title": "Caers, Bram. TNTL 127: (1 Jan 2011)",
+                            "hhash": null
+                        },
+                        "fieldName": "described_by_source",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1255,
+                        "value": {
+                            "id": "47483",
+                            "type": "70",
+                            "title": "De handschriften van de Middelnederlandse ridderepiek (1988)",
+                            "hhash": null
+                        },
+                        "fieldName": "described_by_source",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1258,
+                        "value": "9763",
+                        "termLabel": "2. Probable (33%-66%)",
+                        "fieldName": "date_of_creation_certainty",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1265,
+                        "value": "9549",
+                        "termLabel": "verse",
+                        "fieldName": "literary_form",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1266,
+                        "value": "9483",
+                        "termLabel": "No",
+                        "fieldName": "is_hypothetical",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1267,
+                        "value": {
+                            "id": "672",
+                            "type": "101",
+                            "title": "[surviving] \"Jourdain de Blaye ou Blaive\" (1180 to 1300)",
+                            "hhash": null
+                        },
+                        "fieldName": "is_derived_from",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1269,
+                        "value": "https://www.arlima.net/il/jourdain_de_blaves.html",
+                        "fieldName": "described_at_URL",
+                        "fieldType": "freetext",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1270,
+                        "value": {
+                            "id": "47474",
+                            "type": "117",
+                            "title": "Other",
+                            "hhash": null
+                        },
+                        "fieldName": "specific_genre",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1285,
+                        "value": {
+                            "start": {
+                                "earliest": "1276"
+                            },
+                            "end": {
+                                "latest": "1350"
+                            },
+                            "profile": "1",
+                            "determination": "2",
+                            "estMinDate": 1276,
+                            "estMaxDate": 1350.1231
+                        },
+                        "fieldName": "date_of_creation",
+                        "fieldType": "date",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1286,
+                        "value": "Caers & Kestemont (2011), p. 32.",
+                        "fieldName": "date_of_creation_source",
+                        "fieldType": "blocktext",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1330,
+                        "value": {
+                            "id": "46305",
+                            "type": "118",
+                            "title": "Flemish (dum (Middle Dutch))",
+                            "hhash": null
+                        },
+                        "fieldName": "regional_writing_style",
+                        "fieldType": "resource",
+                        "conceptID": ""
+                    },
+                    {
+                        "dty_ID": 1331,
+                        "value": "9498",
+                        "termLabel": "No",
+                        "fieldName": "peripheral",
+                        "fieldType": "enum",
+                        "conceptID": ""
+                    }
+                ],
+                "rec_RecTypeName": "text"
             }
         ],
-        "rec_RecTypeName": "document"
-    },
-    {
-        "rec_ID": "45047",
-        "rec_RecTypeID": "106",
-        "rec_Title": "Bibliothèque nationale de France (Paris, France)\nArsenal, Ms-2983",
-        "rec_URL": null,
-        "rec_ScratchPad": null,
-        "rec_OwnerUGrpID": "0",
-        "rec_NonOwnerVisibility": "viewable",
-        "rec_URLLastVerified": null,
-        "rec_URLErrorMessage": null,
-        "rec_Added": "2024-09-05 18:29:29",
-        "rec_Modified": "2024-09-06 08:58:57",
-        "rec_AddedByUGrpID": "6",
-        "rec_Hash": null,
-        "rec_FlagTemporary": "0",
-        "details": [
-            {
-                "dty_ID": 1094,
-                "value": "Fin du XIIe-début du XIIIe siècle",
-                "fieldName": "date_freetext",
-                "fieldType": "freetext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1183,
-                "value": "9698",
-                "termLabel": "Open",
-                "fieldName": "review_status",
-                "fieldType": "enum",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1255,
-                "value": {
-                    "id": "45041",
-                    "type": "123",
-                    "title": "Bibliothèque nationale de France / Arsenal / 2983, \nArlima: 7965",
-                    "hhash": null
-                },
-                "fieldName": "described_by_source",
-                "fieldType": "resource",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1255,
-                "value": {
-                    "id": "45059",
-                    "type": "123",
-                    "title": "Ms-2983. Les Loherains, chanson de geste, par Jean de Flagy, \nBibliothèque nationale de France (Paris, France)",
-                    "hhash": null
-                },
-                "fieldName": "described_by_source",
-                "fieldType": "resource",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1266,
-                "value": "9483",
-                "termLabel": "No",
-                "fieldName": "is_hypothetical",
-                "fieldType": "enum",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1269,
-                "value": "https://data.biblissima.fr/w/Item:Q114644",
-                "fieldName": "semantic_reference_uri",
-                "fieldType": "freetext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1285,
-                "value": {
-                    "start": {
-                        "earliest": "1280"
-                    },
-                    "end": {
-                        "latest": "1400"
-                    },
-                    "estMinDate": 1280,
-                    "estMaxDate": 1400.1231
-                },
-                "fieldName": "date_of_creation",
-                "fieldType": "date",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1286,
-                "value": "Arlima",
-                "fieldName": "date_of_creation_source",
-                "fieldType": "blocktext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1307,
-                "value": "Ms-2983",
-                "fieldName": "current_shelfmark",
-                "fieldType": "freetext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1308,
-                "value": {
-                    "id": "43932",
-                    "type": "108",
-                    "title": "Bibliothèque nationale de France (Paris, France)",
-                    "hhash": null
-                },
-                "fieldName": "is_preserved_in",
-                "fieldType": "resource",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1309,
-                "value": "Arsenal",
-                "fieldName": "collection",
-                "fieldType": "freetext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1311,
-                "value": "Belles-lettres françaises, 180 (180 B. F)",
-                "fieldName": "old_shelfmark",
-                "fieldType": "freetext",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1312,
-                "value": "9498",
-                "termLabel": "No",
-                "fieldName": "collection_of_fragments",
-                "fieldType": "enum",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1313,
-                "value": {
-                    "id": "45061",
-                    "type": "126",
-                    "title": "Bibliothèque nationale de France (Paris, France) \nhttps://gallica.bnf.fr/ark:/12148/btv1b52518159w",
-                    "hhash": null
-                },
-                "fieldName": "digitization",
-                "fieldType": "resource",
-                "conceptID": ""
-            },
-            {
-                "dty_ID": 1326,
-                "value": "https://gallica.bnf.fr/ark:/12148/btv1b52518159w",
-                "fieldName": "digitization_freetext",
-                "fieldType": "freetext",
-                "conceptID": ""
+        "database": {
+            "id": "0",
+            "url": "https://heurist.huma-num.fr/heurist/",
+            "db": "jbcamps_gestes",
+            "rectypes": {
+                "101": {
+                    "name": "text",
+                    "code": "0-101",
+                    "count": 1
+                }
             }
-        ],
-        "rec_RecTypeName": "document"
+        }
     }
-]
+}
