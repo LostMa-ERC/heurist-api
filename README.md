@@ -1,67 +1,27 @@
-# Heurist API Client
+# Heurist Data Pipeline Tool
+![logo](./img/logo-transparent-1.png)
 
-The Heurist API Client command-line interface (CLI) lets you interact locally, in the form of simple CSV files and a file-based DuckDB database, with data that is stored and structured in a Heurist* database on a remote server.
+The Heurist Data Pipeline Tool sets you up to manipulate, transform, and/or analyse data in a Heurist* database. It performs an Extract, Transform, Load (ETL) process that delivers the data in an analysis-friendly format.
 
-\* Currently, only Heurist databases hosted on HumaNum's servers are supported.
+\* Currently, the ETL process's API only supports Heurist databases hosted on HumaNum's servers and requires the login credentials of someone with access to the database.
 
-## Output
+## Why build this?
 
-After running the dump command, you'll get 2 things:
+Heurist is a low-code, server-based solution to help researchers Create, Read, Update, and Delete records (aka, perform CRUD operations) in a relational database framework. In order to help non-technical users (i.e. historians, archeologists) quickly get to work entering and visualising their relational data, Heurist introduces a lot of complexity behind the scenes.
 
-1. A DuckDB database file with tables for all the relationship markers in the database and all the record types targeted for export.
-    - This is useful for conducting data analysis, validation, and enrichment using simple SQL.
-    - It's also useful if you want to embed the database file in a website or use with an API.
+But what about when you're done updating your database, and you want to analyse it? Or even integrate it with other parts of your data pipeline?
 
-2. CSV tables for the targeted record types and your database's relationship markers.
+Heurist is a good Online Transaction Processing (OLTP) database, but it's not such a great Online Analytic Processing (OLTP) database. You know what is great for analysis? [DuckDB](https://duckdb.org/)! Many modern data science tools integrate seamlessly with DuckDB. Plus it has a great [Python client](https://duckdb.org/docs/api/python/overview), which also allows analysts to interact with their data in Jupyter notebooks.
 
-## Justification
+The Heurist Data Pipeline Tool tool extracts, transforms, and loads your Heurist data in a local DuckDB database. You can then optionally export the loaded data in CSV files. Lastly, you can also export a summary of your Heurist database's schema as a JSON file, which can be parsed by JavaScript and integrated into a website, i.e. [https://lostma-erc.github.io/](https://lostma-erc.github.io/corpus/documentation/entities/101).
 
-At its core, Heurist is a relational database. However, when you look under the low-code, user-friendly hood, there's a lot going on. All of a record type's properties are not simple columns in a table. Therefore, exporting your database's records is not as simple as downloading a few CSV files. Heurist, however, does permit some database users to export certain information in the form of CSV files, but the process is meant to be executed from within a broswer and is not optimized for automated workflows.
+Final thoughts: This tool is most useful at the end of your data entry, when you want to bring your Heurist database down from the clouds and into new stages of analysis and/or development.
 
-### Resource field relationships
+## What do I need?
 
-Let's start with the simplest relation a Heurist record type can have to another record type (or a record of the same type). A record type's **resource field** directly relates the record to another record; this relationship is called a "foreign key" relation in typical relational database terminology. Thus, a single column in the exported record type's table can adequately contain the record type's **resource field** in the Heurist database.
+1. Install the Heurist Data Pipeline Tool in a new virtual Python environment (version 3.12 or greater) with `pip install git+https://github.com/LostMa-ERC/heurist-api`.
 
-`Record Type 101 : "Works"`
-|H-ID|title (text)|author H-ID (resource field)|
-|--|-----|--------------|
-|01|Book 1|02|
-
-`Record Type 102 : "People"`
-|H-ID|author (text)|
-|--|------|
-|02|Bublik|
-
-### Relationship marker relationships
-
-More complicated are Heurist's **relationship markers**. A relationship marker contains 2 pieces of information in one data field. One is the type of relation, which Heurist calls the "term." You define these in the relationship vocabulary tab. The other is the record that is the target of the relationship. Under the hood, Heurist manages this loaded relationship via the relationship marker record type (ID 1), in an intermediary table. In relational database terminology, we might call Heurist's intermediary table a "relational table."
-
-
-`Record Type 101 : "Works"`
-|H-ID|title (text)|author H-ID (resource field)|
-|--|-----|--------------|
-|01|Book 1|02|
-
-`Record Type 102 : "People"`
-|H-ID|author (text)|responsibility (relationship marker)|
-|----|-------------|-------------------|
-|02|Bublik|wrote Book 1|
-|03|Kotov|edited Book 1|
-
-`Record Type 1 : Relationship Markers`
-|source|target|term|
-|------|------|----|
-|02|01|wrote|
-|03|01|edited|
-
-Because the term of a record type's relationship marker can vary, the data is not simply written to a single column on a table. In the example above, the column "responibility" on the `People` table is not very useful in SQL because the bipartite information is stored as a string with no declared syntax. Therefore, our solution removes this column / data field and simply provides the relationship markers table. As an online platform, Heurist is designed to seamlessly manage this complexity inside a single data field, but when flattened to CSV files and tables, it poses a challenge.
-
-
-## Set up
-
-Install the client in a new virtual Python environment (version 3.12) with `pip install git+https://github.com/LostMa-ERC/heurist-api`.
-
-Save your Heurist login credentials in a `.env` file, directly accesible from where you will run the tool.
+2. Write and save your Heurist login credentials in a `.env` file, directly accesible from where you will run the tool.
 
 `.env`
 ```
@@ -70,29 +30,43 @@ DB_LOGIN=your.name
 DB_PASSWORD=your-password
 ```
 
-Alternatively, you can provide them as options after the command `heurist`, i.e. `heurist -d "your_database" -l "your.name" -p "your-password"`.
+> Alternatively, you can provide them as options after the command `heurist`, i.e. `heurist -d "your_database" -l "your.name" -p "your-password"`.
 
-## Run
+## How do I get my data?
 
-Export your records from the database to a DuckDB SQL table.
+Having provided the login credentials, either by declaring each option or having written them in a `.env` file at the root of where you're running the tool, you're ready to export your records.
+
+### Export to DB file
+
+To export your records from the Heurist database, saving them  in a DuckDB SQL database file, run the following:
 
 ```shell
 $ heurist dump -f DATABASE.db
 ```
 
-Export your records to a DuckDB SQL table and save the tables as CSV files in a directory (`OUTDIR/`).
+### Export to CSV files
+
+To export your records to a DuckDB SQL database and save the tables as CSV files in a directory (`OUTDIR/`), run the following:
 
 ```shell
 $ heurist dump -f DATABASE.db -o OUTDIR
 ```
 
-Export records from a record group other than "My record types" and save to a DuckDB SQL table. The default record type group is "My record types," in which most Heurist users define the record types for their database.
+### Export a specific record type group
+
+When you don't declare a `--record-group`, the Heurist Data Pipeline Tool will automatically export all of the databse's records that are of the types declared in the group "My record types."
+
+To export (and save in a DB file) records from your record types and another group, run the following:
 
 ```shell
-$ heurist dump --record-group "Bibliography" -f DATABASE.db
+$ heurist dump --record-group "My record types" --record-group "Bibliography" -f DATABASE.db
 ```
 
-Export records that were created by a certain user or users (`-u` or `--user`).
+### Export a specific user's records
+
+When you don't declare a specific `--user`, the Heurist Data Pipeline Tool will automatically export all records of the targeted record group type, regardless of who created them.
+
+To export (and save in a DB file) records that were created by a certain user or users (`-u` or `--user`), run the following:
 
 ```shell
 $ heurist dump -u 2 -u 3 -u 4 -f DATABASE.db
