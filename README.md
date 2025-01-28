@@ -1,5 +1,5 @@
 # Heurist Data Pipeline Tool
-![logo](./img/logo-transparent-1.png)
+![logo](./assets/logo-transparent-1.png)
 
 The Heurist Data Pipeline Tool sets you up to manipulate, transform, and/or analyse data in a Heurist* database. It performs an Extract, Transform, Load (ETL) process that delivers the data in an analysis-friendly format.
 
