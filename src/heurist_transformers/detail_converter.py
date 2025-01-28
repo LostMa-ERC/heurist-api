@@ -6,7 +6,7 @@ from src.heurist_transformers.date_handler import HeuristDateHandler
 from src.heurist_transformers.type_handler import HeuristDataType
 
 
-class HeuristRecordDetail:
+class RecordDetailConverter:
     """In Heurist, a record's "detail" is what is more commonly
     known as an attribute, dimension, or the value of a data field.
     """
@@ -27,7 +27,7 @@ class HeuristRecordDetail:
         >>>
         >>> record = RECORD_JSON["heurist"]["records"][0]
         >>> details = record["details"]
-        >>> [d for d in HeuristRecordDetail.flatten_details(details)]
+        >>> [d for d in RecordDetailConverter.flatten_details(details)]
         [{'DTY1244': 'Agolant'}, {'DTY1246': '54'}]
 
         Args:
@@ -85,7 +85,7 @@ class HeuristRecordDetail:
             >>> from examples import MEDIA_URL
             >>>
             >>>
-            >>> HeuristRecordDetail.file(MEDIA_URL)
+            >>> RecordDetailConverter.file(MEDIA_URL)
             'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg'
 
         Args:
@@ -105,7 +105,7 @@ class HeuristRecordDetail:
             >>> from examples import ENUM
             >>>
             >>>
-            >>> HeuristRecordDetail.enum(ENUM)
+            >>> RecordDetailConverter.enum(ENUM)
             'Disease'
 
         Args:
@@ -125,7 +125,7 @@ class HeuristRecordDetail:
             >>> from examples import POINT
             >>>
             >>>
-            >>> HeuristRecordDetail.geo(POINT)
+            >>> RecordDetailConverter.geo(POINT)
             'POINT(2.19726563 48.57478991)'
 
         Args:
@@ -147,14 +147,14 @@ class HeuristRecordDetail:
             >>> from examples import FUZZY_DATE
             >>>
             >>>
-            >>> HeuristRecordDetail.date(FUZZY_DATE)
+            >>> RecordDetailConverter.date(FUZZY_DATE)
             [datetime.datetime(1180, 1, 1, 0, 0), datetime.datetime(1250, 12, 31, 0, 0)]
             >>>
             >>>
             >>> from examples import SIMPLE_DATE
             >>>
             >>>
-            >>> HeuristRecordDetail.date(SIMPLE_DATE)
+            >>> RecordDetailConverter.date(SIMPLE_DATE)
             [datetime.datetime(2024, 3, 19, 0, 0), None]
 
         Args:
@@ -188,7 +188,7 @@ class HeuristRecordDetail:
             >>> from examples import RECORD_POINTER
             >>>
             >>>
-            >>> HeuristRecordDetail.resource(RECORD_POINTER)
+            >>> RecordDetailConverter.resource(RECORD_POINTER)
             '36'
 
         Args:

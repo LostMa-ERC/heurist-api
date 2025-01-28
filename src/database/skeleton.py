@@ -4,7 +4,7 @@ from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic_xml import BaseXmlModel
 
 from src.data_models.hml_structure import HMLStructure
-from src.sql_models.record_details import RecordTypeModeler
+from src.heurist_transformers.detail_modeler import RecordTypeModeler
 from src.sql_models.select_record_structure import QUERY
 
 

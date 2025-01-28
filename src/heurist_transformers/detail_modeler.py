@@ -3,9 +3,9 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, create_model
 
-from src.heurist_transformers.model_record_detail import (
+from src.heurist_transformers.detail_converter import (
     HeuristDataType,
-    HeuristRecordDetail,
+    RecordDetailConverter,
 )
 from src.sql_models.sql_safety import SafeSQLName
 
@@ -26,7 +26,7 @@ class RecordTypeModeler:
         """
 
         dtype = HeuristDataType.to_pydantic(detail["dty_Type"])
-        name = HeuristRecordDetail._fieldname(detail)
+        name = RecordDetailConverter._fieldname(detail)
         kwargs.update(
             {
                 name: (
@@ -46,7 +46,7 @@ class RecordTypeModeler:
         )
 
         if dtype == list[Optional[datetime]]:
-            name = HeuristRecordDetail._fieldname(detail, temp=True)
+            name = RecordDetailConverter._fieldname(detail, temp=True)
             sql_safe_name = (
                 SafeSQLName().create_column_name(
                     field_name=detail["rst_DisplayName"],

@@ -3,8 +3,8 @@ from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic import BaseModel
 
 from src.database.skeleton import DatabaseSkeleton
-from src.heurist_transformers.model_record_detail import HeuristRecordDetail
-from src.sql_models.record_details import RecordTypeModeler
+from src.heurist_transformers.detail_converter import RecordDetailConverter
+from src.heurist_transformers.detail_modeler import RecordTypeModeler
 
 
 class LoadedDatabase(DatabaseSkeleton):
@@ -42,7 +42,7 @@ class LoadedDatabase(DatabaseSkeleton):
         """
 
         modeled_records = []
-        DetailConverter = HeuristRecordDetail()
+        DetailConverter = RecordDetailConverter()
 
         for record in records:
             # Skip any records in the data set that are not targeted
