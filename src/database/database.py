@@ -51,7 +51,7 @@ class LoadedDatabase(DatabaseSkeleton):
 
             # Flatten the detail JSON into a simple key-value dict
             flat_details = {}
-            for detail in DetailConverter(record["details"]):
+            for detail in DetailConverter.flatten_details(record["details"]):
                 flat_details.update(detail)
 
             # Add in generic metadata for the record

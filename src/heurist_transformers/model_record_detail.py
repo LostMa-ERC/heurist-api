@@ -2,32 +2,47 @@
 
 from typing import Generator
 
-from src.heurist_transformers.type_handler import HeuristDataType
 from src.heurist_transformers.date_handler import HeuristDateHandler
+from src.heurist_transformers.type_handler import HeuristDataType
 
 
 class HeuristRecordDetail:
+    """In Heurist, a record's "detail" is what is more commonly
+    known as an attribute, dimension, or the value of a data field.
+    """
+
     direct_values = ["freetext", "blocktext", "integer", "boolean", "float"]
 
     def __init__(self) -> None:
         pass
 
-    def __call__(self, details: list[dict]) -> Generator[dict | None, None, None]:
-        """_summary_
+    @classmethod
+    def flatten_details(cls, details: list[dict]) -> Generator[dict | None, None, None]:
+        """Iterating through the array of a record's details, flatten
+        each one to a key-value pair and yield each detail one by one.
+
+        Examples:
+        >>> from examples import RECORD_JSON
+        >>>
+        >>>
+        >>> record = RECORD_JSON["heurist"]["records"][0]
+        >>> details = record["details"]
+        >>> [d for d in HeuristRecordDetail.flatten_details(details)]
+        [{'DTY1244': 'Agolant'}, {'DTY1246': '54'}]
 
         Args:
-            details (list[dict]): _description_
-
-        Returns:
-            _type_: s_description_
+            details (list[dict]): JSON array of a record's details.
 
         Yields:
-            Generator[dict|None, None, None]: _description_
+            Generator[dict|None, None, None]: A key-value pair representing a detail.
         """
 
         for detail in details:
+            # Determine the detail's data type
             fieldtype = HeuristDataType.from_json_record(detail)
-            flattened_detail = self.convert_to_dict(detail)
+
+            # Flatten the detail
+            flattened_detail = cls.convert_to_dict(detail)
 
             # Skip this detail if it has no value
             if not flattened_detail:
@@ -39,7 +54,7 @@ class HeuristRecordDetail:
             if fieldtype == "date":
                 value = detail["value"]
                 if type(value) == dict:
-                    key = self._fieldname(detail, temp=True)
+                    key = cls._fieldname(detail, temp=True)
                     value = detail["value"]
                     supplemental_detail = {key: value}
                     results.append(supplemental_detail)
@@ -67,32 +82,10 @@ class HeuristRecordDetail:
         """Extract the value of a file field.
 
         Examples:
-            >>> detail = {
-            ...     "dty_ID": 1113,
-            ...     "value": {
-            ...         "file": {
-            ...             "ulf_ID": "1",
-            ...             "fullPath": None,
-            ...             "ulf_ExternalFileReference": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg",
-            ...             "fxm_MimeType": "image/jpeg",
-            ...             "ulf_PreferredSource": "local",
-            ...             "ulf_OrigFileName": "_remote",
-            ...             "ulf_FileSizeKB": "0",
-            ...             "ulf_ObfuscatedFileID": "286ccc9935b4ac7d2ba372b561c5ce9a5ae609dd",
-            ...             "ulf_Description": "",
-            ...             "ulf_Added": "2024-04-05 21:48:05",
-            ...             "ulf_MimeExt": "jpe",
-            ...             "ulf_Caption": "seagull from wikimedia images",
-            ...             "ulf_Copyright": "",
-            ...             "ulf_Copyowner": ""
-            ...         },
-            ...         "fileid": "286ccc9935b4ac7d2ba372b561c5ce9a5ae609dd"
-            ...     },
-            ...     "fieldName": "file or media url",
-            ...     "fieldType": "file",
-            ...     "conceptID": ""
-            ... }
-            >>> HeuristRecordDetail.file(detail)
+            >>> from examples import MEDIA_URL
+            >>>
+            >>>
+            >>> HeuristRecordDetail.file(MEDIA_URL)
             'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg'
 
         Args:
@@ -109,16 +102,10 @@ class HeuristRecordDetail:
         """Extract the value of an enum field.
 
         Examples:
-            >>> detail = {
-            ...     "dty_ID": 1107,
-            ...     "value": "5391",
-            ...     "termLabel": "Disease",
-            ...     "termConceptID": "2-5391",
-            ...     "fieldName": "dropdown",
-            ...     "fieldType": "enum",
-            ...     "conceptID": "",
-            ... }
-            >>> HeuristRecordDetail.enum(detail)
+            >>> from examples import ENUM
+            >>>
+            >>>
+            >>> HeuristRecordDetail.enum(ENUM)
             'Disease'
 
         Args:
@@ -135,19 +122,10 @@ class HeuristRecordDetail:
         """Extract the value of a geo field.
 
         Examples:
-            >>> detail = {
-            ...     "dty_ID": 1112,
-            ...     "value": {
-            ...         "geo": {
-            ...             "type": "p",
-            ...             "wkt": "POINT(2.19726563 48.57478991)"
-            ...         }
-            ...     },
-            ...     "fieldName": "geospatial",
-            ...     "fieldType": "geo",
-            ...     "conceptID": ""
-            ... }
-            >>> HeuristRecordDetail.geo(detail)
+            >>> from examples import POINT
+            >>>
+            >>>
+            >>> HeuristRecordDetail.geo(POINT)
             'POINT(2.19726563 48.57478991)'
 
         Args:
@@ -166,37 +144,18 @@ class HeuristRecordDetail:
         """Extract the value of a date field.
 
         Examples:
-            >>> detail = {
-            ...     "dty_ID": 9,
-            ...     "value": {
-            ...         "comment": "Some comments here about the fuzzy date.",
-            ...         "start": {
-            ...             "earliest": "1248",
-            ...             "latest": "1248-05-01"
-            ...         },
-            ...         "end": {
-            ...             "earliest": "1312-08-29",
-            ...             "latest": "1350"
-            ...         },
-            ...         "estMinDate": 1248,
-            ...         "estMaxDate": 1350.1231
-            ...     },
-            ...     "fieldName": "Date",
-            ...     "fieldType": "date",
-            ...     "conceptID": "2-9"
-            ... }
-            >>> HeuristRecordDetail.date(detail)
-            [datetime.datetime(1248, 1, 1, 0, 0), datetime.datetime(1350, 12, 31, 0, 0)]
+            >>> from examples import FUZZY_DATE
             >>>
-            >>> detail = {
-            ...     "dty_ID": 1111,
-            ...     "value": 2024,
-            ...     "fieldName": "date / time",
-            ...     "fieldType": "date",
-            ...     "conceptID": ""
-            ... }
-            >>> HeuristRecordDetail.date(detail)
-            [datetime.datetime(2024, 1, 1, 0, 0), None]
+            >>>
+            >>> HeuristRecordDetail.date(FUZZY_DATE)
+            [datetime.datetime(1180, 1, 1, 0, 0), datetime.datetime(1250, 12, 31, 0, 0)]
+            >>>
+            >>>
+            >>> from examples import SIMPLE_DATE
+            >>>
+            >>>
+            >>> HeuristRecordDetail.date(SIMPLE_DATE)
+            [datetime.datetime(2024, 3, 19, 0, 0), None]
 
         Args:
             detail (dict): Record's detail.
@@ -226,20 +185,11 @@ class HeuristRecordDetail:
         """Extract the value of a resource field.
 
         Examples:
-            >>> detail = {
-            ...     "dty_ID": 1097,
-            ...     "value": {
-            ...         "id": "126",
-            ...         "type": "103",
-            ...         "title": "Chevalerie Ogier",
-            ...         "hhash": None
-            ...     },
-            ...     "fieldName": "work",
-            ...     "fieldType": "resource",
-            ...     "conceptID": ""
-            ... }
-            >>> HeuristRecordDetail.resource(detail)
-            '126'
+            >>> from examples import RECORD_POINTER
+            >>>
+            >>>
+            >>> HeuristRecordDetail.resource(RECORD_POINTER)
+            '36'
 
         Args:
             detail (dict): Record's detail.
@@ -253,10 +203,20 @@ class HeuristRecordDetail:
 
     @classmethod
     def _fieldname(cls, detail: dict, temp: bool = False) -> str:
-        supp = ""
+        """Format a name for the data field (aka "detail type", "dty").
+
+        Args:
+            detail (dict): A record's detail, which includes its DTY ID.
+            temp (bool, optional): Whether or not the fieldname will represent a temporal object (JSON dict). Defaults to False.
+
+        Returns:
+            str: A formatted label for the data field.
+        """
+
+        suffix = ""
         if temp:
-            supp = "_TEMPORAL"
-        return f"DTY{detail['dty_ID']}{supp}"
+            suffix = "_TEMPORAL"
+        return f"DTY{detail['dty_ID']}{suffix}"
 
     @classmethod
     def _convert_value(cls, detail: dict) -> str | int | list | None:
@@ -268,6 +228,7 @@ class HeuristRecordDetail:
         Returns:
             str | int | list | None: Flattened value of the data field.
         """
+
         fieldtype = HeuristDataType.from_json_record(detail)
 
         if any(ft in fieldtype for ft in cls.direct_values):
