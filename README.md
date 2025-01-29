@@ -5,25 +5,6 @@ The Heurist Data Pipeline Tool sets you up to manipulate, transform, and/or anal
 
 \* Currently, the ETL process's API only supports Heurist databases hosted on HumaNum's servers and requires the login credentials of someone with access to the database.
 
-### Data Export Pipeline
-
-```mermaid
-flowchart LR
-
-    Source@{ shape: cyl, label: "Heurist\ndatabase" }
-    Extract@{ shape: rounded, label: "API Client\n__\n./api_client/" }
-    Transform@{ shape: rounded, label: "Pydantic Models\n__\n./data_models/\n./database/\n./heurist_transformers/" }
-    Load@{ shape: rounded, label: "DuckDB\n__\n./database/\n./heurist_transformers/\n./sql_models/" }
-    CSV@{ shape: lean-l, label: "CSV"}
-    DuckDB@{ shape: lean-l, label: "DuckDB file" }
-
-    Source ===|extract|Extract ===|transform|Transform ===|load|Load
-
-    Load ---|export|CSV
-    Load ---|export|DuckDB
-
-```
-
 ## Why build this?
 
 Heurist is a low-code, server-based solution to help researchers Create, Read, Update, and Delete records (aka, perform CRUD operations) in a relational database framework. In order to help non-technical users (i.e. historians, archeologists) quickly get to work entering and visualising their relational data, Heurist introduces a lot of complexity behind the scenes.
