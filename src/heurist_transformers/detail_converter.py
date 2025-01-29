@@ -17,67 +17,6 @@ class RecordDetailConverter:
         pass
 
     @classmethod
-    def flatten_details(cls, details: list[dict]) -> Generator[dict | None, None, None]:
-        """Iterating through the array of a record's details, flatten
-        each one to a key-value pair and yield each detail one by one.
-
-        Examples:
-        >>> from examples import RECORD_JSON
-        >>>
-        >>>
-        >>> record = RECORD_JSON["heurist"]["records"][0]
-        >>> details = record["details"]
-        >>> [d for d in RecordDetailConverter.flatten_details(details)]
-        [{'DTY1244': 'Agolant'}, {'DTY1246': '54'}]
-
-        Args:
-            details (list[dict]): JSON array of a record's details.
-
-        Yields:
-            Generator[dict|None, None, None]: A key-value pair representing a detail.
-        """
-
-        for detail in details:
-            # Determine the detail's data type
-            fieldtype = HeuristDataType.from_json_record(detail)
-
-            # Flatten the detail
-            flattened_detail = cls.convert_to_dict(detail)
-
-            # Skip this detail if it has no value
-            if not flattened_detail:
-                continue
-
-            results = [flattened_detail]
-
-            # If the detail is a date, give the parsed datetime objects and the original JSON
-            if fieldtype == "date":
-                value = detail["value"]
-                if type(value) == dict:
-                    key = cls._fieldname(detail, temp=True)
-                    value = detail["value"]
-                    supplemental_detail = {key: value}
-                    results.append(supplemental_detail)
-
-            yield from results
-
-    @classmethod
-    def convert_to_dict(cls, detail: dict) -> dict | None:
-        """Convert the record's detail to a key-value pair.
-
-        Args:
-            detail (dict): Record's detail.
-
-        Returns:
-            dict: Key-value pair of the field's name and flattened value.
-        """
-
-        key = cls._fieldname(detail)
-        value = cls._convert_value(detail)
-        if value:
-            return {key: value}
-
-    @classmethod
     def file(cls, detail: dict) -> str:
         """Extract the value of a file field.
 
@@ -166,11 +105,7 @@ class RecordDetailConverter:
 
         value = detail["value"]
         handler = HeuristDateHandler()
-        if (
-            isinstance(value, dict)
-            and "end" in value.keys()
-            and "start" in value.keys()
-        ):
+        if isinstance(value, dict):
             end_date = value["estMaxDate"]
             start_date = value["estMinDate"]
             value = handler([start_date, end_date])
@@ -202,7 +137,7 @@ class RecordDetailConverter:
         return value["id"]
 
     @classmethod
-    def _fieldname(cls, detail: dict, temp: bool = False) -> str:
+    def _fieldname(cls, dty_ID: int, temp: bool = False) -> str:
         """Format a name for the data field (aka "detail type", "dty").
 
         Args:
@@ -216,7 +151,7 @@ class RecordDetailConverter:
         suffix = ""
         if temp:
             suffix = "_TEMPORAL"
-        return f"DTY{detail['dty_ID']}{suffix}"
+        return f"DTY{dty_ID}{suffix}"
 
     @classmethod
     def _convert_value(cls, detail: dict) -> str | int | list | None:

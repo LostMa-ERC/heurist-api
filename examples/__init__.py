@@ -11,6 +11,7 @@ from examples.data_types.polygon import POLYGON
 from examples.data_types.record_pointer import RECORD_POINTER
 from examples.data_types.simple_date import SIMPLE_DATE
 from examples.data_types.single_line import SINGLE_LINE
+from examples.data_types.enum_plural import PLURAL
 
 DIR = Path(__file__).parent
 

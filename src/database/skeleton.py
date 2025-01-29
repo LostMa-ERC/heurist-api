@@ -4,7 +4,7 @@ from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic_xml import BaseXmlModel
 
 from src.data_models.hml_structure import HMLStructure
-from src.heurist_transformers.detail_modeler import RecordTypeModeler
+from src.heurist_transformers.dynamic_record_type_modeler import RecordTypeModeler
 from src.sql_models.select_record_structure import QUERY
 
 
@@ -50,7 +50,6 @@ FROM duckdb_tables()
 WHERE table_name like '{table_name}'
 """
         ):
-            print(f"Deleting existing table {table_name}")
             self.conn.sql("DROP TABLE {}".format(table_name))
 
     def create(self, name: str, model: BaseXmlModel) -> None:
@@ -64,7 +63,6 @@ WHERE table_name like '{table_name}'
             >>> db = DatabaseSkeleton(hml_xml=DB_STRUCTURE_XML)
             >>> target = db.hml.RecTypeGroups.rtg
             >>> db.create("rtg", target)
-            Deleting existing table rtg
             >>> shape = db.conn.table("rtg").fetchall()
             >>> len(shape)
             11
@@ -107,7 +105,8 @@ INNER JOIN rtg ON rty.rty_RecTypeGroupID = rtg.rtg_ID
 SELECT
     dty_ID,
     rst_DisplayName,
-    dty_Type
+    dty_Type,
+    rst_MaxValues
 FROM rst
 INNER JOIN rty ON rst.rst_RecTypeID = rty.rty_ID
 INNER JOIN dty ON rst.rst_DetailTypeID = dty.dty_ID
@@ -120,9 +119,11 @@ ORDER BY rst.rst_DisplayOrder
             )
             rel = self.conn.sql(sql)
 
-            # Model the targeted records in a Pydantic model
+            # Dynamically build a Pydantic model based on info about the targeted record
             yield RecordTypeModeler(
-                rty_ID=rty_ID, rty_Name=rty_Name, detail_dicts=rel.pl().to_dicts()
+                rty_ID=rty_ID,
+                rty_Name=rty_Name,
+                detail_metadata=rel.pl().to_dicts(),
             )
 
     def describe_record_fields(self, rty_ID: int) -> DuckDBPyRelation:

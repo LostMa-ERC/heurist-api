@@ -1,10 +1,14 @@
-import polars as pl
+from datetime import datetime
+from typing import Union
+
+import pandas as pd
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic import BaseModel
 
 from src.database.skeleton import DatabaseSkeleton
 from src.heurist_transformers.detail_converter import RecordDetailConverter
-from src.heurist_transformers.detail_modeler import RecordTypeModeler
+from src.heurist_transformers.dynamic_record_type_modeler import RecordTypeModeler
+from src.heurist_transformers.type_handler import HeuristDataType
 
 
 class LoadedDatabase(DatabaseSkeleton):
@@ -42,19 +46,69 @@ class LoadedDatabase(DatabaseSkeleton):
         """
 
         modeled_records = []
-        DetailConverter = RecordDetailConverter()
 
         for record in records:
             # Skip any records in the data set that are not targeted
             if record["rec_RecTypeID"] != str(record_manager.rty_ID):
                 continue
 
-            # Flatten the detail JSON into a simple key-value dict
-            flat_details = {}
-            for detail in DetailConverter.flatten_details(record["details"]):
-                flat_details.update(detail)
+            # See which fields permit multiple values
+            plural_fields = [
+                v.validation_alias
+                for v in record_manager.model.model_fields.values()
+                if repr(v.annotation).startswith("list")
+                and not v.annotation == list[Union[datetime, None]]
+            ]
 
-            # Add in generic metadata for the record
+            # Get a unique set of all the detail types on the record.
+            # Heurist delivers details itemized by the value, and therefore the array of
+            # details can have repeats of a detail type. We need to aggregate the values
+            # by the detail type because we want one field per detail type on our model.
+            dty_ids = set([d["dty_ID"] for d in record["details"]])
+            details_aggregated_by_types = {i: [] for i in dty_ids}
+            for d in record["details"]:
+                dty_id = d["dty_ID"]
+                details_aggregated_by_types[dty_id].append(d)
+
+            # Flatten the aggregated details into a set of key-value pairs, wherein
+            # the key is the same fieldname used to create the dynamic Pydantic model.
+            flat_details = {}
+            for dty_id, details in details_aggregated_by_types.items():
+                key = RecordDetailConverter._fieldname(dty_id)
+                if len(details) == 1:
+                    value = RecordDetailConverter._convert_value(details[0])
+                    # If this detail allows multiple values, place the value in a list.
+                    if key in plural_fields:
+                        value = [value]
+                # If there are more than one of this detail type, then the detail must allow
+                # multiple values and they must be in a list.
+                else:
+                    value = []
+                    for detail in details:
+                        value.append(RecordDetailConverter._convert_value(detail))
+                flat_details.update({key: value})
+
+                # Now we need to look into the detail type itself and add more columns for
+                # date fields.
+                fieldtype = HeuristDataType.from_json_record(details[0])
+                if fieldtype == "date":
+                    key = RecordDetailConverter._fieldname(dty_id, temp=True)
+                    # If the detail is a temporal object, add it to the additional date column
+                    if len(details) == 1 and isinstance(details[0]["value"], dict):
+                        flat_details.update({key: details[0]["value"]})
+                    # If any of the details are a temporal object, add them to the additional date column
+                    else:
+                        value = {}
+                        for i, detail in enumerate(details):
+                            v = detail["value"]
+                            # If the date data is a temporal object, add it to the value array
+                            if isinstance(v, dict):
+                                value.update({i: v})
+                        # Leave the field empty if there is no temporal data
+                        if not value == {}:
+                            flat_details.update({key: value})
+
+            # Add in universal fields for the dynamic Pydantic model
             flat_details.update(
                 {"rec_ID": record["rec_ID"], "rec_RecTypeID": record["rec_RecTypeID"]}
             )
@@ -79,14 +133,13 @@ class LoadedDatabase(DatabaseSkeleton):
         """_summary_
 
         Args:
-            record_type_id (int): _description_
             records (list[dict]): _description_
 
         Returns:
             DuckDBPyRelation: _description_
         """
 
-        # Given the record type's ID, get the SQL-safe table name for the type
+        # Given the record type's ID, get the Pydantic model created for this type
         record_manager = self.managers_record_type[record_type_id]
 
         # Model all the records' data
@@ -97,7 +150,13 @@ class LoadedDatabase(DatabaseSkeleton):
             modeled_dicts = [m.model_dump(by_alias=True) for m in modeled_records]
 
         # Transform the series of models into a dataframe
-        df = pl.from_dicts(modeled_dicts, infer_schema_length=None)
+        try:
+            df = pd.DataFrame(modeled_dicts)
+        except Exception as e:
+            from pprint import pprint
+
+            pprint(modeled_dicts)
+            raise e
 
         # Delete any existing table
         self.delete_existing_table(table_name=record_manager.table_name)

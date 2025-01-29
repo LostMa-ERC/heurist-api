@@ -53,31 +53,31 @@ class HeuristDataType:
             Any: Python type.
         """
         if datatype == cls.dropdown:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
 
         elif datatype == cls.numeric:
-            return Optional[float]
+            return Optional[float] | list[Optional[float]]
 
         elif datatype == cls.single_line:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
 
         elif datatype == cls.multi_line:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
 
         elif datatype == cls.date_time:
             return list[Optional[datetime]]
 
         elif datatype == cls.geospatial:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
 
         elif datatype == cls.file_or_media_url:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
 
         elif datatype == cls.record_pointer:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
 
         elif datatype == cls.relationship_marker:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
 
         else:
-            return Optional[str]
+            return Optional[str] | list[Optional[str]]
