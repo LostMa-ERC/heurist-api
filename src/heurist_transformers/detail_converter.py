@@ -137,21 +137,17 @@ class RecordDetailConverter:
         return value["id"]
 
     @classmethod
-    def _fieldname(cls, dty_ID: int, temp: bool = False) -> str:
+    def _fieldname(cls, dty_ID: int) -> str:
         """Format a name for the data field (aka "detail type", "dty").
 
         Args:
             detail (dict): A record's detail, which includes its DTY ID.
-            temp (bool, optional): Whether or not the fieldname will represent a temporal object (JSON dict). Defaults to False.
 
         Returns:
             str: A formatted label for the data field.
         """
 
-        suffix = ""
-        if temp:
-            suffix = "_TEMPORAL"
-        return f"DTY{dty_ID}{suffix}"
+        return f"DTY{dty_ID}"
 
     @classmethod
     def _convert_value(cls, detail: dict) -> str | int | list | None:

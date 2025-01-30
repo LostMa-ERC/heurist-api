@@ -71,7 +71,7 @@ class SafeSQLName:
         if field_type == "resource":
             final_name = f"{simplified_name} H-ID"
         elif simplified_name.lower() in self.all_keywords:
-            final_name = f"{simplified_name} column"
+            final_name = f"{simplified_name}_COLUMN"
         else:
             final_name = simplified_name
         return final_name

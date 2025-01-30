@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from src.database.skeleton import DatabaseSkeleton
 from src.heurist_transformers.detail_converter import RecordDetailConverter
-from src.heurist_transformers.dynamic_record_type_modeler import RecordTypeModeler
+from src.heurist_transformers.dynamic_record_type_modeler import DynamicRecordTypeModel
 from src.heurist_transformers.type_handler import HeuristDataType
 
 
@@ -28,18 +28,18 @@ class LoadedDatabase(DatabaseSkeleton):
     ) -> None:
         super().__init__(hml_xml, conn, db, save_structure)
 
-        self.managers_record_type = {
+        self.pydantic_models = {
             r.rty_ID: r for r in self.yield_record_details(record_type_groups)
         }
 
     def model_record_data(
-        self, record_manager: RecordTypeModeler, records: list[dict]
+        self, pydantic_model: DynamicRecordTypeModel, records: list[dict]
     ) -> list[BaseModel]:
         """Model the data of each record in a list of records.
 
         Args:
-            record_type_id (int): ID of the type of record targeted for processing.
-            records (list[dict]): A list of raw JSON records.
+            pydantic_model (DynamicRecordTypeModel): Pydantic model created for the record.
+            records (list[dict]): A JSON array of a record's details.
 
         Yields:
             Iterator[BaseModel]: _description_
@@ -49,13 +49,13 @@ class LoadedDatabase(DatabaseSkeleton):
 
         for record in records:
             # Skip any records in the data set that are not targeted
-            if record["rec_RecTypeID"] != str(record_manager.rty_ID):
+            if record["rec_RecTypeID"] != str(pydantic_model.rty_ID):
                 continue
 
             # See which fields permit multiple values
             plural_fields = [
                 v.validation_alias
-                for v in record_manager.model.model_fields.values()
+                for v in pydantic_model.model.model_fields.values()
                 if repr(v.annotation).startswith("list")
                 and not v.annotation == list[Union[datetime, None]]
             ]
@@ -92,7 +92,7 @@ class LoadedDatabase(DatabaseSkeleton):
                 # date fields.
                 fieldtype = HeuristDataType.from_json_record(details[0])
                 if fieldtype == "date":
-                    key = RecordDetailConverter._fieldname(dty_id, temp=True)
+                    key = RecordDetailConverter._fieldname(dty_id) + "_TEMPORAL"
                     # If the detail is a temporal object, add it to the additional date column
                     if len(details) == 1 and isinstance(details[0]["value"], dict):
                         flat_details.update({key: details[0]["value"]})
@@ -116,7 +116,7 @@ class LoadedDatabase(DatabaseSkeleton):
             # Validate the flattened details inside the record type's Pydantic model
             try:
                 modeled_records.append(
-                    record_manager.model.model_validate(flat_details)
+                    pydantic_model.model.model_validate(flat_details)
                 )
             except Exception as e:
                 from pprint import pprint
@@ -140,10 +140,10 @@ class LoadedDatabase(DatabaseSkeleton):
         """
 
         # Given the record type's ID, get the Pydantic model created for this type
-        record_manager = self.managers_record_type[record_type_id]
+        pydantic_model = self.pydantic_models[record_type_id]
 
         # Model all the records' data
-        modeled_records = self.model_record_data(record_manager, records)
+        modeled_records = self.model_record_data(pydantic_model, records)
         if len(modeled_records) == 0:
             return
         else:
@@ -159,9 +159,9 @@ class LoadedDatabase(DatabaseSkeleton):
             raise e
 
         # Delete any existing table
-        self.delete_existing_table(table_name=record_manager.table_name)
+        self.delete_existing_table(table_name=pydantic_model.table_name)
 
         # From the dataframe, build a table for the record type
-        sql = f"""CREATE TABLE {record_manager.table_name} AS FROM df"""
+        sql = f"""CREATE TABLE {pydantic_model.table_name} AS FROM df"""
         self.conn.sql(sql)
-        return self.conn.table(table_name=record_manager.table_name)
+        return self.conn.table(table_name=pydantic_model.table_name)

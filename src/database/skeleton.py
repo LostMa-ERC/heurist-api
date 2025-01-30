@@ -4,7 +4,7 @@ from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic_xml import BaseXmlModel
 
 from src.data_models.hml_structure import HMLStructure
-from src.heurist_transformers.dynamic_record_type_modeler import RecordTypeModeler
+from src.heurist_transformers.dynamic_record_type_modeler import DynamicRecordTypeModel
 from src.sql_models.select_record_structure import QUERY
 
 
@@ -72,10 +72,10 @@ WHERE table_name like '{table_name}'
         """
         self.delete_existing_table(name)
         df = pl.DataFrame(model)
-        if self.save_structure:
-            sql = "CREATE TABLE {} AS FROM df".format(name)
-        else:
-            sql = "CREATE TEMPORARY TABLE {} AS FROM df".format(name)
+        # if self.save_structure:
+        sql = "CREATE TABLE {} AS FROM df".format(name)
+        # else:
+        #     sql = "CREATE TEMPORARY TABLE {} AS FROM df".format(name)
         self.conn.sql(sql)
 
     @classmethod
@@ -120,7 +120,7 @@ ORDER BY rst.rst_DisplayOrder
             rel = self.conn.sql(sql)
 
             # Dynamically build a Pydantic model based on info about the targeted record
-            yield RecordTypeModeler(
+            yield DynamicRecordTypeModel(
                 rty_ID=rty_ID,
                 rty_Name=rty_Name,
                 detail_metadata=rel.pl().to_dicts(),

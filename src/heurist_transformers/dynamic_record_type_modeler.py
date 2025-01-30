@@ -1,16 +1,10 @@
-from datetime import datetime
-from typing import Optional
-
 from pydantic import BaseModel, Field, create_model
 
-from src.heurist_transformers.detail_converter import (
-    HeuristDataType,
-    RecordDetailConverter,
-)
 from src.sql_models.sql_safety import SafeSQLName
+from src.heurist_transformers.dynamic_pydantic_data_field import DynamicDataFieldBuilder
 
 
-class RecordTypeModeler:
+class DynamicRecordTypeModel:
     def __init__(self, rty_ID: int, rty_Name: str, detail_metadata: list[dict]) -> None:
         """_summary_
         The detail metadata includes the following keys: dty_ID, rst_DisplayName, dty_Type, rst_MaxValues.
@@ -79,79 +73,18 @@ class RecordTypeModeler:
 
         # Convert each of the record's details into a Pydantic kwarg
         for detail in detail_metadata:
-            new_field = self.parse_detail(metadata=detail)
-            kwargs.update(new_field)
+            # Add the field's default parsed value
+            builder = DynamicDataFieldBuilder(**detail)
+            field = builder.simple_field()
+            kwargs.update(field)
+
+            if detail["dty_Type"] == "date":
+                field = builder.temporal_object()
+                kwargs.update(field)
+
+            elif detail["dty_Type"] == "enum":
+                field = builder.term_id()
+                kwargs.update(field)
 
         # Using Pydantic's 'create_model' module, build the dynamic model
         return create_model(self.table_name, **kwargs)
-
-    def parse_detail(self, metadata: dict) -> dict:
-        """_summary_
-
-        Args:
-            detail (dict): _description_
-
-        Returns:
-            dict: _description_
-        """
-
-        # Because we want to create 2 fields in the case of dates, one with
-        # parsed datetime objects, the other with the raw JSON date object,
-        # create an empty dictionary.
-        new_fields = {}
-
-        # Parse the data field's type and format its name
-        base_dtype = HeuristDataType.to_pydantic(metadata["dty_Type"])
-        name = RecordDetailConverter._fieldname(metadata["dty_ID"])
-        if (
-            not base_dtype == list[Optional[datetime]]
-            and metadata["rst_MaxValues"] == 0
-        ):
-            dtype = list[base_dtype]
-        else:
-            dtype = base_dtype
-
-        new_fields.update(
-            {
-                name: (
-                    dtype,
-                    Field(
-                        alias=metadata["rst_DisplayName"],
-                        validation_alias=name,
-                        serialization_alias=SafeSQLName().create_column_name(
-                            field_name=metadata["rst_DisplayName"],
-                            field_type=metadata["dty_Type"],
-                        ),
-                        default=None,
-                        required=False,
-                    ),
-                )
-            }
-        )
-
-        # If the data field is a date, create an additional field for its original JSON object form
-        if dtype == list[Optional[datetime]]:
-            name = RecordDetailConverter._fieldname(metadata["dty_ID"], temp=True)
-            sql_safe_name = (
-                SafeSQLName().create_column_name(
-                    field_name=metadata["rst_DisplayName"],
-                    field_type=metadata["dty_Type"],
-                )
-                + "_temporal"
-            )
-            new_fields.update(
-                {
-                    name: (
-                        Optional[dict],
-                        Field(
-                            alias=f"{metadata["rst_DisplayName"]}_TEMPORAL",
-                            validation_alias=name,
-                            serialization_alias=sql_safe_name,
-                            default=None,
-                            required=False,
-                        ),
-                    )
-                }
-            )
-
-        return new_fields
