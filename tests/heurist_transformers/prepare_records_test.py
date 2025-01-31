@@ -65,5 +65,31 @@ class TestRepeatedTemporal(unittest.TestCase):
         self.assertDictEqual(actual, expected)
 
 
+class TestEnum(unittest.TestCase):
+    def setUp(self):
+        self.model = DynamicRecordTypeModel(
+            rty_ID="103", rty_Name="Story", detail_metadata=_metadata.SINGULAR_ENUM
+        ).model
+        self.flattener = RecordFlattener(self.model)
+
+    def test_singular_enum(self):
+        actual = self.flattener(record_details=_details.ONE_ENUM)
+        expected = _flat_kwarg.ONE_ENUM
+        self.assertDictEqual(actual, expected)
+
+
+class TestRepeatedEnum(unittest.TestCase):
+    def setUp(self):
+        self.model = DynamicRecordTypeModel(
+            rty_ID="103", rty_Name="Story", detail_metadata=_metadata.REPEATED_ENUM
+        ).model
+        self.flattener = RecordFlattener(self.model)
+
+    def test_singular_enum(self):
+        actual = self.flattener(record_details=_details.TWO_ENUM)
+        expected = _flat_kwarg.TWO_ENUM
+        self.assertDictEqual(actual, expected)
+
+
 if __name__ == "__main__":
     unittest.main()

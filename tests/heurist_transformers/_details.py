@@ -102,3 +102,50 @@ TWO_TEMPORAL = [
         "conceptID": "",
     },
 ]
+
+ONE_ENUM = [
+    {
+        "dty_ID": 1244,
+        "value": "Aie d'Avignon",
+        "fieldName": "preferred_name",
+        "fieldType": "freetext",
+        "conceptID": "",
+    },
+    {
+        "dty_ID": 1107,
+        "value": "5391",
+        "termLabel": "Disease",
+        "termConceptID": "2-5391",
+        "fieldName": "dropdown",
+        "fieldType": "enum",
+        "conceptID": "",
+    },
+]
+
+TWO_ENUM = [
+    {
+        "dty_ID": 1244,
+        "value": "Aie d'Avignon",
+        "fieldName": "preferred_name",
+        "fieldType": "freetext",
+        "conceptID": "",
+    },
+    {
+        "dty_ID": 1107,
+        "value": "5391",
+        "termLabel": "Disease",
+        "termConceptID": "2-5391",
+        "fieldName": "dropdown",
+        "fieldType": "enum",
+        "conceptID": "",
+    },
+    {
+        "dty_ID": 1107,
+        "value": "6535",
+        "termLabel": "Disease.Epidemic.Spanish Flu",
+        "termConceptID": "2-6535",
+        "fieldName": "dropdown",
+        "fieldType": "enum",
+        "conceptID": "",
+    },
+]

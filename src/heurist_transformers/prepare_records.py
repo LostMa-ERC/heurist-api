@@ -1,8 +1,10 @@
+from datetime import datetime
+from typing import Any, Union
+
 from pydantic import BaseModel
-from typing import Union, Any
+
 from src.heurist_transformers.detail_converter import RecordDetailConverter
 from src.heurist_transformers.type_handler import HeuristDataType
-from datetime import datetime
 
 
 class RecordFlattener:
@@ -51,8 +53,14 @@ class RecordFlattener:
         if plural:
             return objects
         else:
-            print("\n\nPLURAL:{}".format(plural))
             return objects[0]
+
+    def make_enum_field(self, details: list[dict], plural: bool) -> int | list | None:
+        term_ids = [detail.get("value") for detail in details]
+        if plural:
+            return term_ids
+        else:
+            return term_ids[0]
 
     def __call__(self, record_details: list[dict]) -> dict:
         # Aggregate details by ID
@@ -78,6 +86,11 @@ class RecordFlattener:
             if fieldtype == "date":
                 key = RecordDetailConverter._fieldname(dty_ID=dty_ID) + "_TEMPORAL"
                 value = self.make_temporal_field(details=details, plural=plural)
+                kwargs.update({key: value})
+
+            if fieldtype == "enum":
+                key = RecordDetailConverter._fieldname(dty_ID=dty_ID) + "_TRM"
+                value = self.make_enum_field(details=details, plural=plural)
                 kwargs.update({key: value})
 
         return kwargs

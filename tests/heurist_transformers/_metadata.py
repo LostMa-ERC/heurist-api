@@ -57,3 +57,33 @@ REPEATED_TEMPORAL = [
         "rst_MaxValues": 0,
     },
 ]
+
+SINGULAR_ENUM = [
+    {
+        "dty_ID": 1244,
+        "rst_DisplayName": "preferred_name",
+        "dty_Type": "freetext",
+        "rst_MaxValues": 1,
+    },
+    {
+        "dty_ID": 1107,
+        "rst_DisplayName": "vocab_term",
+        "dty_Type": "enum",
+        "rst_MaxValues": 1,
+    },
+]
+
+REPEATED_ENUM = [
+    {
+        "dty_ID": 1244,
+        "rst_DisplayName": "preferred_name",
+        "dty_Type": "freetext",
+        "rst_MaxValues": 1,
+    },
+    {
+        "dty_ID": 1107,
+        "rst_DisplayName": "vocab_term",
+        "dty_Type": "enum",
+        "rst_MaxValues": 0,
+    },
+]

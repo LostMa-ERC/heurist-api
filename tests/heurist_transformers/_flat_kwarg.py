@@ -45,3 +45,15 @@ TWO_TEMPORAL = {
         },
     ],
 }
+
+ONE_ENUM = {
+    "DTY1244": "Aie d'Avignon",
+    "DTY1107": "Disease",
+    "DTY1107_TRM": "5391",
+}
+
+TWO_ENUM = {
+    "DTY1244": "Aie d'Avignon",
+    "DTY1107": ["Disease", "Disease.Epidemic.Spanish Flu"],
+    "DTY1107_TRM": ["5391", "6535"],
+}
