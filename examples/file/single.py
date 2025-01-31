@@ -1,4 +1,4 @@
-MEDIA_URL = {
+DETAIL = {
     "dty_ID": 1113,
     "value": {
         "file": {

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-FUZZY_DATE = {
+DETAIL_FUZZY = {
     "dty_ID": 1111,
     "value": {
         "start": {"earliest": "1180", "latest": "1231", "profile": "1"},
@@ -9,6 +9,14 @@ FUZZY_DATE = {
         "estMinDate": 1180,
         "estMaxDate": 1250.1231,
     },
+    "fieldName": "date / time",
+    "fieldType": "date",
+    "conceptID": "",
+}
+
+DETAIL_SIMPLE = {
+    "dty_ID": 1111,
+    "value": "2024-03-19",
     "fieldName": "date / time",
     "fieldType": "date",
     "conceptID": "",

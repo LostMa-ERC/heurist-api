@@ -1,4 +1,4 @@
-NUMERIC = {
+DETAIL = {
     "dty_ID": 1108,
     "value": "2024",
     "fieldName": "numeric",

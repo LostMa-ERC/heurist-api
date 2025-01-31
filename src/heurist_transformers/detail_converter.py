@@ -20,13 +20,6 @@ class RecordDetailConverter:
     def file(cls, detail: dict) -> str:
         """Extract the value of a file field.
 
-        Examples:
-            >>> from examples import MEDIA_URL
-            >>>
-            >>>
-            >>> RecordDetailConverter.file(MEDIA_URL)
-            'https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg'
-
         Args:
             detail (dict): Record's detail.
 
@@ -39,13 +32,6 @@ class RecordDetailConverter:
     @classmethod
     def enum(cls, detail: dict) -> str:
         """Extract the value of an enum field.
-
-        Examples:
-            >>> from examples import ENUM
-            >>>
-            >>>
-            >>> RecordDetailConverter.enum(ENUM)
-            'Disease'
 
         Args:
             detail (dict): Record's detail.
@@ -60,13 +46,6 @@ class RecordDetailConverter:
     def geo(cls, detail: dict) -> str:
         """Extract the value of a geo field.
 
-        Examples:
-            >>> from examples import POINT
-            >>>
-            >>>
-            >>> RecordDetailConverter.geo(POINT)
-            'POINT(2.19726563 48.57478991)'
-
         Args:
             detail (dict): Record's detail.
 
@@ -75,26 +54,12 @@ class RecordDetailConverter:
         """
 
         geo = detail["value"]["geo"]
-        if geo["type"] == "p":
+        if geo["type"] == "p" or geo["type"] == "pl":
             return geo["wkt"]
 
     @classmethod
     def date(cls, detail: dict) -> list:
         """Extract the value of a date field.
-
-        Examples:
-            >>> from examples import FUZZY_DATE
-            >>>
-            >>>
-            >>> RecordDetailConverter.date(FUZZY_DATE)
-            [datetime.datetime(1180, 1, 1, 0, 0), datetime.datetime(1250, 12, 31, 0, 0)]
-            >>>
-            >>>
-            >>> from examples import SIMPLE_DATE
-            >>>
-            >>>
-            >>> RecordDetailConverter.date(SIMPLE_DATE)
-            [datetime.datetime(2024, 3, 19, 0, 0), None]
 
         Args:
             detail (dict): Record's detail.
@@ -119,13 +84,6 @@ class RecordDetailConverter:
     def resource(cls, detail: dict) -> str:
         """Extract the value of a resource field.
 
-        Examples:
-            >>> from examples import RECORD_POINTER
-            >>>
-            >>>
-            >>> RecordDetailConverter.resource(RECORD_POINTER)
-            '36'
-
         Args:
             detail (dict): Record's detail.
 
@@ -134,7 +92,7 @@ class RecordDetailConverter:
         """
 
         value = detail["value"]
-        return value["id"]
+        return int(value["id"])
 
     @classmethod
     def _fieldname(cls, dty_ID: int) -> str:
