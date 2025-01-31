@@ -1,21 +1,33 @@
 import click
 
 from src.api_client import HeuristClient
-from src.cli_commands import doc_command, dump_command
+from src.cli_commands import doc_command, dump_command, rty_command
 
 from .__version__ import __identifier__
 
 
+## =========================== ##
+##     Main cli group
+## =========================== ##
 @click.group(help="Group CLI command for connecting to the Heurist OLTP DB")
 @click.version_option(__identifier__)
 @click.option(
-    "-d", "--database", type=click.STRING, help="Name of the Heurist database"
+    "-d",
+    "--database",
+    type=click.STRING,
+    help="Name of the Heurist database",
 )
 @click.option(
-    "-l", "--login", type=click.STRING, help="Login name for the database user"
+    "-l",
+    "--login",
+    type=click.STRING,
+    help="Login name for the database user",
 )
 @click.option(
-    "-p", "--password", type=click.STRING, help="Password for the database user"
+    "-p",
+    "--password",
+    type=click.STRING,
+    help="Password for the database user",
 )
 @click.option(
     "--testing",
@@ -33,6 +45,33 @@ def cli(ctx, database, login, password, testing):
     )
 
 
+## =========================== ##
+##     'record' command
+## =========================== ##
+@cli.command("record", help="Get a JSON export of a certain record type.")
+@click.option(
+    "-t",
+    "--record-type",
+    help="The ID fo the record type",
+    type=click.INT,
+    required=True,
+)
+@click.option(
+    "-o",
+    "--outfile",
+    help="JSON file path.",
+    type=click.Path(file_okay=True, writable=True),
+    required=False,
+)
+@click.pass_obj
+def records(ctx, record_type, outfile):
+    client = ctx["CLIENT"]
+    rty_command(client, record_type, outfile)
+
+
+## =========================== ##
+##     'doc' command
+## =========================== ##
 @cli.command("doc", help="Command to export documentation about the database schema.")
 @click.option(
     "-t",
@@ -68,6 +107,9 @@ def doc(ctx, record_group, outdir, output_type):
     doc_command(client, testing, record_group, outdir, output_type)
 
 
+## =========================== ##
+##     'dump' command
+## =========================== ##
 @cli.command(
     "dump", help="Command to export data of records of a given record group type."
 )

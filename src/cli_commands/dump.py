@@ -39,8 +39,8 @@ def dump_command(
         database = LoadedDatabase(
             conn=conn, hml_xml=xml, record_type_groups=record_group
         )
-        t = p.add_task("Get Records", total=len(database.managers_record_type.keys()))
-        for record_type in database.managers_record_type.values():
+        t = p.add_task("Get Records", total=len(database.pydantic_models.keys()))
+        for record_type in database.pydantic_models.values():
             rty_ID = record_type.rty_ID
             records = client.get_records(rty_ID, users=user)
             p.advance(t)
