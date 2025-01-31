@@ -48,16 +48,11 @@ class RecordFlattener:
             for detail in details
             if isinstance(detail.get("value"), dict)
         ]
-        if len(objects) > 0:
-            print("\n\nOBJECTS")
-            from pprint import pprint
-
-            pprint(objects)
-            if plural:
-                print("\n\nPLURAL")
-                return objects
-            elif len(objects) == 1:
-                return objects[0]
+        if plural:
+            return objects
+        else:
+            print("\n\nPLURAL:{}".format(plural))
+            return objects[0]
 
     def __call__(self, record_details: list[dict]) -> dict:
         # Aggregate details by ID

@@ -52,7 +52,6 @@ class DynamicRecordTypeModel:
             "id": (
                 int,
                 Field(
-                    required=True,
                     default=0,
                     alias="rec_ID",
                     validation_alias="rec_ID",
@@ -62,7 +61,6 @@ class DynamicRecordTypeModel:
             "type": (
                 int,
                 Field(
-                    required=True,
                     default=0,
                     alias="rec_RecTypeID",
                     validation_alias="rec_RecTypeID",

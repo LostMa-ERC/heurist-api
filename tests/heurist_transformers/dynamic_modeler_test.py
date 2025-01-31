@@ -33,6 +33,13 @@ DATE_FIELD = {
     "rst_MaxValues": 1,
 }
 
+REPEATED_DATE_FIELD = {
+    "dty_ID": 1285,
+    "rst_DisplayName": "date_of_creation",
+    "dty_Type": "date",
+    "rst_MaxValues": 0,
+}
+
 
 def get_field_info_from_dict(d: dict) -> FieldInfo:
     return tuple(d.values())[0][1]
@@ -100,6 +107,30 @@ class TestDate(unittest.TestCase):
         actual = model.model_validate(data).model_dump(by_alias=True)
         expected = {
             "date_of_creation_TEMPORAL": {"estMinDate": 1400, "estMaxDate": 1430.1231}
+        }
+        self.assertEqual(actual, expected)
+
+
+class TestRepeatedDate(unittest.TestCase):
+    def setUp(self):
+        builder = DynamicDataFieldBuilder(**REPEATED_DATE_FIELD)
+        self.field = builder.temporal_object()
+        self.field_info = get_field_info_from_dict(self.field)
+
+    def test_validation_of_repeated_value(self):
+        model = create_model("TestTable", **self.field)
+        data = {
+            "DTY1285_TEMPORAL": [
+                {"estMinDate": 1400, "estMaxDate": 1430.1231},
+                {"estMinDate": 1440, "estMaxDate": 1450.1231},
+            ]
+        }
+        actual = model.model_validate(data).model_dump(by_alias=True)
+        expected = {
+            "date_of_creation_TEMPORAL": [
+                {"estMinDate": 1400, "estMaxDate": 1430.1231},
+                {"estMinDate": 1440, "estMaxDate": 1450.1231},
+            ]
         }
         self.assertEqual(actual, expected)
 

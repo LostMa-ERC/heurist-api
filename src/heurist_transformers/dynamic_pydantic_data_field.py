@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Optional, Any
 
 from pydantic import Field
@@ -34,10 +33,7 @@ class DynamicDataFieldBuilder:
         return HeuristDataType.to_pydantic(self.dty_Type)
 
     def is_type_repeatable(self) -> bool:
-        if (
-            not self.base_pydantic_data_type == list[Optional[datetime]]
-            and self.rst_MaxValues == 0
-        ):
+        if self.rst_MaxValues == 0:
             return True
         else:
             return False
@@ -74,8 +70,11 @@ class DynamicDataFieldBuilder:
 
     def temporal_object(self) -> dict:
         validation_alias = self.base_pydantic_alias + "_TEMPORAL"
-        pydantic_type = Optional[dict]
         serialization_alias = self.base_sql_safe_alias + "_TEMPORAL"
+        if self.is_type_repeatable():
+            pydantic_type = list[Optional[dict]]
+        else:
+            pydantic_type = Optional[dict]
 
         return self.make_field(
             validation_alias=validation_alias,

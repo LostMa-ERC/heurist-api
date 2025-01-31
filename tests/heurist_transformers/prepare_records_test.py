@@ -52,5 +52,18 @@ class TestTemporal(unittest.TestCase):
         self.assertDictEqual(actual, expected)
 
 
+class TestRepeatedTemporal(unittest.TestCase):
+    def setUp(self):
+        self.model = DynamicRecordTypeModel(
+            rty_ID="103", rty_Name="Story", detail_metadata=_metadata.REPEATED_TEMPORAL
+        ).model
+        self.flattener = RecordFlattener(self.model)
+
+    def test_repeated_temporal(self):
+        actual = self.flattener(record_details=_details.TWO_TEMPORAL)
+        expected = _flat_kwarg.TWO_TEMPORAL
+        self.assertDictEqual(actual, expected)
+
+
 if __name__ == "__main__":
     unittest.main()
