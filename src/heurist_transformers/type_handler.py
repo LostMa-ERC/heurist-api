@@ -74,7 +74,7 @@ class HeuristDataType:
             return Optional[str] | list[Optional[str]]
 
         elif datatype == cls.record_pointer:
-            return Optional[str] | list[Optional[str]]
+            return Optional[int] | list[Optional[int]]
 
         elif datatype == cls.relationship_marker:
             return Optional[str] | list[Optional[str]]

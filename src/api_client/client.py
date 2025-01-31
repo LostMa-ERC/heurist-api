@@ -20,24 +20,6 @@ class HeuristAPIClient:
     def get_response_content(self, url: str) -> ByteString | None:
         """Request resources from the Heurist server.
 
-        Examples:
-            >>> from src.api_client import HeuristClient
-            >>>
-            >>>
-            >>> url = "https://heurist.huma-num.fr/heurist/export/xml/flathml.php?q=sortby%3A-m&a=1&db={}&depth=0"
-            >>> client = HeuristClient()
-            >>>
-            >>> # Test valid URL
-            >>> res = client.get_response_content(url=url.format(client.database_name))
-            >>> type(res)
-            <class 'bytes'>
-            >>>
-            >>> # Test invalid URL
-            >>> client.get_response_content(url=url.format("missing_database"))
-            Traceback (most recent call last):
-                ...
-            src.api_client.exceptions.APIException: Could not connect to database.
-
         Args:
             url (str): Heurist API entry point.
 

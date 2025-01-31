@@ -1,3 +1,4 @@
+# Result of a record's JSON export
 DETAIL_POINT = {
     "dty_ID": 1112,
     "value": {"geo": {"type": "p", "wkt": "POINT(2.19726563 48.57478991)"}},
@@ -6,6 +7,7 @@ DETAIL_POINT = {
     "conceptID": "",
 }
 
+# Result of a record's JSON export
 DETAIL_POLYGON = {
     "dty_ID": 1112,
     "value": {

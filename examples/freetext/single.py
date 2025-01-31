@@ -1,6 +1,15 @@
+# Result of joining the database schema tables
+METADATA = {
+    "dty_ID": 1109,
+    "rst_DisplayName": "preferred_name",
+    "dty_Type": "freetext",
+    "rst_MaxValues": 1,
+}
+
+# Result of a record's JSON export
 DETAIL = {
     "dty_ID": 1109,
-    "value": "a single line of text",
+    "value": "preferred_name",
     "fieldName": "single line",
     "fieldType": "freetext",
     "conceptID": "",

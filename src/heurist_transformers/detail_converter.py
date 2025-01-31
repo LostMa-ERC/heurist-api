@@ -81,7 +81,7 @@ class RecordDetailConverter:
         return value
 
     @classmethod
-    def resource(cls, detail: dict) -> str:
+    def resource(cls, detail: dict) -> int:
         """Extract the value of a resource field.
 
         Args:
@@ -91,8 +91,7 @@ class RecordDetailConverter:
             str: Value of record's detail.
         """
 
-        value = detail["value"]
-        return int(value["id"])
+        return int(detail["value"]["id"])
 
     @classmethod
     def _fieldname(cls, dty_ID: int) -> str:

@@ -1,3 +1,4 @@
+# Result of a record's JSON export
 DETAIL = {
     "dty_ID": 1113,
     "value": {

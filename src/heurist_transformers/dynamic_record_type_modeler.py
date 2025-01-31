@@ -24,17 +24,6 @@ class DynamicRecordTypeModel:
         """Take a list of key-value pairs (dict), which pair a record's detail (data field) with a value,
             and convert that set of key-value pairs to a Pydantic model.
 
-        Examples:
-            >>> # Example set of key-value pairs for a record that has only one data field, i.e. 'Name or Title'.
-            >>> detail_metadata = [{'dty_ID': 1, 'rst_DisplayName': 'Name or Title', 'dty_Type': 'freetext', 'rst_MaxValues': 1}]
-            >>>
-            >>> # Model the data for the record's details (data fields), in this case one data field.
-            >>> rectype = RecordTypeModeler(rty_ID=101, rty_Name="test record", detail_metadata=detail_metadata)
-            >>>
-            >>> # Confirm the record was succesfully modeled and has the correct name.
-            >>> rectype.model.__name__
-            'TestRecord'
-
         Args:
             detail_metadata (list[dict]): A record type's details, including the following keys:
                 dty_ID,

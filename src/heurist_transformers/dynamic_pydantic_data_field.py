@@ -38,7 +38,7 @@ class DynamicDataFieldBuilder:
         else:
             return False
 
-    def make_field(
+    def _compose_annotation(
         self, validation_alias: str, pydantic_type: Any, serialization_alias: str
     ) -> dict:
         return {
@@ -62,7 +62,7 @@ class DynamicDataFieldBuilder:
         validation_alias = self.base_pydantic_alias
         serialization_alias = self.base_sql_safe_alias
 
-        return self.make_field(
+        return self._compose_annotation(
             validation_alias=validation_alias,
             serialization_alias=serialization_alias,
             pydantic_type=pydantic_type,
@@ -76,7 +76,7 @@ class DynamicDataFieldBuilder:
         else:
             pydantic_type = Optional[dict]
 
-        return self.make_field(
+        return self._compose_annotation(
             validation_alias=validation_alias,
             serialization_alias=serialization_alias,
             pydantic_type=pydantic_type,
@@ -90,7 +90,7 @@ class DynamicDataFieldBuilder:
         validation_alias = self.base_pydantic_alias + "_TRM"
         serialization_alias = self.base_sql_safe_alias + " TRM-ID"
 
-        return self.make_field(
+        return self._compose_annotation(
             validation_alias=validation_alias,
             serialization_alias=serialization_alias,
             pydantic_type=pydantic_type,

@@ -49,7 +49,8 @@ class TestGeo(unittest.TestCase):
 
 class TestDate(unittest.TestCase):
     def setUp(self):
-        from examples.date.single import DETAIL_FUZZY, DETAIL_SIMPLE
+        from examples.date.fuzzy.single import DETAIL as DETAIL_FUZZY
+        from examples.date.simple.single import DETAIL as DETAIL_SIMPLE
 
         self.fuzzy_date_detail = DETAIL_FUZZY
         self.simple_date_detail = DETAIL_SIMPLE

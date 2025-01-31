@@ -46,14 +46,15 @@ class RecordFlattener:
         self, details: list[dict], plural: bool
     ) -> dict | list | None:
         objects = [
-            detail.get("value")
+            detail["value"]
             for detail in details
             if isinstance(detail.get("value"), dict)
         ]
-        if plural:
-            return objects
-        else:
-            return objects[0]
+        if len(objects) > 0:
+            if plural:
+                return objects
+            else:
+                return objects[0]
 
     def make_enum_field(self, details: list[dict], plural: bool) -> int | list | None:
         term_ids = [detail.get("value") for detail in details]
