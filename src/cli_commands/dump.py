@@ -56,5 +56,8 @@ def dump_command(
             outdir.mkdir(exist_ok=True)
             for tup in tables.fetchall():
                 table_name = tup[0]
+                # Skip the schema tables
+                if table_name in ["rtg", "rst", "rty", "dty", "trm"]:
+                    continue
                 fp = outdir.joinpath(f"{table_name}.csv")
                 new_conn.table(table_name).sort("H-ID").write_csv(str(fp))
