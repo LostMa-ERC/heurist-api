@@ -6,9 +6,9 @@ from src.cli_commands import doc_command, dump_command, rty_command
 from .__version__ import __identifier__
 
 
-## =========================== ##
-##     Main cli group
-## =========================== ##
+# =========================== #
+#     Main cli group
+# =========================== #
 @click.group(help="Group CLI command for connecting to the Heurist OLTP DB")
 @click.version_option(__identifier__)
 @click.option(
@@ -45,9 +45,9 @@ def cli(ctx, database, login, password, testing):
     )
 
 
-## =========================== ##
-##     'record' command
-## =========================== ##
+# =========================== #
+#     'record' command
+# =========================== #
 @cli.command("record", help="Get a JSON export of a certain record type.")
 @click.option(
     "-t",
@@ -69,16 +69,22 @@ def records(ctx, record_type, outfile):
     rty_command(client, record_type, outfile)
 
 
-## =========================== ##
-##     'doc' command
-## =========================== ##
-@cli.command("doc", help="Command to export documentation about the database schema.")
+# =========================== #
+#     'schema' command
+# =========================== #
+@cli.command(
+    "schema",
+    help="Command to export documentation \
+             about the database schema.",
+)
 @click.option(
     "-t",
     "--output-type",
     required=True,
     type=click.Choice(["csv", "json"], case_sensitive=False),
-    help="Data format in which the schema will be described. csv = 1 CSV file for each record type. json = 1 file that lists all records together",
+    help="Data format in which the schema will be described. \
+    csv = 1 CSV file for each record type. json = 1 file that \
+    lists all records together",
 )
 @click.option(
     "-r",
@@ -88,14 +94,16 @@ def records(ctx, record_type, outfile):
     multiple=True,
     default=["My record types"],
     show_default=True,
-    help="Group name of the record types to be described. Can be declared multiple times for multiple groups.",
+    help="Group name of the record types to be described. \
+        Can be declared multiple times for multiple groups.",
 )
 @click.option(
     "-o",
     "--outdir",
     required=False,
     type=click.Path(file_okay=False, dir_okay=True),
-    help="Path to the directory in which the files will be written. Defaults to name of the database + '_schema'.",
+    help="Path to the directory in which the files will be written. \
+        Defaults to name of the database + '_schema'.",
 )
 @click.pass_obj
 def doc(ctx, record_group, outdir, output_type):
@@ -107,11 +115,13 @@ def doc(ctx, record_group, outdir, output_type):
     doc_command(client, testing, record_group, outdir, output_type)
 
 
-## =========================== ##
-##     'dump' command
-## =========================== ##
+# =========================== #
+#     'dump' command
+# =========================== #
 @cli.command(
-    "dump", help="Command to export data of records of a given record group type."
+    "dump",
+    help="Command to export data of records of a given \
+        record group type.",
 )
 @click.option(
     "-r",
@@ -120,7 +130,8 @@ def doc(ctx, record_group, outdir, output_type):
     type=click.STRING,
     multiple=True,
     default=["My record types"],
-    help="Record group of the entities whose data is exported. Default: 'My record types'.",
+    help="Record group of the entities whose data is exported. \
+        Default: 'My record types'.",
 )
 @click.option(
     "-u",
@@ -128,7 +139,8 @@ def doc(ctx, record_group, outdir, output_type):
     required=False,
     type=click.INT,
     multiple=True,
-    help="User or users who created the records to be exported. Default: all users' records.",
+    help="User or users who created the records to be exported. \
+        Default: all users' records.",
 )
 @click.option(
     "-f",
@@ -148,7 +160,8 @@ def doc(ctx, record_group, outdir, output_type):
         file_okay=False,
         dir_okay=True,
     ),
-    help="Directory in which CSV files of the dumped tabular data will be written.",
+    help="Directory in which CSV files of the dumped tabular data \
+        will be written.",
 )
 @click.pass_obj
 def dump(ctx, filepath, record_group, user: tuple[int], outdir):
@@ -161,7 +174,8 @@ def dump(ctx, filepath, record_group, user: tuple[int], outdir):
         dump_command(client, filepath, record_group, user, outdir)
     else:
         print(
-            "\nCannot run 'dump' command in debugging mode.\nClient must connect to a remote Heurist database.\n"
+            "\nCannot run 'dump' command in debugging mode.\
+            \nClient must connect to a remote Heurist database.\n"
         )
         print("Exiting.")
         exit()

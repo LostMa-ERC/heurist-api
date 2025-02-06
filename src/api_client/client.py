@@ -63,11 +63,13 @@ class HeuristAPIClient:
 
         Args:
             record_type_id (int): Heurist ID of targeted record type.
-            form (Literal["xml", "json"], optional): Data format for requested records. Defaults to "json".
+            form (Literal["xml", "json"], optional): Data format for requested
+                records. Defaults to "json".
             users (tuple): Array of IDs of users who added the target records.
 
         Returns:
-            bytes | list | None: If XML, binary response returned from Heurist server, else JSON array.
+            bytes | list | None: If XML, binary response returned from Heurist
+                server, else JSON array.
         """
 
         url = self.url_builder.get_records(
@@ -107,7 +109,8 @@ class HeuristAPIClient:
             <class 'bytes'>
 
         Returns:
-            bytes | list | None: If XML, binary response returned from Heurist server, else JSON array.
+            bytes | list | None: If XML, binary response returned from Heurist server,
+            else JSON array.
         """
         url = self.url_builder.get_db_structure()
         return self.get_response_content(url)

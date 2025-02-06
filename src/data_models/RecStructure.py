@@ -7,7 +7,8 @@ class RecStructure(BaseXmlModel):
     """Dataclass for modeling all of the database structure's Record Structures.
 
     Attributes:
-        rst (list): list of instantiated dataclasses that model all of the database's Record Structures.
+        rst (list): list of instantiated dataclasses that model all of the database's
+            Record Structures.
 
     Examples:
         >>> from examples import DB_STRUCTURE_XML

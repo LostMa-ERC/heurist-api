@@ -1,7 +1,9 @@
 import unittest
+from datetime import datetime
 
 from src.heurist_transformers.detail_converter import RecordDetailConverter
-from datetime import datetime
+
+URI = "https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg"
 
 
 class TestFile(unittest.TestCase):
@@ -11,7 +13,7 @@ class TestFile(unittest.TestCase):
         self.detail = DETAIL
 
     def test(self):
-        expected = "https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg"
+        expected = URI
         actual = RecordDetailConverter.file(self.detail)
         self.assertEqual(expected, actual)
 
@@ -41,7 +43,8 @@ class TestGeo(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_polygon(self):
-        startswith = "POLYGON((-2.82548747 55.12653961,-2.82912354 55.12473717,-2.83104469 55.12336704,"
+        startswith = "POLYGON((-2.82548747 55.12653961,-2.82912354 55.12473717,\
+            -2.83104469 55.12336704,"
         expected = startswith[:20]
         actual = RecordDetailConverter.geo(self.polygon_detail)[:20]
         self.assertEqual(expected, actual)

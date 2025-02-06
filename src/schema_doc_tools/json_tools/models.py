@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import List, Optional
 
 from pydantic import BaseModel
 from pydantic.functional_validators import BeforeValidator
@@ -10,13 +10,13 @@ def convert_duckdb_json(d: dict) -> dict:
 
 
 def convert_vocab_dict(v: dict | None) -> list:
-    l = []
+    vocab_terms = []
     if v:
         d = convert_duckdb_json(v)
         for k, v in d.items():
             nd = {"label": k} | v
-            l.append(nd)
-    return l
+            vocab_terms.append(nd)
+    return vocab_terms
 
 
 VocabTerms = Annotated[list, BeforeValidator(convert_vocab_dict)]

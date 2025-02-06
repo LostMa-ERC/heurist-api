@@ -7,7 +7,8 @@ class DetailTypes(BaseXmlModel):
     """Dataclass for modeling all of the database structure's Detail Types.
 
     Attributes:
-        dty (list): list of instantiated dataclasses that model all of the database's Detail Types.
+        dty (list): list of instantiated dataclasses that model all of the database's
+            Detail Types.
 
     Examples:
         >>> from examples import DB_STRUCTURE_XML

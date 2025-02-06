@@ -16,11 +16,11 @@ class HeuristDateHandler:
     def __call__(cls, v: str | int | list[str]) -> list[datetime]:
         if isinstance(v, list):
             d1, d2 = cls.parse(v[0]), cls.parse(v[1])
-            l = sorted([d1, d2])
+            date_list = sorted([d1, d2])
         else:
             v = str(v)
-            l = [cls.parse(v), None]
-        return l
+            date_list = [cls.parse(v), None]
+        return date_list
 
     @classmethod
     def fill_out_date_str(cls, v: str | int):

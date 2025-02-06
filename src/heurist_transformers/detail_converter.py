@@ -1,7 +1,5 @@
 """Class for converting a record's detail before the Pydantic model validation."""
 
-from typing import Generator
-
 from src.heurist_transformers.date_handler import HeuristDateHandler
 from src.heurist_transformers.type_handler import HeuristDataType
 

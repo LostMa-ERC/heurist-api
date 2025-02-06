@@ -1,4 +1,4 @@
-from typing import Optional, Any
+from typing import Any, Optional
 
 from pydantic import Field
 
@@ -45,9 +45,12 @@ class DynamicDataFieldBuilder:
             validation_alias: (
                 pydantic_type,
                 Field(
-                    description=self.dty_ID,  # ID of the column's data type in Heurist
-                    validation_alias=validation_alias,  # Formatted way to identify the Pydantic column
-                    serialization_alias=serialization_alias,  # SQL-safe version of the column name
+                    # ID of the column's data type in Heurist
+                    description=self.dty_ID,
+                    # Formatted way to identify the Pydantic column
+                    validation_alias=validation_alias,
+                    # SQL-safe version of the column name
+                    serialization_alias=serialization_alias,
                     default=None,
                 ),
             )

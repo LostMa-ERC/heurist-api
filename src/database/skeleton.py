@@ -5,7 +5,7 @@ from pydantic_xml import BaseXmlModel
 
 from src.data_models.hml_structure import HMLStructure
 from src.heurist_transformers.dynamic_record_type_modeler import DynamicRecordTypeModel
-from src.sql_models.select_record_structure import QUERY
+from src.sql_models import SCHEMA_QUERY
 
 
 class DatabaseSkeleton:
@@ -71,11 +71,13 @@ WHERE table_name like '{table_name}'
             model (BaseXmlModel): _description_
         """
         self.delete_existing_table(name)
+
+        # Convert the model to a dataframe and register it for duckdb
         df = pl.DataFrame(model)
-        # if self.save_structure:
+        assert df.shape[0] > 1
+
+        # Create table from model dataframe
         sql = "CREATE TABLE {} AS FROM df".format(name)
-        # else:
-        #     sql = "CREATE TEMPORARY TABLE {} AS FROM df".format(name)
         self.conn.sql(sql)
 
     @classmethod
@@ -128,8 +130,9 @@ ORDER BY rst.rst_DisplayOrder
 
     def describe_record_fields(self, rty_ID: int) -> DuckDBPyRelation:
         """Join the tables 'dty' (detail), 'rst' (record structure), 'rty' (record type)
-        to get all the relevant information for a specific record type, plus add the label
-        and description of the section / separator associated with each detail (if any).
+        to get all the relevant information for a specific record type, plus add the
+        label and description of the section / separator associated with each detail
+        (if any).
 
         Args:
             rty_ID (int): ID of the targeted record type.
@@ -137,4 +140,4 @@ ORDER BY rst.rst_DisplayOrder
         Returns:
             DuckDBPyRelation: A DuckDB Python relation that can be queried or converted.
         """
-        return self.conn.from_query(query=QUERY, params=[rty_ID])
+        return self.conn.from_query(query=SCHEMA_QUERY, params=[rty_ID])

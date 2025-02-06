@@ -38,7 +38,10 @@ PYDANTIC_KEY_VALUE = {
 
 # Result of validating flattened data in the record's DynamicRecordTypeModel
 ALIAS_KEY_VALUE = {
-    "date_of_creation": [datetime(1180, 1, 1, 0, 0), datetime(1250, 12, 31, 0, 0)],
+    "date_of_creation": [
+        datetime(1180, 1, 1, 0, 0),
+        datetime(1250, 12, 31, 0, 0),
+    ],
     "date_of_creation_TEMPORAL": {
         "start": {"earliest": "1180", "latest": "1231", "profile": "1"},
         "end": {"latest": "1250", "earliest": "1246", "profile": "3"},

@@ -1,11 +1,11 @@
 """Module for utilities commonly used by XML parsers in schemas."""
 
-import re
 import json
 
 
 def split_ids(input: str) -> list:
-    """Function for converting a string representation of a list of quoted integers into a Python list object.
+    """Function for converting a string representation of a list of quoted integers \
+        into a Python list object.
 
     Examples:
         >>> s = "3001,3110,3113,3288"

@@ -7,7 +7,8 @@ class RecTypes(BaseXmlModel):
     """Dataclass for modeling all of the database structure's Record Types.
 
     Attributes:
-        rty (list): list of instantiated dataclasses that model all of the database's Record Types.
+        rty (list): list of instantiated dataclasses that model all of the database's
+            Record Types.
 
     Examples:
         >>> from examples import DB_STRUCTURE_XML

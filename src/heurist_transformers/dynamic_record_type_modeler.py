@@ -1,18 +1,20 @@
 from pydantic import BaseModel, Field, create_model
 
-from src.sql_models.sql_safety import SafeSQLName
 from src.heurist_transformers.dynamic_pydantic_data_field import DynamicDataFieldBuilder
+from src.sql_models.sql_safety import SafeSQLName
 
 
 class DynamicRecordTypeModel:
     def __init__(self, rty_ID: int, rty_Name: str, detail_metadata: list[dict]) -> None:
         """_summary_
-        The detail metadata includes the following keys: dty_ID, rst_DisplayName, dty_Type, rst_MaxValues.
+        The detail metadata includes the following keys: dty_ID, rst_DisplayName, \
+            dty_Type, rst_MaxValues.
 
         Args:
             rty_ID (int): The Heurist ID of the targeted record type.
             rty_Name (str): The name of the targeted record type.
-            detail_metadata (list[dict]): A list of information about the targeted record's details.
+            detail_metadata (list[dict]): A list of information about the targeted \
+                record's details.
         """
 
         self.rty_ID = rty_ID
@@ -21,11 +23,13 @@ class DynamicRecordTypeModel:
         self.model = self.to_pydantic_model(detail_metadata)
 
     def to_pydantic_model(self, detail_metadata: list[dict]) -> BaseModel:
-        """Take a list of key-value pairs (dict), which pair a record's detail (data field) with a value,
+        """Take a list of key-value pairs (dict), which pair a record's detail \
+            (data field) with a value,
             and convert that set of key-value pairs to a Pydantic model.
 
         Args:
-            detail_metadata (list[dict]): A record type's details, including the following keys:
+            detail_metadata (list[dict]): A record type's details, including the \
+                following keys:
                 dty_ID,
                 rst_DisplayName,
                 dty_Type,

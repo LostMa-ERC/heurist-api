@@ -5,7 +5,8 @@ from pydantic_xml import BaseXmlModel, element
 
 
 class RTG(BaseXmlModel, tag="rtg", search_mode="unordered"):
-    """Dataclass to model one of the database's Record Type Groups. A Record Type Group categorizes the record types in the database.
+    """Dataclass to model one of the database's Record Type Groups. A Record Type \
+        Group categorizes the record types in the database.
 
     When possible, the attribute descriptions are taken from Heurist's source code.
 

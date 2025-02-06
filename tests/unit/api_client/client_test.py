@@ -36,16 +36,19 @@ class ClientUnitTest(unittest.TestCase):
             self.client = HeuristClient(**env_vars)
         except KeyError:
             self.skipTest(
-                "Connection could not be established.\nCannot test client without database connection."
+                "Connection could not be established.\nCannot test client without \
+                    database connection."
             )
 
     def test_user_filter(self):
-        """Test the API client's ability to extract records created by a certain user."""
+        """Test the API client's ability to extract records created by a \
+            certain user."""
         records = self.client.get_records(
             record_type_id=TEST_RECORD_TYPE, users=(TEST_USER,)
         )
 
-        # Confirm that the number of records matches what is expected for this user in the test database.
+        # Confirm that the number of records matches what is expected for this user in
+        # the test database.
         self.assertEqual(len(records), USER_CREATED_RECORDS)
 
     def test_hml_export(self):

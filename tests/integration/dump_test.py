@@ -24,7 +24,8 @@ class DumpCommand(unittest.TestCase):
             self.client = HeuristClient(**env_vars)
         except KeyError:
             self.skipTest(
-                "Connection could not be established.\nCannot test client without database connection."
+                "Connection could not be established.\nCannot test client without \
+                    database connection."
             )
 
     def test(self):

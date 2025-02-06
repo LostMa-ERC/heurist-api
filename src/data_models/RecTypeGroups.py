@@ -7,7 +7,8 @@ class RecTypeGroups(BaseXmlModel):
     """Dataclass for modeling all of the database structure's Record Type Groups.
 
     Attributes:
-        rtg (list): list of instantiated dataclasses that model all of the database's Record Type Groups.
+        rtg (list): list of instantiated dataclasses that model all of the database's
+            Record Type Groups.
 
     Examples:
         >>> from examples import DB_STRUCTURE_XML

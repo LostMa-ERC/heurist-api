@@ -1,14 +1,10 @@
 """CLI command for extracting, transforming, and loading remote Heurist data."""
 
-from pathlib import Path
 import json
+from pathlib import Path
 
-from rich.progress import (
-    Progress,
-    SpinnerColumn,
-    TextColumn,
-    TimeElapsedColumn,
-)
+from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+
 from src.api_client import HeuristClient
 
 
@@ -18,7 +14,7 @@ def rty_command(client: HeuristClient, rty: int, outfile: Path | str | None):
         SpinnerColumn(),
         TimeElapsedColumn(),
     ) as p:
-        t = p.add_task(f"Get Records of type {rty}", total=1)
+        _ = p.add_task(f"Get Records of type {rty}", total=1)
         records = client.get_records(rty)
     if not outfile:
         outfile = f"RTY_{rty}.json"

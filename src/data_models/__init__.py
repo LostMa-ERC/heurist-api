@@ -7,3 +7,13 @@ from src.data_models.RecTypes import RecTypes
 from src.data_models.rst import RST
 from src.data_models.rtg import RTG
 from src.data_models.rty import RTY
+
+DetailTypes
+DTY
+HMLStructure
+RecStructure
+RecTypeGroups
+RecTypes
+RST
+RTG
+RTY

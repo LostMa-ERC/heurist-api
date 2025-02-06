@@ -1,4 +1,7 @@
-"""CLI command for extracting, transforming, and loading details about the Heurist database structure."""
+"""
+CLI command for extracting, transforming, and loading details
+about the Heurist database structure.
+"""
 
 from pathlib import Path
 
@@ -12,8 +15,8 @@ from rich.progress import (
 )
 
 from src.api_client import HeuristClient
-from src.schema_doc_tools import output_csv, output_json
 from src.database import LoadedDatabase
+from src.schema_doc_tools import output_csv, output_json
 
 
 def doc_command(

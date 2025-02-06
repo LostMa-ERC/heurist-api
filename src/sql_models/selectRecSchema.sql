@@ -1,6 +1,5 @@
-QUERY = """
 SELECT
-	CASE 
+	CASE
 		WHEN group_id != 0 THEN FIRST_VALUE(rst_DisplayName) OVER (PARTITION BY group_id)
 		ELSE NULL
 	END
@@ -15,7 +14,7 @@ FROM (
 SELECT *
 	FROM (
 			SELECT
-				COUNT( 
+				COUNT(
 					CASE WHEN dty_type LIKE 'separator' THEN rst_DisplayName ELSE NULL end
 				) OVER (ORDER BY rst_DisplayOrder) AS group_id,
 				*
@@ -25,7 +24,7 @@ SELECT *
 			WHERE rty_ID = ?
 	)
 	LEFT JOIN (
-		SELECT 
+		SELECT
 				a.vocab_id as trm_TreeID,
 				b.trm_Label,
 				b.trm_Description,
@@ -34,7 +33,7 @@ SELECT *
 			FROM (
 			SELECT
 				trm_ParentTermID AS vocab_id,
-				count(*) AS term_count, 
+				count(*) AS term_count,
 				map(list(trm_Label), list({"description": trm_Description, "url": trm_SemanticReferenceURL, "id": trm_ID})) AS terms
 			FROM trm
 			GROUP BY trm_ParentTermID
@@ -44,4 +43,3 @@ SELECT *
     ORDER BY rst_DisplayOrder
 )
 ORDER BY rst_DisplayOrder
-"""

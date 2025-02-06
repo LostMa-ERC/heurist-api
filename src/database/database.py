@@ -12,10 +12,12 @@ from src.heurist_transformers.type_handler import HeuristDataType
 
 
 class LoadedDatabase(DatabaseSkeleton):
-    """Class for building and populating SQL tables with data collected from remote Heurist DB.
+    """Class for building and populating SQL tables with data collected from \
+        remote Heurist DB.
 
     Args:
-        DatabaseSkeleton (class): Class featuring methods for parsing the Heurist DB schema.
+        DatabaseSkeleton (class): Class featuring methods for parsing the \
+            Heurist DB schema.
     """
 
     def __init__(
@@ -38,7 +40,8 @@ class LoadedDatabase(DatabaseSkeleton):
         """Model the data of each record in a list of records.
 
         Args:
-            pydantic_model (DynamicRecordTypeModel): Pydantic model created for the record.
+            pydantic_model (DynamicRecordTypeModel): Pydantic model created for the \
+                record.
             records (list[dict]): A JSON array of a record's details.
 
         Yields:
@@ -80,28 +83,31 @@ class LoadedDatabase(DatabaseSkeleton):
                     # If this detail allows multiple values, place the value in a list.
                     if key in plural_fields:
                         value = [value]
-                # If there are more than one of this detail type, then the detail must allow
-                # multiple values and they must be in a list.
+                # If there are more than one of this detail type, then the detail must
+                # allow multiple values and they must be in a list.
                 else:
                     value = []
                     for detail in details:
                         value.append(RecordDetailConverter._convert_value(detail))
                 flat_details.update({key: value})
 
-                # Now we need to look into the detail type itself and add more columns for
-                # date fields.
+                # Now we need to look into the detail type itself and add more columns
+                # for date fields.
                 fieldtype = HeuristDataType.from_json_record(details[0])
                 if fieldtype == "date":
                     key = RecordDetailConverter._fieldname(dty_id) + "_TEMPORAL"
-                    # If the detail is a temporal object, add it to the additional date column
+                    # If the detail is a temporal object, add it to the additional date
+                    # column
                     if len(details) == 1 and isinstance(details[0]["value"], dict):
                         flat_details.update({key: details[0]["value"]})
-                    # If any of the details are a temporal object, add them to the additional date column
+                    # If any of the details are a temporal object, add them to the
+                    # additional date column
                     else:
                         value = {}
                         for i, detail in enumerate(details):
                             v = detail["value"]
-                            # If the date data is a temporal object, add it to the value array
+                            # If the date data is a temporal object, add it to the
+                            # value array
                             if isinstance(v, dict):
                                 value.update({i: v})
                         # Leave the field empty if there is no temporal data
@@ -152,6 +158,7 @@ class LoadedDatabase(DatabaseSkeleton):
         # Transform the series of models into a dataframe
         try:
             df = pd.DataFrame(modeled_dicts)
+            assert df.shape[0] > 1
         except Exception as e:
             from pprint import pprint
 
