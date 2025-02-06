@@ -72,9 +72,9 @@ Options:
   --help               Show this message and exit.
 
 Commands:
-  doc     Command to export documentation about the database schema.
   dump    Command to export data of records of a given record group type.
   record  Get a JSON export of a certain record type.
+  schema  Command to export documentation about the database schema.
 ```
 
 ## Basic Usage

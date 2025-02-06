@@ -9,7 +9,7 @@ from .__version__ import __identifier__
 # =========================== #
 #     Main cli group
 # =========================== #
-@click.group(help="Group CLI command for connecting to the Heurist OLTP DB")
+@click.group(help="Group CLI command for connecting to the Heurist DB")
 @click.version_option(__identifier__)
 @click.option(
     "-d",

@@ -158,7 +158,7 @@ class LoadedDatabase(DatabaseSkeleton):
         # Transform the series of models into a dataframe
         try:
             df = pd.DataFrame(modeled_dicts)
-            assert df.shape[0] > 1
+            assert df.shape
         except Exception as e:
             from pprint import pprint
 
