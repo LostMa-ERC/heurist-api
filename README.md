@@ -120,6 +120,7 @@ It is important to note several ways this pipeline transforms and simplifies the
 - ex. `_COLUMN`: When your record's data field uses a name reserved for other purposes in SQL, i.e. "language," the suffix `_COLUMN` is appended to it.
 - ex. `TRM-ID`: Vocabulary terms are repeated twice in the transformed DuckDB table. First, the term itself is directly available in the column named after the data field. Second, a unique identifier for the term is given in a column with the same name as the first but modified with the suffix `TRM-ID`. Use this ID to join on the `trm` table and get more metadata about the vocabulary term.
 - ex. `list[typing.Optional[...]]`: When a data field can be repeated on a record, its value in the transformed DuckDB table is a list.
+- ex. `... H-ID`: When a data field is a foreign key that references another table, that column name has the suffix `H-ID`. This is useful if you want to re-import this data field into Heurist, which requires all foreign-key columns to have this suffix.
 
 ## Further Resources
 
