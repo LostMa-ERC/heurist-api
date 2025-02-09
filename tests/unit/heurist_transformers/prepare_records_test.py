@@ -2,6 +2,7 @@ import unittest
 
 from src.heurist_transformers.prepare_records import RecordFlattener
 from src.heurist_transformers.dynamic_record_type_modeler import DynamicRecordTypeModel
+from src import TABLES_LOG, DATABASE_LOG
 
 
 class BaseClass(unittest.TestCase):
@@ -13,12 +14,19 @@ class BaseClass(unittest.TestCase):
         ).model
         self.flattener = RecordFlattener(model)
 
+    def tearDown(self):
+        TABLES_LOG.unlink(missing_ok=True)
+        DATABASE_LOG.unlink(missing_ok=True)
+
 
 class SingularResource(BaseClass):
     from examples.resource.single import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
+
+    def tearDown(self):
+        return super().tearDown()
 
     def test(self):
         from examples.resource import single
@@ -34,6 +42,9 @@ class RepeatedResource(BaseClass):
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
+    def tearDown(self):
+        return super().tearDown()
+
     def test(self):
         from examples.resource import repeated
 
@@ -47,6 +58,9 @@ class SingularFuzzyDate(BaseClass):
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
+
+    def tearDown(self):
+        return super().tearDown()
 
     def test(self):
         from examples.date.fuzzy import single
@@ -62,6 +76,9 @@ class RepeatedFuzzyDate(BaseClass):
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
+    def tearDown(self):
+        return super().tearDown()
+
     def test(self):
         from examples.date.fuzzy import repeated
 
@@ -76,6 +93,9 @@ class SingularSimpleDate(BaseClass):
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
+    def tearDown(self):
+        return super().tearDown()
+
     def test(self):
         from examples.date.simple import single
 
@@ -89,6 +109,9 @@ class RepeatedSimpleDate(BaseClass):
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
+
+    def tearDown(self):
+        return super().tearDown()
 
     def test(self):
         from examples.date.simple import repeated

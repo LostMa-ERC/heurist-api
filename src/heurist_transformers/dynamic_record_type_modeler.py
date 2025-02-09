@@ -1,7 +1,26 @@
 from pydantic import BaseModel, Field, create_model
+from typing import Any
+
+from src import setup_logger, TABLES_LOG
+import logging
 
 from src.heurist_transformers.dynamic_pydantic_data_field import DynamicDataFieldBuilder
 from src.sql_models.sql_safety import SafeSQLName
+
+
+class NoParsingFilter(logging.Filter):
+    def filter(self, record):
+        return not record.levelname != "INFO"
+
+
+formatter = logging.Formatter("%(message)s")
+logger = setup_logger(
+    name="",
+    filepath=TABLES_LOG,
+    formatter=formatter,
+    filter=NoParsingFilter,
+)
+logger.info("TableName\tColumnName\tDataType")
 
 
 class DynamicRecordTypeModel:
@@ -21,6 +40,10 @@ class DynamicRecordTypeModel:
         self.rty_Name = rty_Name
         self.table_name = SafeSQLName().create_table_name(record_name=rty_Name)
         self.model = self.to_pydantic_model(detail_metadata)
+
+    def _logging(self, serialization_alias: str, dtype: Any) -> None:
+        message = f"{self.table_name}\t{serialization_alias}\t{dtype}"
+        logger.info(message)
 
     def to_pydantic_model(self, detail_metadata: list[dict]) -> BaseModel:
         """Take a list of key-value pairs (dict), which pair a record's detail \
@@ -61,6 +84,8 @@ class DynamicRecordTypeModel:
                 ),
             ),
         }
+        self._logging(serialization_alias="H-ID", dtype=int)
+        self._logging(serialization_alias="type_id", dtype=int)
 
         # Convert each of the record's details into a Pydantic kwarg
         for detail in detail_metadata:
@@ -68,14 +93,26 @@ class DynamicRecordTypeModel:
             builder = DynamicDataFieldBuilder(**detail)
             field = builder.simple_field()
             kwargs.update(field)
+            self._logging(
+                serialization_alias=builder.serialization_alias,
+                dtype=builder.pydantic_type,
+            )
 
             if detail["dty_Type"] == "date":
                 field = builder.temporal_object()
                 kwargs.update(field)
+                self._logging(
+                    serialization_alias=builder.serialization_alias,
+                    dtype=builder.pydantic_type,
+                )
 
             elif detail["dty_Type"] == "enum":
                 field = builder.term_id()
                 kwargs.update(field)
+                self._logging(
+                    serialization_alias=builder.serialization_alias,
+                    dtype=builder.pydantic_type,
+                )
 
         # Using Pydantic's 'create_model' module, build the dynamic model
         return create_model(self.table_name, **kwargs)

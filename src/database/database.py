@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Union
 
+from src import setup_logger, DATABASE_LOG
+
 import pandas as pd
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic import BaseModel
@@ -9,6 +11,9 @@ from src.database.skeleton import DatabaseSkeleton
 from src.heurist_transformers.detail_converter import RecordDetailConverter
 from src.heurist_transformers.dynamic_record_type_modeler import DynamicRecordTypeModel
 from src.heurist_transformers.type_handler import HeuristDataType
+
+
+logger = setup_logger(name="validate-pydantic-model", filepath=DATABASE_LOG)
 
 
 class LoadedDatabase(DatabaseSkeleton):
@@ -125,10 +130,8 @@ class LoadedDatabase(DatabaseSkeleton):
                     pydantic_model.model.model_validate(flat_details)
                 )
             except Exception as e:
-                from pprint import pprint
-
-                pprint(flat_details)
-                raise e
+                message = f"Record ID: {record["rec_ID"]}\t{e}"
+                logger.warning(message)
 
         # Return a list of validated Pydantic models
         return modeled_records
@@ -158,7 +161,7 @@ class LoadedDatabase(DatabaseSkeleton):
         # Transform the series of models into a dataframe
         try:
             df = pd.DataFrame(modeled_dicts)
-            assert df.shape
+            assert df.shape[1] > 0
         except Exception as e:
             from pprint import pprint
 

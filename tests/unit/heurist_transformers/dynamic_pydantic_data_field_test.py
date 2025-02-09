@@ -3,6 +3,7 @@ import unittest
 from pydantic.fields import FieldInfo
 
 from src.heurist_transformers.dynamic_pydantic_data_field import DynamicDataFieldBuilder
+from src import TABLES_LOG, DATABASE_LOG
 
 
 def get_field_info_from_dict(d: dict) -> FieldInfo:
@@ -31,6 +32,10 @@ class Resource(unittest.TestCase):
         expected = list(ALIAS_KEY_VALUE.keys())[0]
         self.assertEqual(actual, expected)
 
+    def tearDown(self):
+        TABLES_LOG.unlink(missing_ok=True)
+        DATABASE_LOG.unlink(missing_ok=True)
+
 
 class Enum(unittest.TestCase):
     def setUp(self):
@@ -39,6 +44,10 @@ class Enum(unittest.TestCase):
         builder = DynamicDataFieldBuilder(**METADATA)
         self.field = builder.term_id()
         self.field_info = get_field_info_from_dict(self.field)
+
+    def tearDown(self):
+        TABLES_LOG.unlink(missing_ok=True)
+        DATABASE_LOG.unlink(missing_ok=True)
 
     def test_validation_alias(self):
         from examples.enum.single import PYDANTIC_KEY_VALUE
@@ -62,6 +71,10 @@ class FuzzyDate(unittest.TestCase):
         builder = DynamicDataFieldBuilder(**METADATA)
         self.field = builder.temporal_object()
         self.field_info = get_field_info_from_dict(self.field)
+
+    def tearDown(self):
+        TABLES_LOG.unlink(missing_ok=True)
+        DATABASE_LOG.unlink(missing_ok=True)
 
     def test_validation_alias(self):
         from examples.date.simple.single import PYDANTIC_KEY_VALUE

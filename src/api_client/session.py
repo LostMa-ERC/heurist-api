@@ -19,7 +19,14 @@ class HeuristRequestSession:
             "login": self.login,
             "password": self.password,
         }
-        _ = self.session.post(url=url, data=body)
+        try:
+            _ = self.session.post(url=url, data=body)
+        except Exception as e:
+            print(
+                "\nUnable to login to Heurist Huma-Num server. \
+                  Connection timed out."
+            )
+            raise e
         return self.session
 
     def __exit__(self, exc_type, exc_val, exc_tb):

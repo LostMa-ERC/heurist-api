@@ -1,6 +1,7 @@
 import unittest
 
 from examples import DB_STRUCTURE_XML, RECORD_JSON
+from src import TABLES_LOG, DATABASE_LOG
 from src.database import LoadedDatabase
 
 
@@ -9,6 +10,10 @@ class DatabaseTest(unittest.TestCase):
         self.db = LoadedDatabase(DB_STRUCTURE_XML)
         self.rectype = 103  # Story
         self.extracted_records = RECORD_JSON["heurist"]["records"]
+
+    def tearDown(self):
+        TABLES_LOG.unlink(missing_ok=True)
+        DATABASE_LOG.unlink(missing_ok=True)
 
     def test(self):
         # Load the extracted records into the database

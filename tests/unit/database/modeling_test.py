@@ -2,6 +2,8 @@ import unittest
 
 import duckdb
 
+from src import TABLES_LOG, DATABASE_LOG
+
 from examples import DB_STRUCTURE_XML
 from src.database import LoadedDatabase
 
@@ -26,6 +28,10 @@ class ModelingTest(unittest.TestCase):
             .select("rty_ID")
             .fetchall()
         ]
+
+    def tearDown(self):
+        TABLES_LOG.unlink(missing_ok=True)
+        DATABASE_LOG.unlink(missing_ok=True)
 
     def test_all_my_records(self):
         for id in self.record_types:
