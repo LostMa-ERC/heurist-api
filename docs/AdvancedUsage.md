@@ -32,6 +32,41 @@ Options:
   --help                   Show this message and exit.
 ```
 
+The `dump` command generates 2 log files in the `./logs` directory. One, `heurist.db.log`, logs warnings about records in your Heurist database that do not match the structure you've declared in Heurist. Until these errors are corrected in Heurist, these records will not be loaded into the DuckDB database.
+
+The other log, `tables.log.tsv`, is a summary of the schemas of the tables created in the DuckDB database. See the example lines below, which show the columns of a table named `TextTable`.
+
+```tsv
+TableName	ColumnName	DataType
+TextTable	H-ID	<class 'int'>
+TextTable	type_id	<class 'int'>
+TextTable	preferred_name	typing.Optional[str]
+TextTable	language_COLUMN	typing.Optional[str]
+TextTable	language_COLUMN TRM-ID	typing.Optional[int]
+TextTable	literary_form	typing.Optional[str]
+TextTable	alternative_names	list[typing.Optional[str]]
+TextTable	is_expression_of H-ID	typing.Optional[int]
+```
+
+When you parse the tab-separated-values (TSV) log file shown above, you'll get the following:
+
+|TableName|ColumnName|DataType|
+|--|--|--|
+|TextTable|H-ID|<class 'int'>|
+|TextTable|type_id|<class 'int'>|
+|TextTable|preferred_name|typing.Optional[str]|
+|TextTable|language_COLUMN|typing.Optional[str]|
+|TextTable|language_COLUMN TRM-ID|typing.Optional[int]|
+|TextTable|alternative_names|list[typing.Optional[str]]|
+|TextTable|is_expression_of H-ID|typing.Optional[int]|
+
+It is important to note several ways this pipeline transforms and simplifies the Heurist database's nested relational tables.
+
+- ex. `typing.Optional[...]`: Optional data fields are indicated with `typing.Optional`, whereas required data fields directly have a data type, i.e. `<class int>`.
+- ex. `_COLUMN`: When your record's data fields uses a name reserved for other purposes in SQL, the suffix `_COLUMN` is appeneded to it.
+- ex. `TRM-ID`: Vocabulary terms are repeated twice in the transformed DuckDB table. First, the term itself is directly available in the column named after the data field. Second, a unique identifier for the term is given in a column with the same name as the first but modified with the suffix `TRM-ID`. Use this ID to join on the `trm` table and get more metadata about the vocabulary term.
+- ex. `list[typing.Optional[...]]`: When a data field can be repeated on a record, its value in the transformed DuckDB table is a list.
+
 ### _Basic Usage_
 
 To export your records from the Heurist database, saving them  in a DuckDB SQL database file, run the following:
