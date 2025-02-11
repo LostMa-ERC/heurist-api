@@ -42,7 +42,7 @@ Relevant VSCode settings.
 Run tests in all code, `src/` and `tests/`.
 
 ```shell
-$ pytest
+$ pytest --log-disable=""
 ```
 
 ## Badges
