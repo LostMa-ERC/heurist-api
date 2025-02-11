@@ -66,7 +66,7 @@ class LoadedDatabase(DatabaseSkeleton):
                     pydantic_model.model.model_validate(flat_details)
                 )
             except Exception as e:
-                message = f"Record ID: {record["rec_ID"]}\t{e}"
+                message = f"Record ID: {record['rec_ID']}\t{e}"
                 logger.warning(message)
 
         # Return a list of validated Pydantic models
