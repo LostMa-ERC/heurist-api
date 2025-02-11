@@ -16,10 +16,11 @@ class RecordFlattener:
     @staticmethod
     def aggregate_details(record_details: list[dict]) -> dict:
         aggregated_details = {}
-        for d in record_details:
-            if not aggregated_details.get(d["dty_ID"]):
-                aggregated_details.update({d["dty_ID"]: []})
-            aggregated_details[d["dty_ID"]].append(d)
+        for detail in record_details:
+            detail_type_id = detail["dty_ID"]
+            if not aggregated_details.get(detail_type_id):
+                aggregated_details.update({detail_type_id: []})
+            aggregated_details[detail_type_id].append(detail)
         return aggregated_details
 
     @property
@@ -59,11 +60,14 @@ class RecordFlattener:
     def make_enum_field(self, details: list[dict], plural: bool) -> int | list | None:
         term_ids = [detail.get("value") for detail in details]
         if plural:
-            return term_ids
+            return [int(i) for i in term_ids]
         else:
-            return term_ids[0]
+            return int(term_ids[0])
 
     def __call__(self, record_details: list[dict]) -> dict:
+        if not isinstance(record_details, list):
+            raise TypeError("Details must be a list.")
+
         # Aggregate details by ID
         aggregated_details = self.aggregate_details(record_details)
 
@@ -72,8 +76,9 @@ class RecordFlattener:
 
         # Update the Pydantic keys dictionary with values
         for dty_ID, details in aggregated_details.items():
+            first_detail = details[0]
             # Parse the detail type's data type
-            fieldtype = HeuristDataType.from_json_record(details[0])
+            fieldtype = HeuristDataType.from_json_record(first_detail)
 
             # Parse the validation alias and whether the field is repeatable
             key = RecordDetailConverter._fieldname(dty_ID=dty_ID)

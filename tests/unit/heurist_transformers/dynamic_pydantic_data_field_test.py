@@ -10,7 +10,14 @@ def get_field_info_from_dict(d: dict) -> FieldInfo:
     return tuple(d.values())[0][1]
 
 
-class Resource(unittest.TestCase):
+class BaseCase(unittest.TestCase):
+    def tearDown(self):
+        TABLES_LOG.unlink(missing_ok=True)
+        DATABASE_LOG.unlink(missing_ok=True)
+        return super().tearDown()
+
+
+class Resource(BaseCase):
     def setUp(self):
         from examples.resource.single import METADATA
 
@@ -32,22 +39,14 @@ class Resource(unittest.TestCase):
         expected = list(ALIAS_KEY_VALUE.keys())[0]
         self.assertEqual(actual, expected)
 
-    def tearDown(self):
-        TABLES_LOG.unlink(missing_ok=True)
-        DATABASE_LOG.unlink(missing_ok=True)
 
-
-class Enum(unittest.TestCase):
+class Enum(BaseCase):
     def setUp(self):
         from examples.enum.single import METADATA
 
         builder = DynamicDataFieldBuilder(**METADATA)
         self.field = builder.term_id()
         self.field_info = get_field_info_from_dict(self.field)
-
-    def tearDown(self):
-        TABLES_LOG.unlink(missing_ok=True)
-        DATABASE_LOG.unlink(missing_ok=True)
 
     def test_validation_alias(self):
         from examples.enum.single import PYDANTIC_KEY_VALUE
@@ -64,17 +63,13 @@ class Enum(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 
-class FuzzyDate(unittest.TestCase):
+class FuzzyDate(BaseCase):
     def setUp(self):
         from examples.date.simple.single import METADATA
 
         builder = DynamicDataFieldBuilder(**METADATA)
         self.field = builder.temporal_object()
         self.field_info = get_field_info_from_dict(self.field)
-
-    def tearDown(self):
-        TABLES_LOG.unlink(missing_ok=True)
-        DATABASE_LOG.unlink(missing_ok=True)
 
     def test_validation_alias(self):
         from examples.date.simple.single import PYDANTIC_KEY_VALUE
