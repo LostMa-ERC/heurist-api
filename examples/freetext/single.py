@@ -9,8 +9,14 @@ METADATA = {
 # Result of a record's JSON export
 DETAIL = {
     "dty_ID": 1109,
-    "value": "preferred_name",
+    "value": "name of something",
     "fieldName": "single line",
     "fieldType": "freetext",
     "conceptID": "",
+}
+
+
+# Result of src.heurist_transformers.prepare_records.RecordFlattener
+PYDANTIC_KEY_VALUE = {
+    "DTY1109": "name of something",
 }
