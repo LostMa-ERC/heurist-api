@@ -55,6 +55,11 @@ class DynamicDataFieldBuilder:
         if not self.pydantic_type:
             raise ValueError()
 
+        if self.rst_MaxValues == 0:
+            default = []
+        else:
+            default = None
+
         return {
             self.validation_alias: (
                 self.pydantic_type,
@@ -65,7 +70,8 @@ class DynamicDataFieldBuilder:
                     validation_alias=self.validation_alias,
                     # SQL-safe version of the column name
                     serialization_alias=self.serialization_alias,
-                    default=None,
+                    # Default value to write in DuckDB column
+                    default=default,
                 ),
             )
         }
