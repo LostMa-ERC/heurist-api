@@ -1,9 +1,11 @@
-[build-system]
-requires = ["setuptools>=62", "setuptools_scm>8"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "heurist"
+description = "Data pipeline tool for extracting, transforming into simplified relational framework, and loading into a DuckDB file targeted record groups from a Heurist database."
+authors = [
+    {name = "Kelly Christensen",email = "kelly.christensen@chartes.psl.eu"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
 dependencies = [
     "annotated-types==0.6.0",
     "astroid==3.1.0",
@@ -53,28 +55,23 @@ dependencies = [
     "urllib3==2.2.1",
     "watchdog==4.0.0"
 ]
-dynamic = ["version"]
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
-[tool.setuptools]
-packages = ["src", "examples"]
+[tool.poetry]
+package-mode = true
+name = "heurist"
+version = "0.0.0"
+license = "MIT"
+description = "Data pipeline tool for extracting, transforming into simplified relational framework, and loading into a DuckDB file targeted record groups from a Heurist database."
+packages = [
+    { include = "src" },
+    { include = "examples" }
+]
 
-[tool.setuptools.dynamic]
-version = {attr = "src.VERSION"}
+[tool.poetry.dependencies]
+python = "^3.12"
 
-[tool.setuptools_scm]
-# Leave empty for the dynamic version metadata
-
-[project.scripts]
+[tool.poetry.scripts]
 heurist = "src.__main__:cli"
-
-[tool.pytest.ini_options]
-testpaths = ["tests", "src"]
-addopts = "-v -ra -q --doctest-modules"
-log_cli = true
-log_cli_level = "INFO"
-log_format = "%(asctime)s %(levelname)s %(message)s"
-log_date_format = "%Y-%m-%d %H:%M:%S"
-minversion = "6.0"
-filterwarnings = "ignore"
-# Specify a custom directory for pytest cache
-cache_dir = ".pytest_cache"
