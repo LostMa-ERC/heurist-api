@@ -1,9 +1,10 @@
 import click
+import importlib.metadata
 
 from heurist.src.api_client import HeuristClient
 from heurist.cli_commands import doc_command, dump_command, rty_command
 
-from .__version__ import __identifier__
+__identifier__ = importlib.metadata.version("heurist")
 
 
 # =========================== #

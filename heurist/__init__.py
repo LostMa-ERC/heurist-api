@@ -1,9 +1,6 @@
 import logging
 from pathlib import Path
 
-from heurist.__version__ import __version__ as VERSION
-
-VERSION
 
 DEFAULT_FORMATTER = logging.Formatter("%(name)s\t%(levelname)-8s\t%(message)s")
 

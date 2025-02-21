@@ -1,10 +1,4 @@
-![count of tests](./docs/assets/tests-badge.svg)
-![test coverage](./docs/assets/coverage-badge.svg)
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-
 # Heurist ETL Pipeline
-
-<img src="./docs/assets/logo-transparent-1.png" style="width:300px" alt="Logo showing heurist on the left, a pipe in the middle, and output formats DuckDB, JavaScript and CSV on the right."/>
 
 Extract, transform, and load data from your Heurist* database into local formats. Great for freeing up your data analysis!
 
