@@ -1,4 +1,5 @@
 [![Python package](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml/badge.svg)](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml)
+
 ![count of tests](./docs/assets/tests-badge.svg)
 ![test coverage](./docs/assets/coverage-badge.svg)
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
@@ -47,9 +48,12 @@ Final thoughts: This pipeline is most useful at the end of your data entry, when
 
 3. Install the latest version.
 
-  ```console
-  pip install --index-url https://test.pypi.org/simple/ heurist
-  ```
+```shell
+pip install \
+--index-url https://test.pypi.org/simple/ \
+--extra-index-url https://pypi.org/simple \
+heurist
+```
 
 ### Configure
 
