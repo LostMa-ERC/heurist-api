@@ -12,9 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      HEURIST_USER: ${{ secrets.HEURISTUSER }}
-      HEURIST_PASS: ${{ secrets.HEURISTPASS }}
     strategy:
       fail-fast: false
       matrix:
@@ -40,7 +37,4 @@ jobs:
           poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
         run: |
-          export DB_LOGIN=$HEURIST_USER
-          export DB_PASSWORD=$HEURIST_PASS
-          export DB_NAME=jbcamps_gestes
-          python -m pytest
+          poetry run pytest
