@@ -1,7 +1,7 @@
 import unittest
 
-from examples import DB_STRUCTURE_XML
-from src.database.skeleton import DatabaseSkeleton
+from heurist.examples import DB_STRUCTURE_XML
+from heurist.src.database.skeleton import DatabaseSkeleton
 
 
 class DuckBaseTest(unittest.TestCase):

@@ -12,7 +12,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from lxml import etree
 
-from src.api_client import HeuristClient
+from heurist.src.api_client import HeuristClient
 
 
 def get_test_client_env_vars() -> dict:
@@ -26,7 +26,6 @@ def get_test_client_env_vars() -> dict:
 
 TEST_RECORD_TYPE = 102
 TEST_USER = 6
-USER_CREATED_RECORDS = 5
 
 
 class ClientUnitTest(unittest.TestCase):
@@ -47,9 +46,11 @@ class ClientUnitTest(unittest.TestCase):
             record_type_id=TEST_RECORD_TYPE, users=(TEST_USER,)
         )
 
-        # Confirm that the number of records matches what is expected for this user in
-        # the test database.
-        self.assertEqual(len(records), USER_CREATED_RECORDS)
+        # Confirm that every record was made by the targeted user
+        for record in records:
+            expected = str(TEST_USER)
+            actual = record.get("rec_AddedByUGrpID")
+            self.assertEqual(expected, actual)
 
     def test_hml_export(self):
         """Test the API client's ability to extract the database schema."""

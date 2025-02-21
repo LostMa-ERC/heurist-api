@@ -1,27 +1,29 @@
 import unittest
 
-import examples.enum.repeated
-import examples.enum.single
-import examples.freetext.single
-import examples.date.fuzzy.single
-from src.heurist_transformers.record_modeler import RecordModeler
-from src.heurist_transformers.dynamic_record_type_modeler import DynamicRecordTypeModel
+import heurist.examples.enum.repeated
+import heurist.examples.enum.single
+import heurist.examples.freetext.single
+import heurist.examples.date.fuzzy.single
+from heurist.src.heurist_transformers.record_modeler import RecordModeler
+from heurist.src.heurist_transformers.dynamic_record_type_modeler import (
+    DynamicRecordTypeModel,
+)
 
 
 DETAIL_METADATA = [
-    examples.enum.repeated.METADATA,
-    examples.freetext.single.METADATA,
-    examples.date.fuzzy.single.METADATA,
+    heurist.examples.enum.repeated.METADATA,
+    heurist.examples.freetext.single.METADATA,
+    heurist.examples.date.fuzzy.single.METADATA,
 ]
 
-ENUM_DTY_ID = examples.enum.repeated.DETAIL[0]["dty_ID"]
-FREETEXT_DTY_ID = examples.freetext.single.DETAIL["dty_ID"]
-DATE_DTY_ID = examples.date.fuzzy.single.DETAIL["dty_ID"]
+ENUM_DTY_ID = heurist.examples.enum.repeated.DETAIL[0]["dty_ID"]
+FREETEXT_DTY_ID = heurist.examples.freetext.single.DETAIL["dty_ID"]
+DATE_DTY_ID = heurist.examples.date.fuzzy.single.DETAIL["dty_ID"]
 
 DETAILS = (
-    examples.enum.repeated.DETAIL
-    + [examples.freetext.single.DETAIL]
-    + [examples.date.fuzzy.single.DETAIL]
+    heurist.examples.enum.repeated.DETAIL
+    + [heurist.examples.freetext.single.DETAIL]
+    + [heurist.examples.date.fuzzy.single.DETAIL]
 )
 
 
@@ -59,9 +61,9 @@ class RecordModelerTest(unittest.TestCase):
     def test_aggregate_details(self):
         # The value of every key must be a list
         expected = {
-            ENUM_DTY_ID: examples.enum.repeated.DETAIL,
-            FREETEXT_DTY_ID: [examples.freetext.single.DETAIL],
-            DATE_DTY_ID: [examples.date.fuzzy.single.DETAIL],
+            ENUM_DTY_ID: heurist.examples.enum.repeated.DETAIL,
+            FREETEXT_DTY_ID: [heurist.examples.freetext.single.DETAIL],
+            DATE_DTY_ID: [heurist.examples.date.fuzzy.single.DETAIL],
         }
         actual = self.modeler.aggregate_details(DETAILS)
         self.assertDictEqual(expected, actual)
@@ -69,25 +71,25 @@ class RecordModelerTest(unittest.TestCase):
     def test_covert_generic_detail(self):
         actual = self.modeler.convert_generic_to_pydantic_kwarg(
             dty_id=FREETEXT_DTY_ID,
-            details=[examples.freetext.single.DETAIL],
+            details=[heurist.examples.freetext.single.DETAIL],
         )
-        expected = examples.freetext.single.PYDANTIC_KEY_VALUE
+        expected = heurist.examples.freetext.single.PYDANTIC_KEY_VALUE
         self.assertDictEqual(actual, expected)
 
     def test_convert_enum_detail(self):
         actual = self.modeler.convert_enum_to_pydantic_kwarg(
             dty_id=ENUM_DTY_ID,
-            details=examples.enum.repeated.DETAIL,
+            details=heurist.examples.enum.repeated.DETAIL,
         )
-        expected = examples.enum.repeated.PYDANTIC_KEY_VALUE
+        expected = heurist.examples.enum.repeated.PYDANTIC_KEY_VALUE
         self.assertDictEqual(actual, expected)
 
     def test_convert_date_detail(self):
         actual = self.modeler.convert_date_to_pydantic_kwarg(
             dty_id=DATE_DTY_ID,
-            details=[examples.date.fuzzy.single.DETAIL],
+            details=[heurist.examples.date.fuzzy.single.DETAIL],
         )
-        expected = examples.date.fuzzy.single.PYDANTIC_KEY_VALUE
+        expected = heurist.examples.date.fuzzy.single.PYDANTIC_KEY_VALUE
         self.assertDictEqual(actual, expected)
 
     def test_flatten_record_details(self):
@@ -95,9 +97,9 @@ class RecordModelerTest(unittest.TestCase):
         frontmatter = {"rec_ID": self.rec_ID, "rec_RecTypeID": self.rec_RecTypeID}
         expected = (
             frontmatter
-            | examples.enum.repeated.PYDANTIC_KEY_VALUE
-            | examples.freetext.single.PYDANTIC_KEY_VALUE
-            | examples.date.fuzzy.single.PYDANTIC_KEY_VALUE
+            | heurist.examples.enum.repeated.PYDANTIC_KEY_VALUE
+            | heurist.examples.freetext.single.PYDANTIC_KEY_VALUE
+            | heurist.examples.date.fuzzy.single.PYDANTIC_KEY_VALUE
         )
         self.assertDictEqual(actual, expected)
 

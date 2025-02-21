@@ -4,8 +4,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from src.api_client import HeuristClient
-from src.cli_commands.dump import dump_command
+from heurist.src.api_client import HeuristClient
+from heurist.cli_commands.dump import dump_command
 
 
 def get_test_client_env_vars() -> dict:

@@ -1,8 +1,8 @@
 import unittest
 
-from examples import DB_STRUCTURE_XML, RECORD_JSON
-from src import TABLES_LOG, DATABASE_LOG
-from src.database import LoadedDatabase
+from heurist.examples import DB_STRUCTURE_XML, RECORD_JSON
+from heurist import TABLES_LOG, DATABASE_LOG
+from heurist.src.database import LoadedDatabase
 
 
 class DatabaseTest(unittest.TestCase):

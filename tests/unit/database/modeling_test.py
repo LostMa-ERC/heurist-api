@@ -2,10 +2,10 @@ import unittest
 
 import duckdb
 
-from src import TABLES_LOG, DATABASE_LOG
+from heurist import TABLES_LOG, DATABASE_LOG
 
-from examples import DB_STRUCTURE_XML
-from src.database import LoadedDatabase
+from heurist.examples import DB_STRUCTURE_XML
+from heurist.src.database import LoadedDatabase
 
 
 class ModelingTest(unittest.TestCase):

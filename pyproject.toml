@@ -1,9 +1,10 @@
 [project]
 name = "heurist"
-description = "Data pipeline tool for extracting, transforming into simplified relational framework, and loading into a DuckDB file targeted record groups from a Heurist database."
+description = "ETL data pipeline tool for Heurist database."
 authors = [
     {name = "Kelly Christensen", email = "kelly.christensen@chartes.psl.eu"}
 ]
+version = "0.0.1"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -55,23 +56,17 @@ dependencies = [
     "urllib3==2.2.1",
     "watchdog==4.0.0"
 ]
+
+[tool.poetry]
+package-mode = true
+packages = [
+    { include = "heurist", from = "." }
+]
+
+[tool.poetry.scripts]
+heurist = "heurist.__main__:cli"
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry]
-package-mode = true
-name = "heurist"
-version = "0.0.0"
-license = "MIT"
-description = "Data pipeline tool for extracting, transforming into simplified relational framework, and loading into a DuckDB file targeted record groups from a Heurist database."
-packages = [
-    { include = "src" },
-    { include = "examples" }
-]
-
-[tool.poetry.dependencies]
-python = "^3.12"
-
-[tool.poetry.scripts]
-heurist = "src.__main__:cli"
