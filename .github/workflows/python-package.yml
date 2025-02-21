@@ -12,17 +12,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     python-version: ["3.12"]
+    env:
+      HEURIST_USER: ${{ secrets.HEURISTUSER }}
+      HEURIST_PASS: ${{ secrets.HEURISTPASS }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12"]
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
-          python-version: 3.12
+          python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -37,4 +40,7 @@ jobs:
           poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Test with pytest
         run: |
+          export DB_LOGIN=$HEURIST_USER
+          export DB_PASSWORD=$HEURIST_PASS
+          export DB_NAME=jbcamps_gestes
           poetry run pytest
