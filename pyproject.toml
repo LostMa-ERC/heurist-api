@@ -10,7 +10,7 @@ authors = [
     {name = "Kelly Christensen", email = "kelly.christensen@chartes.psl.eu"}
 ]
 
-version = "0.0.1a7"
+version = "0.0.1a8"
 
 dynamic = [ "readme" ]
 
@@ -36,6 +36,10 @@ dependencies = [
 
 [project.scripts]
 heurist = "heurist.__main__:cli"
+
+
+[project.urls]
+repository = "https://github.com/LostMA-ERC/heurist-etl-pipeline"
 
 
 [tool.poetry]
