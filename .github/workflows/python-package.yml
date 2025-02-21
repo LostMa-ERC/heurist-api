@@ -43,4 +43,4 @@ jobs:
           export DB_LOGIN=$HEURIST_USER
           export DB_PASSWORD=$HEURIST_PASS
           export DB_NAME=jbcamps_gestes
-          poetry run pytest
+          python -m pytest
