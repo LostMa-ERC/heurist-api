@@ -1,4 +1,5 @@
 # Heurist ETL Pipeline
+[![Python package](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml/badge.svg)](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml)
 
 Extract, transform, and load data from your Heurist* database into local formats. Great for freeing up your data analysis!
 

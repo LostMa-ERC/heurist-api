@@ -95,14 +95,11 @@ venv.bak/
 .vscode
 
 # Do not store data publicly
-**/*.html
 **/*.csv
-**/*.yml
-**/*.yaml
-**/*.xml
+*.xml
+*.json
 *.log
 **/*.txt
 **/*.*db
-**/*.json
 **/*.parquet
 logs/**

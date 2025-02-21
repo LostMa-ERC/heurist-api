@@ -5,7 +5,12 @@ name: Python package
 
 on:
   push:
-    branches: ["main"]
+    paths:
+      - "heurist/"
+      - "tests/"
+      - ".github/workflows/"
+      - "poetry.lock"
+      - "pyproject.toml"
   pull_request:
     branches: ["main"]
 
