@@ -44,6 +44,7 @@ poetry version major
 With a message indicating the new version (i.e. `v0.0.0`) updated in the `pyproject.toml`, commit the file's changes.
 
 ```shell
+git add pyproject.toml
 git commit -m "bump v0.0.0"
 ```
 
