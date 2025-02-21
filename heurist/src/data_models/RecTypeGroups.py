@@ -11,8 +11,8 @@ class RecTypeGroups(BaseXmlModel):
             Record Type Groups.
 
     Examples:
-        >>> from examples import DB_STRUCTURE_XML
-        >>> from src.data_models import HMLStructure
+        >>> from heurist.examples import DB_STRUCTURE_XML
+        >>> from heurist.src.data_models import HMLStructure
         >>>
         >>>
         >>> # Parse structure

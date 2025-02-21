@@ -7,8 +7,8 @@ class Terms(BaseXmlModel):
     """_summary_
 
     Examples:
-        >>> from examples import DB_STRUCTURE_XML
-        >>> from src.data_models import HMLStructure
+        >>> from heurist.examples import DB_STRUCTURE_XML
+        >>> from heurist.src.data_models import HMLStructure
         >>>
         >>>
         >>> # Parse structure

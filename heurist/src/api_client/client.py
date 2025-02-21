@@ -53,7 +53,7 @@ class HeuristAPIClient:
 
         Examples:
             >>> import json
-            >>> from src.api_client import HeuristClient
+            >>> from heurist.src.api_client import HeuristClient
             >>>
             >>>
             >>> client = HeuristClient()
@@ -100,7 +100,7 @@ class HeuristAPIClient:
         """Request the Heurist database's overall structure in XML format.
 
         Examples:
-            >>> from src.api_client import HeuristClient
+            >>> from heurist.src.api_client import HeuristClient
             >>>
             >>>
             >>> client = HeuristClient()

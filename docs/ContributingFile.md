@@ -9,7 +9,7 @@ pip install --upgrade pip
 pip install poetry
 ```
 
-Using poetry, install the package.
+Using poetry, install the package for development.
 
 ```shell
 poetry install
@@ -94,38 +94,4 @@ mv tests-badge.svg ./docs/assets
 poetry lock
 poetry install
 pip install heurist
-```
-
-## [Publishing new versions](https://hermann-web.github.io/blog/blog/2024/03/16/publishing-your-python-project-with-poetry/#configuring-poetry-one-time-setup)
-
-### Configuration
-
-```shell
-poetry config repositories.test-pypi https://test.pypi.org/legacy/
-poetry config pypi-token.test-pypi pypi-YYYYYYYY
-```
-
-### Action
-
-Lock in any big changes.
-
-```shell
-poetry lock
-```
-
-Update the version.
-
-```shell
-poetry version prerelease
-# or
-poetry version patch
-# or
-poetry version minor
-# or
-poetry version major
-```
-
-```shell
-poetry build
-poetry publish -r test-pypi
 ```

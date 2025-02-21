@@ -8,8 +8,6 @@ on:
     paths:
       - "heurist/**"
       - "tests/**"
-  pull_request:
-    branches: ["main"]
   workflow_call:
 
 jobs:

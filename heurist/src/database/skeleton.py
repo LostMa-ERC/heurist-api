@@ -59,7 +59,7 @@ WHERE table_name like '{table_name}'
         based on a Pydantic model.
 
         Examples:
-            >>> from examples import DB_STRUCTURE_XML
+            >>> from heurist.examples import DB_STRUCTURE_XML
             >>>
             >>>
             >>> db = DatabaseSkeleton(hml_xml=DB_STRUCTURE_XML)
