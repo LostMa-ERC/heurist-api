@@ -1,29 +1,29 @@
 import unittest
 
-import heurist.examples.enum.repeated
-import heurist.examples.enum.single
-import heurist.examples.freetext.single
-import heurist.examples.date.fuzzy.single
-from heurist.src.heurist_transformers.record_modeler import RecordModeler
-from heurist.src.heurist_transformers.dynamic_record_type_modeler import (
+import heurist.mock_data.enum.repeated
+import heurist.mock_data.enum.single
+import heurist.mock_data.freetext.single
+import heurist.mock_data.date.fuzzy.single
+from heurist.converters.record_modeler import RecordModeler
+from heurist.converters.dynamic_record_type_modeler import (
     DynamicRecordTypeModel,
 )
 
 
 DETAIL_METADATA = [
-    heurist.examples.enum.repeated.METADATA,
-    heurist.examples.freetext.single.METADATA,
-    heurist.examples.date.fuzzy.single.METADATA,
+    heurist.mock_data.enum.repeated.METADATA,
+    heurist.mock_data.freetext.single.METADATA,
+    heurist.mock_data.date.fuzzy.single.METADATA,
 ]
 
-ENUM_DTY_ID = heurist.examples.enum.repeated.DETAIL[0]["dty_ID"]
-FREETEXT_DTY_ID = heurist.examples.freetext.single.DETAIL["dty_ID"]
-DATE_DTY_ID = heurist.examples.date.fuzzy.single.DETAIL["dty_ID"]
+ENUM_DTY_ID = heurist.mock_data.enum.repeated.DETAIL[0]["dty_ID"]
+FREETEXT_DTY_ID = heurist.mock_data.freetext.single.DETAIL["dty_ID"]
+DATE_DTY_ID = heurist.mock_data.date.fuzzy.single.DETAIL["dty_ID"]
 
 DETAILS = (
-    heurist.examples.enum.repeated.DETAIL
-    + [heurist.examples.freetext.single.DETAIL]
-    + [heurist.examples.date.fuzzy.single.DETAIL]
+    heurist.mock_data.enum.repeated.DETAIL
+    + [heurist.mock_data.freetext.single.DETAIL]
+    + [heurist.mock_data.date.fuzzy.single.DETAIL]
 )
 
 
@@ -61,9 +61,9 @@ class RecordModelerTest(unittest.TestCase):
     def test_aggregate_details(self):
         # The value of every key must be a list
         expected = {
-            ENUM_DTY_ID: heurist.examples.enum.repeated.DETAIL,
-            FREETEXT_DTY_ID: [heurist.examples.freetext.single.DETAIL],
-            DATE_DTY_ID: [heurist.examples.date.fuzzy.single.DETAIL],
+            ENUM_DTY_ID: heurist.mock_data.enum.repeated.DETAIL,
+            FREETEXT_DTY_ID: [heurist.mock_data.freetext.single.DETAIL],
+            DATE_DTY_ID: [heurist.mock_data.date.fuzzy.single.DETAIL],
         }
         actual = self.modeler.aggregate_details(DETAILS)
         self.assertDictEqual(expected, actual)
@@ -71,25 +71,25 @@ class RecordModelerTest(unittest.TestCase):
     def test_covert_generic_detail(self):
         actual = self.modeler.convert_generic_to_pydantic_kwarg(
             dty_id=FREETEXT_DTY_ID,
-            details=[heurist.examples.freetext.single.DETAIL],
+            details=[heurist.mock_data.freetext.single.DETAIL],
         )
-        expected = heurist.examples.freetext.single.PYDANTIC_KEY_VALUE
+        expected = heurist.mock_data.freetext.single.PYDANTIC_KEY_VALUE
         self.assertDictEqual(actual, expected)
 
     def test_convert_enum_detail(self):
         actual = self.modeler.convert_enum_to_pydantic_kwarg(
             dty_id=ENUM_DTY_ID,
-            details=heurist.examples.enum.repeated.DETAIL,
+            details=heurist.mock_data.enum.repeated.DETAIL,
         )
-        expected = heurist.examples.enum.repeated.PYDANTIC_KEY_VALUE
+        expected = heurist.mock_data.enum.repeated.PYDANTIC_KEY_VALUE
         self.assertDictEqual(actual, expected)
 
     def test_convert_date_detail(self):
         actual = self.modeler.convert_date_to_pydantic_kwarg(
             dty_id=DATE_DTY_ID,
-            details=[heurist.examples.date.fuzzy.single.DETAIL],
+            details=[heurist.mock_data.date.fuzzy.single.DETAIL],
         )
-        expected = heurist.examples.date.fuzzy.single.PYDANTIC_KEY_VALUE
+        expected = heurist.mock_data.date.fuzzy.single.PYDANTIC_KEY_VALUE
         self.assertDictEqual(actual, expected)
 
     def test_flatten_record_details(self):
@@ -97,9 +97,9 @@ class RecordModelerTest(unittest.TestCase):
         frontmatter = {"rec_ID": self.rec_ID, "rec_RecTypeID": self.rec_RecTypeID}
         expected = (
             frontmatter
-            | heurist.examples.enum.repeated.PYDANTIC_KEY_VALUE
-            | heurist.examples.freetext.single.PYDANTIC_KEY_VALUE
-            | heurist.examples.date.fuzzy.single.PYDANTIC_KEY_VALUE
+            | heurist.mock_data.enum.repeated.PYDANTIC_KEY_VALUE
+            | heurist.mock_data.freetext.single.PYDANTIC_KEY_VALUE
+            | heurist.mock_data.date.fuzzy.single.PYDANTIC_KEY_VALUE
         )
         self.assertDictEqual(actual, expected)
 

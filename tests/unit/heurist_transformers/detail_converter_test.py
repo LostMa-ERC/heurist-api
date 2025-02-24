@@ -1,14 +1,14 @@
 import unittest
 from datetime import datetime
 
-from heurist.src.heurist_transformers.detail_converter import RecordDetailConverter
+from heurist.converters.detail_converter import RecordDetailConverter
 
 URI = "https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg"
 
 
 class TestFile(unittest.TestCase):
     def setUp(self):
-        from heurist.examples.file.single import DETAIL
+        from heurist.mock_data.file.single import DETAIL
 
         self.detail = DETAIL
 
@@ -20,7 +20,7 @@ class TestFile(unittest.TestCase):
 
 class TestEnum(unittest.TestCase):
     def setUp(self):
-        from heurist.examples.enum.single import DETAIL
+        from heurist.mock_data.enum.single import DETAIL
 
         self.detail = DETAIL
 
@@ -32,7 +32,7 @@ class TestEnum(unittest.TestCase):
 
 class TestGeo(unittest.TestCase):
     def setUp(self):
-        from heurist.examples.geo.single import DETAIL_POINT, DETAIL_POLYGON
+        from heurist.mock_data.geo.single import DETAIL_POINT, DETAIL_POLYGON
 
         self.point_detail = DETAIL_POINT
         self.polygon_detail = DETAIL_POLYGON
@@ -52,8 +52,8 @@ class TestGeo(unittest.TestCase):
 
 class TestDate(unittest.TestCase):
     def setUp(self):
-        from heurist.examples.date.fuzzy.single import DETAIL as DETAIL_FUZZY
-        from heurist.examples.date.simple.single import DETAIL as DETAIL_SIMPLE
+        from heurist.mock_data.date.fuzzy.single import DETAIL as DETAIL_FUZZY
+        from heurist.mock_data.date.simple.single import DETAIL as DETAIL_SIMPLE
 
         self.fuzzy_date_detail = DETAIL_FUZZY
         self.simple_date_detail = DETAIL_SIMPLE
@@ -71,7 +71,7 @@ class TestDate(unittest.TestCase):
 
 class TestResource(unittest.TestCase):
     def setUp(self):
-        from heurist.examples.resource.single import DETAIL
+        from heurist.mock_data.resource.single import DETAIL
 
         self.detail = DETAIL
 

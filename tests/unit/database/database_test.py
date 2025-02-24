@@ -1,13 +1,13 @@
 import unittest
 
-from heurist.examples import DB_STRUCTURE_XML, RECORD_JSON
+from heurist.mock_data import DB_STRUCTURE_XML, RECORD_JSON
 from heurist import TABLES_LOG, DATABASE_LOG
-from heurist.src.database import LoadedDatabase
+from heurist.database.database import TransformedDatabase
 
 
 class DatabaseTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.db = LoadedDatabase(DB_STRUCTURE_XML)
+        self.db = TransformedDatabase(DB_STRUCTURE_XML)
         self.rectype = 103  # Story
         self.extracted_records = RECORD_JSON["heurist"]["records"]
 

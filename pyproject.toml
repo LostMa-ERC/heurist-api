@@ -35,7 +35,7 @@ dependencies = [
 
 
 [project.scripts]
-heurist = "heurist.__main__:cli"
+heurist = "heurist.cli.__main__:cli"
 
 
 [project.urls]
@@ -43,7 +43,7 @@ repository = "https://github.com/LostMA-ERC/heurist-etl-pipeline"
 
 
 [tool.poetry]
-readme = ["docs/README.md"]
+readme = ["README.md"]
 package-mode = true
 packages = [
     { include = "heurist", from = "." }
@@ -54,6 +54,7 @@ packages = [
 black = "^25.1.0"
 pytest = "^8.3.4"
 flake8 = "^7.1.2"
+mkdocs = "^1.6.1"
 
 
 [build-system]
