@@ -4,7 +4,7 @@ import duckdb
 
 from heurist import TABLES_LOG, DATABASE_LOG
 
-from heurist.examples import DB_STRUCTURE_XML
+fromheurist.mock_data import DB_STRUCTURE_XML
 from heurist.src.database import LoadedDatabase
 
 

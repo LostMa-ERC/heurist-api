@@ -22,13 +22,13 @@ class BaseCase(unittest.TestCase):
 
 
 class SingularResource(BaseCase):
-    from heurist.examples.resource.single import METADATA
+    fromheurist.mock_data.resource.single import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test(self):
-        from heurist.examples.resource import single
+        fromheurist.mock_data.resource import single
 
         actual = self.flattener(record_details=[single.DETAIL])
         expected = single.PYDANTIC_KEY_VALUE
@@ -36,13 +36,13 @@ class SingularResource(BaseCase):
 
 
 class RepeatedResource(BaseCase):
-    from heurist.examples.resource.repeated import METADATA
+    fromheurist.mock_data.resource.repeated import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test(self):
-        from heurist.examples.resource import repeated
+        fromheurist.mock_data.resource import repeated
 
         actual = self.flattener(record_details=repeated.DETAIL)
         expected = repeated.PYDANTIC_KEY_VALUE
@@ -50,13 +50,13 @@ class RepeatedResource(BaseCase):
 
 
 class SingularFuzzyDate(BaseCase):
-    from heurist.examples.date.fuzzy.single import METADATA
+    fromheurist.mock_data.date.fuzzy.single import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test(self):
-        from heurist.examples.date.fuzzy import single
+        fromheurist.mock_data.date.fuzzy import single
 
         actual = self.flattener(record_details=[single.DETAIL])
         expected = single.PYDANTIC_KEY_VALUE
@@ -64,13 +64,13 @@ class SingularFuzzyDate(BaseCase):
 
 
 class RepeatedFuzzyDate(BaseCase):
-    from heurist.examples.date.fuzzy.repeated import METADATA
+    fromheurist.mock_data.date.fuzzy.repeated import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test(self):
-        from heurist.examples.date.fuzzy import repeated
+        fromheurist.mock_data.date.fuzzy import repeated
 
         actual = self.flattener(record_details=repeated.DETAIL)
         expected = repeated.PYDANTIC_KEY_VALUE
@@ -78,13 +78,13 @@ class RepeatedFuzzyDate(BaseCase):
 
 
 class SingularSimpleDate(BaseCase):
-    from heurist.examples.date.simple.single import METADATA
+    fromheurist.mock_data.date.simple.single import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test(self):
-        from heurist.examples.date.simple import single
+        fromheurist.mock_data.date.simple import single
 
         actual = self.flattener(record_details=[single.DETAIL])
         expected = single.PYDANTIC_KEY_VALUE
@@ -92,13 +92,13 @@ class SingularSimpleDate(BaseCase):
 
 
 class RepeatedSimpleDate(BaseCase):
-    from heurist.examples.date.simple.repeated import METADATA
+    fromheurist.mock_data.date.simple.repeated import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test(self):
-        from heurist.examples.date.simple import repeated
+        fromheurist.mock_data.date.simple import repeated
 
         actual = self.flattener(record_details=repeated.DETAIL)
         expected = repeated.PYDANTIC_KEY_VALUE
@@ -106,13 +106,13 @@ class RepeatedSimpleDate(BaseCase):
 
 
 class SingularEnum(BaseCase):
-    from heurist.examples.enum.single import METADATA
+    fromheurist.mock_data.enum.single import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test_value(self):
-        from heurist.examples.enum import single
+        fromheurist.mock_data.enum import single
 
         actual = self.flattener(record_details=[single.DETAIL])
         expected = single.PYDANTIC_KEY_VALUE
@@ -120,13 +120,13 @@ class SingularEnum(BaseCase):
 
 
 class RepeatedEnum(BaseCase):
-    from heurist.examples.enum.repeated import METADATA
+    fromheurist.mock_data.enum.repeated import METADATA
 
     def setUp(self, metadata=METADATA):
         return super().setUp(metadata)
 
     def test_value(self):
-        from heurist.examples.enum import repeated
+        fromheurist.mock_data.enum import repeated
 
         actual = self.flattener(record_details=repeated.DETAIL)
         expected = repeated.PYDANTIC_KEY_VALUE

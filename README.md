@@ -1,22 +1,22 @@
-[![Python package](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml/badge.svg)](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml)
-
-![count of tests](./docs/assets/tests-badge.svg)
-![test coverage](./docs/assets/coverage-badge.svg)
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+[![Python package](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml/badge.svg)](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml) [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
 # Heurist ETL Pipeline
 
 <img src="./docs/assets/logo-transparent-1.png" style="width:300px" alt="Logo showing heurist on the left, a pipe in the middle, and output formats DuckDB, JavaScript and CSV on the right."/>
 
-Extract, transform, and load data from your Heurist* database into local formats. Great for freeing up your data analysis!
+Extract, transform, and load data from your Heurist database into local formats. Great for freeing up your data analysis pipeline!
 
-\* Currently, this project's API only supports Heurist databases hosted on HumaNum's servers and requires the login credentials of someone with access to the database.
+Currently, this project's API only supports Heurist databases hosted on HumaNum's servers and requires the login credentials of someone with access to the database.
+
+There are nearly 2000 databases created on Huma-Num's Heurist instance, so it's a good place to start! If you want to add other usability, consider [contributing](./docs/ContributingFile.md).
+
+---
+
+TOC
 
 - [Purpose](#purpose)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
-- [Advanced Usage](./docs/AdvancedUsage.md) (separate page)
-- [Contributing](./docs/ContributingFile.md) (separate page)
 - [Further Resources](#further-resources)
 - [License](#license)
 - [Funding](#funding)

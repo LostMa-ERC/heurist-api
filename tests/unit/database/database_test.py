@@ -1,6 +1,6 @@
 import unittest
 
-from heurist.examples import DB_STRUCTURE_XML, RECORD_JSON
+fromheurist.mock_data import DB_STRUCTURE_XML, RECORD_JSON
 from heurist import TABLES_LOG, DATABASE_LOG
 from heurist.src.database import LoadedDatabase
 
