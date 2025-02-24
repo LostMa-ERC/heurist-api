@@ -35,21 +35,21 @@ __identifier__ = importlib.metadata.version("heurist")
     help="Password for the database user",
 )
 @click.option(
-    "--testing",
+    "--debugging",
     required=False,
     default=False,
     is_flag=True,
     help="Whether to run in debug mode, default false.",
 )
 @click.pass_context
-def cli(ctx, database, login, password, testing):
+def cli(ctx, database, login, password, debugging):
     ctx.ensure_object(dict)
-    ctx.obj["TESTING"] = testing
+    ctx.obj["DEBUGGING"] = debugging
     param = APIParamManager(
         database_name=database,
         login=login,
         password=password,
-        testing=testing,
+        debugging=debugging,
     )
     ctx.obj["CLIENT"] = HeuristAPIClient(**param.kwargs)
 
@@ -118,7 +118,7 @@ def records(ctx, record_type, outfile):
 def doc(ctx, record_group, outdir, output_type):
     # Get context variables
     client = ctx["CLIENT"]
-    testing = ctx["TESTING"]
+    testing = ctx["DEBUGGING"]
 
     # Run the doc command
     schema_command(client, testing, record_group, outdir, output_type)
@@ -176,7 +176,7 @@ def doc(ctx, record_group, outdir, output_type):
 def load(ctx, filepath, record_group, user: tuple[int], outdir):
     # Get context variable
     client = ctx["CLIENT"]
-    testing = ctx["TESTING"]
+    testing = ctx["DEBUGGING"]
 
     # Run the dump command
     if not testing:

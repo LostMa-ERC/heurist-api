@@ -31,7 +31,7 @@ class TransformedDatabase(HeuristDatabase):
         db: str | None = ":memory:",
         record_type_groups: list[str] = ["My record types"],
     ) -> None:
-        super().__init__(hml_xml, conn, db, save_structure)
+        super().__init__(hml_xml, conn, db)
 
         self.pydantic_models = {
             r.rty_ID: r for r in self.yield_record_details(record_type_groups)

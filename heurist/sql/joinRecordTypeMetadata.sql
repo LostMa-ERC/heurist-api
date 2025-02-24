@@ -1,3 +1,8 @@
+/* Join the tables Record Structure (rst), Detail Type (dty),
+and Record Type (rty) to get all the relevant information
+about a record type's data fields.
+
+This query requires a parameter: the record type ID. */
 SELECT
     dty_ID,
     rst_DisplayName,

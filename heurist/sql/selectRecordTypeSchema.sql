@@ -1,3 +1,9 @@
+/* Build a selection of data fields for a record type that
+groups the fields by their groups in Heurist's interface,
+as defined by the "separator" field Heurist adds between
+fields of two different groups.
+
+This query requires a parameter: the record type ID. */
 SELECT
 	CASE
 		WHEN group_id != 0 THEN FIRST_VALUE(rst_DisplayName) OVER (PARTITION BY group_id)

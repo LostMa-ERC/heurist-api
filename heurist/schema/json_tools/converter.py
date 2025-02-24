@@ -1,7 +1,7 @@
 import duckdb
 
-from heurist.src.sql_models import output_dicts
-from heurist.src.schema_doc_tools.json_tools.models import DTY, RTY
+from heurist.utils.rel_to_dict_array import rel_to_dict_array
+from heurist.schema.json_tools.models import DTY, RTY
 
 
 def convert_rty_description(description: duckdb.DuckDBPyRelation) -> dict:
@@ -12,7 +12,7 @@ def convert_rty_description(description: duckdb.DuckDBPyRelation) -> dict:
 
     sections = {}
 
-    for field in output_dicts(rel):
+    for field in rel_to_dict_array(rel):
         section_id = field["group_id"]
         section_name = field["sec"]
         if not sections.get(section_id):
@@ -23,7 +23,7 @@ def convert_rty_description(description: duckdb.DuckDBPyRelation) -> dict:
     section_list = list(sections.values())
 
     rty_rel = rel.limit(1)
-    rty_data = output_dicts(rty_rel)[0]
+    rty_data = rel_to_dict_array(rty_rel)[0]
     rty = RTY.model_validate(rty_data)
 
     output = {rty.rty_ID: {"metadata": rty.model_dump(), "sections": section_list}}

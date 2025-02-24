@@ -12,7 +12,7 @@ from rich.progress import (
 )
 import duckdb
 from heurist.api.client import HeuristAPIClient
-from heurist.database import LoadedDatabase
+from heurist.database import TransformedDatabase
 
 
 def load_command(
@@ -39,7 +39,7 @@ def load_command(
             TimeElapsedColumn(),
         ) as p,
     ):
-        database = LoadedDatabase(
+        database = TransformedDatabase(
             conn=conn, hml_xml=xml, record_type_groups=record_group
         )
         t = p.add_task("Get Records", total=len(database.pydantic_models.keys()))

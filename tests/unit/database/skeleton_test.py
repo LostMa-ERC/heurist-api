@@ -1,7 +1,7 @@
 import unittest
 
-fromheurist.mock_data import DB_STRUCTURE_XML
-from heurist.src.database.skeleton import DatabaseSkeleton
+from heurist.mock_data import DB_STRUCTURE_XML
+from heurist.database.basedb import HeuristDatabase
 
 
 class DuckBaseTest(unittest.TestCase):
@@ -10,7 +10,7 @@ class DuckBaseTest(unittest.TestCase):
         """Test should show that the 5 basic data models from the HML XML
         were converted to SQL tables."""
 
-        self.db = DatabaseSkeleton(hml_xml=DB_STRUCTURE_XML)
+        self.db = HeuristDatabase(hml_xml=DB_STRUCTURE_XML)
         rel = self.db.conn.sql("show tables")
         self.assertEqual(len(rel), 5)
 

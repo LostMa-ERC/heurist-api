@@ -4,13 +4,13 @@ import duckdb
 
 from heurist import TABLES_LOG, DATABASE_LOG
 
-fromheurist.mock_data import DB_STRUCTURE_XML
-from heurist.src.database import LoadedDatabase
+from heurist.mock_data import DB_STRUCTURE_XML
+from heurist.database.database import TransformedDatabase
 
 
 class ModelingTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.db = LoadedDatabase(
+        self.db = TransformedDatabase(
             DB_STRUCTURE_XML,
             save_structure=True,
             conn=duckdb.connect(),
@@ -35,7 +35,7 @@ class ModelingTest(unittest.TestCase):
 
     def test_all_my_records(self):
         for id in self.record_types:
-            r = self.db.describe_record_fields(id)
+            r = self.db.describe_record_schema(id)
             self.assertIsNotNone(r)
 
 

@@ -1,3 +1,3 @@
-from heurist.database.database import LoadedDatabase
+from heurist.database.database import TransformedDatabase
 
-LoadedDatabase
+TransformedDatabase
