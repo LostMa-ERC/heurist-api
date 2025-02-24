@@ -125,12 +125,12 @@ def doc(ctx, record_group, outdir, output_type):
 
 
 # =========================== #
-#     'dump' command
+#     'download' command
 # =========================== #
 @cli.command(
-    "load",
-    help="Command to export data of records of a given \
-        record group type.",
+    "download",
+    help="Command to export data of records of 1 or more \
+        record group types.",
 )
 @click.option(
     "-r",
