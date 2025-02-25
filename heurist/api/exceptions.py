@@ -3,11 +3,7 @@ class APIException(Exception):
 
 
 class AuthenticationError(Exception):
-    """Error raised when unable to authenticate Heurist login.
-
-    Attributes:
-        message -- message from Heurist
-    """
+    """Error raised when unable to authenticate Heurist login."""
 
     def __init__(self, message):
         self.message = message
@@ -15,11 +11,7 @@ class AuthenticationError(Exception):
 
 
 class MissingParameterException(Exception):
-    """Exception raised for a missing parameter.
-
-    Attributes:
-        message -- the missing parameter
-    """
+    """Exception raised for a missing parameter."""
 
     def __init__(self, parameter):
         self.message = f"Missing parameter: {parameter}"

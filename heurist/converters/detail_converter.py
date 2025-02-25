@@ -1,12 +1,18 @@
 """Class for converting a record's detail before the Pydantic model validation."""
 
+from datetime import datetime
+
 from heurist.converters.date_handler import HeuristDateHandler
 from heurist.converters.type_handler import HeuristDataType
 
 
 class RecordDetailConverter:
-    """In Heurist, a record's "detail" is what is more commonly
-    known as an attribute, dimension, or the value of a data field.
+    """
+    In Heurist, a record's "detail" is what is more commonly known as an attribute, \
+        dimension, or the value of a data field.
+
+    This class features methods to extract the key value from Heurist's JSON \
+        formatting for all data types in Heurist's system.
     """
 
     direct_values = ["freetext", "blocktext", "integer", "boolean", "float"]
@@ -16,7 +22,8 @@ class RecordDetailConverter:
 
     @classmethod
     def file(cls, detail: dict) -> str:
-        """Extract the value of a file field.
+        """
+        Extract the value of a file field.
 
         Args:
             detail (dict): Record's detail.
@@ -29,7 +36,8 @@ class RecordDetailConverter:
 
     @classmethod
     def enum(cls, detail: dict) -> str:
-        """Extract the value of an enum field.
+        """
+        Extract the value of an enum field.
 
         Args:
             detail (dict): Record's detail.
@@ -42,7 +50,8 @@ class RecordDetailConverter:
 
     @classmethod
     def geo(cls, detail: dict) -> str:
-        """Extract the value of a geo field.
+        """
+        Extract the value of a geo field.
 
         Args:
             detail (dict): Record's detail.
@@ -56,14 +65,15 @@ class RecordDetailConverter:
             return geo["wkt"]
 
     @classmethod
-    def date(cls, detail: dict) -> list:
-        """Extract the value of a date field.
+    def date(cls, detail: dict) -> list[datetime | None]:
+        """
+        Extract the the earliest and latest dates from a date field.
 
         Args:
             detail (dict): Record's detail.
 
         Returns:
-            list: List of one or two dates.
+            list[datetime]: Earliest and latest dates from detail.
         """
 
         value = detail["value"]
@@ -71,32 +81,34 @@ class RecordDetailConverter:
         if isinstance(value, dict):
             end_date = value["estMaxDate"]
             start_date = value["estMinDate"]
-            value = handler([start_date, end_date])
+            value = handler.list_min_max([start_date, end_date])
         elif isinstance(value, str) or isinstance(value, int):
-            value = handler(value)
+            value = handler.list_min_max(value)
         else:
             value = []
         return value
 
     @classmethod
     def resource(cls, detail: dict) -> int:
-        """Extract the value of a resource field.
+        """
+        Extract the value of a resource (foreign key) field.
 
         Args:
             detail (dict): Record's detail.
 
         Returns:
-            str: Value of record's detail.
+            int: Heurist ID of the referenced record.
         """
 
         return int(detail["value"]["id"])
 
     @classmethod
     def _fieldname(cls, dty_ID: int) -> str:
-        """Format a name for the data field (aka "detail type", "dty").
+        """
+        Format a name for the data field (aka "detail type", "dty").
 
         Args:
-            detail (dict): A record's detail, which includes its DTY ID.
+            dty_ID (int): The ID of the detail type.
 
         Returns:
             str: A formatted label for the data field.
@@ -106,7 +118,8 @@ class RecordDetailConverter:
 
     @classmethod
     def _convert_value(cls, detail: dict) -> str | int | list | None:
-        """Based on the data type, convert the record's nested detail to a flat value.
+        """
+        Based on the data type, convert the record's nested detail to a flat value.
 
         Args:
             detail (dict): One of the record's details (data fields).

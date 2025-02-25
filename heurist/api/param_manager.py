@@ -28,28 +28,28 @@ class APIParamManager:
             variables.
 
         Examples:
-        >>> # Set environment variables
-        >>> os.environ["DB_NAME"] = "db"
-        >>> os.environ["DB_LOGIN"] = "user"
-        >>> os.environ["DB_PASSWORD"] = "pass"
-        >>>
-        >>> # Test using environment variables
-        >>> params = APIParamManager()
-        >>> params.database_name
-        'db'
-        >>> params.login
-        'user'
-        >>> params.password
-        'pass'
-        >>>
-        >>> # Test for mock database
-        >>> params = APIParamManager(debugging=True)
-        >>> params.database_name
-        'test_db'
-        >>> params.login
-        'test_user'
-        >>> params.password
-        'test_password'
+            >>> # Set environment variables
+            >>> os.environ["DB_NAME"] = "db"
+            >>> os.environ["DB_LOGIN"] = "user"
+            >>> os.environ["DB_PASSWORD"] = "pass"
+            >>>
+            >>> # Test using environment variables
+            >>> params = APIParamManager()
+            >>> params.database_name
+            'db'
+            >>> params.login
+            'user'
+            >>> params.password
+            'pass'
+            >>>
+            >>> # Test for mock database
+            >>> params = APIParamManager(debugging=True)
+            >>> params.database_name
+            'test_db'
+            >>> params.login
+            'test_user'
+            >>> params.password
+            'test_password'
 
         Args:
             database_name (str | None, optional): Name of the Heurist database. \
@@ -134,11 +134,12 @@ class APIParamManager:
         Return the Heurist API client's authentication parameters as a dictionary.
 
         Examples:
-        >>> vs = {"database_name": "db", "login": "user", "password": "pass", \
-            "debugging": True}
-        >>> params = APIParamManager(**vs)
-        >>> params.kwargs
-        {'database_name': 'test_db', 'login': 'test_user', 'password': 'test_password'}
+            >>> vs = {"database_name": "db", "login": "user", "password": "pass", \
+                "debugging": True}
+            >>> params = APIParamManager(**vs)
+            >>> params.kwargs
+            {'database_name': 'test_db', 'login': 'test_user', 'password': \
+                'test_password'}
 
         Returns:
             dict: Heurist API client parameters in key-value pairs.

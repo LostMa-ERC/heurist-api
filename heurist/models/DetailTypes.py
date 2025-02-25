@@ -11,7 +11,7 @@ class DetailTypes(BaseXmlModel):
             Detail Types.
 
     Examples:
-        >>> fromheurist.mock_data import DB_STRUCTURE_XML
+        >>> from heurist.mock_data import DB_STRUCTURE_XML
         >>> from heurist.models import HMLStructure
         >>>
         >>>
