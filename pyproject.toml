@@ -10,7 +10,7 @@ authors = [
     {name = "Kelly Christensen", email = "kelly.christensen@chartes.psl.eu"}
 ]
 
-version = "0.0.1a8"
+version = "0.0.1a11"
 
 dynamic = [ "readme" ]
 
