@@ -1,6 +1,6 @@
 """Constant text variables for Heurist API."""
 
-HEURIST_SERVER = "https://heurist.huma-num.fr/heurist"
+HUMA_NUM_SERVER = "https://heurist.huma-num.fr/heurist"
 
 RECORD_XML_EXPORT_PATH = "/export/xml/flathml.php"
 

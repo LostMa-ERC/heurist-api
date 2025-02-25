@@ -3,7 +3,7 @@
 from typing import Literal
 
 from heurist.api.constants import (
-    HEURIST_SERVER,
+    HUMA_NUM_SERVER,
     RECORD_JSON_EXPORT_PATH,
     RECORD_XML_EXPORT_PATH,
     STRUCTURE_EXPORT_PATH,
@@ -16,13 +16,21 @@ COLON = "%3A"
 class URLBuilder:
     """Class to construct endpoints for the Heurist API (on Huma-Num's server)."""
 
-    server = HEURIST_SERVER
-    xml_record_api = f"{HEURIST_SERVER}{RECORD_XML_EXPORT_PATH}"
-    json_record_api = f"{HEURIST_SERVER}{RECORD_JSON_EXPORT_PATH}"
-    db_api = f"{HEURIST_SERVER}{STRUCTURE_EXPORT_PATH}"
-
-    def __init__(self, database_name: str) -> None:
+    def __init__(self, database_name: str, server: str = HUMA_NUM_SERVER) -> None:
+        self.server = server
         self.database_name = database_name
+
+    @property
+    def db_api(self) -> str:
+        return f"{self.server}{STRUCTURE_EXPORT_PATH}"
+
+    @property
+    def xml_record_api(self) -> str:
+        return f"{self.server}{RECORD_XML_EXPORT_PATH}"
+
+    @property
+    def json_record_api(self) -> str:
+        return f"{self.server}{RECORD_JSON_EXPORT_PATH}"
 
     @classmethod
     def _join_queries(cls, *args) -> str:
