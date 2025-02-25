@@ -1,8 +1,9 @@
 from pathlib import Path
 
-import duckdb
 
-file_path_record_type_schema = Path(__file__).parent.joinpath("selectRecordTypeSchema.sql")
+file_path_record_type_schema = Path(__file__).parent.joinpath(
+    "selectRecordTypeSchema.sql"
+)
 file_path_record_type_metadata_by_group_type = Path(__file__).parent.joinpath(
     "joinRecordTypeIDNameByGroupType.sql"
 )
