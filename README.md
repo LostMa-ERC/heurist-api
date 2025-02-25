@@ -2,7 +2,7 @@
 
 # Heurist ETL Pipeline
 
-<img src="./docs/assets/logo-transparent-1.png" style="width:300px" alt="Logo showing heurist on the left, a pipe in the middle, and output formats DuckDB, JavaScript and CSV on the right."/>
+<img src="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png" style="width:300px" alt="Logo showing heurist on the left, a pipe in the middle, and output formats DuckDB, JavaScript and CSV on the right."/>
 
 Extract, transform, and load data from your Heurist database into local formats. Great for freeing up your data analysis pipeline!
 
@@ -49,10 +49,7 @@ Final thoughts: This pipeline is most useful at the end of your data entry, when
 3. Install the latest version.
 
 ```shell
-pip install \
---index-url https://test.pypi.org/simple/ \
---extra-index-url https://pypi.org/simple \
-heurist
+pip install -i https://test.pypi.org/simple/ heurist
 ```
 
 ### Configure
