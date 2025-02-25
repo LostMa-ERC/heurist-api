@@ -21,12 +21,24 @@ class HeuristDataType:
 
     @classmethod
     def to_sql(cls, datatype: str) -> str:
+        """
+        Convert a Heurist data type label (i.e. "enum") to an SQL equivalent.
+
+        Args:
+            datatype (str): Heurist data type.
+
+        Returns:
+            str: SQL data type.
+        """
+
         if datatype == cls.numeric:
             return "FLOAT"
         elif datatype == cls.date_time:
             return "DATE[2]"
         elif datatype == cls.record_pointer or datatype == cls.relationship_marker:
             return "INTEGER"
+        elif datatype == cls.dropdown:
+            return "VARCHAR"
         else:
             return "TEXT"
 
@@ -40,6 +52,7 @@ class HeuristDataType:
         Returns:
             str: Field type name.
         """
+
         return detail["fieldType"]
 
     @classmethod
@@ -52,6 +65,7 @@ class HeuristDataType:
         Returns:
             Any: Python type.
         """
+
         if datatype == cls.dropdown:
             return Optional[str]
 

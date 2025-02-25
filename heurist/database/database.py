@@ -17,10 +17,6 @@ logger = setup_logger(name="validate-pydantic-model", filepath=DATABASE_LOG)
 class TransformedDatabase(HeuristDatabase):
     """Class for building and populating SQL tables with data collected and \
     transformed from remote Heurist DB.
-
-    Args:
-        HeuristDatabase (class): Class featuring methods for parsing the \
-            original Heurist database structure.
     """
 
     def __init__(

@@ -5,12 +5,9 @@ from pydantic_xml import BaseXmlModel, element
 
 
 class TRM(BaseXmlModel, tag="trm", search_mode="unordered"):
-    """_summary_
+    """Dataclass to model one of the database's vocabulary terms.
 
-    Args:
-        BaseXmlModel (_type_): _description_
-        tag (str, optional): _description_. Defaults to "trm".
-        search_mode (str, optional): _description_. Defaults to "unordered".
+    When possible, the attribute descriptions are taken from Heurist's source code.
     """
 
     trm_ID: int = element()

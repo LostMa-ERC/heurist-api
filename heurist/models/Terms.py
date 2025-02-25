@@ -4,10 +4,14 @@ from heurist.models.trm import TRM
 
 
 class Terms(BaseXmlModel):
-    """_summary_
+    """Dataclass for modeling all of the database structure's Terms.
+
+    Attributes:
+        trm (list): list of instantiated dataclasses that model all of the database's
+            Terms.
 
     Examples:
-        >>> fromheurist.mock_data import DB_STRUCTURE_XML
+        >>> from heurist.mock_data import DB_STRUCTURE_XML
         >>> from heurist.models import HMLStructure
         >>>
         >>>

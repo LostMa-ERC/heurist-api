@@ -16,7 +16,7 @@ class HMLStructure(BaseXmlModel, tag="hml_structure", search_mode="unordered"):
         record_types (RecTypes): model for data nested in the RecTypes tag.
 
     Examples:
-        >>> fromheurist.mock_data import DB_STRUCTURE_XML
+        >>> from heurist.mock_data import DB_STRUCTURE_XML
         >>>
         >>>
         >>> # Parse structure

@@ -2,7 +2,9 @@ import logging
 from pathlib import Path
 
 
-DEFAULT_FORMATTER = logging.Formatter("%(name)s\t%(levelname)-8s\t%(message)s")
+DEFAULT_FORMATTER = logging.Formatter(
+    "%(asctime)s\t%(name)s\t%(levelname)-8s\t%(message)s"
+)
 
 LOG_DIR = Path.cwd().joinpath("logs")
 LOG_DIR.mkdir(exist_ok=True)
@@ -18,7 +20,7 @@ def setup_logger(
     formatter=DEFAULT_FORMATTER,
     filter: logging.Filter | None = None,
 ):
-    handler = logging.FileHandler(filepath, mode="wt", encoding="utf-8")
+    handler = logging.FileHandler(filepath, mode="at", encoding="utf-8")
     handler.setFormatter(formatter)
     if filter:
         handler.addFilter(filter())

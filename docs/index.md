@@ -4,14 +4,19 @@
 
 ## Commands
 
-* `heurist load -f [file]` - Load records from Heurist into a DuckDB file.
+* `heurist download -f [file]` - Load records from Heurist into a DuckDB file.
 * `heurist record -t [record-type]` - Export records of a certain type in a JSON file.
-* `heurist schema -t [output-type]` - Transform and load Heurist schema 
+* `heurist schema -t [output-type]` - Transform and load Heurist schema.
 * `mkdocs -h` - Print help message and exit.
 
 ## Project layout
 
     heurist/
-        __main__.py # Endpoint for the CLI utility
-        src/
-            
+        api/            # Python client for Heurist API
+        cli/            # Commands for CLI tool
+        converters/     # Methods and functions for transforming Heurist data
+        database/       # DuckDB database for loading data
+        mock_data/      # Examples of data structures exported from Heurist API
+        models/         # Pydantic models for parsing exported Heurist data
+        schema/         # Tools for transforming database structure into schema documentation
+        sql/            # SQL scripts for manipulating and transforming Heurist data
