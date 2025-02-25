@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>rst - My Project</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "rst";
+        var mkdocs_page_input_path = "reference/models/rst.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> My Project
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Usage</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../usage/">Index</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/">Recipes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/troubleshooting/">Troubleshooting</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Code Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >api</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/client/">client</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/constants/">constants</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/exceptions/">exceptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/param_manager/">param_manager</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/session/">session</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/url_builder/">url_builder</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >converters</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../converters/date_handler/">date_handler</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../converters/detail_converter/">detail_converter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../converters/dynamic_pydantic_data_field/">dynamic_pydantic_data_field</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../converters/dynamic_record_type_modeler/">dynamic_record_type_modeler</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../converters/prepare_records/">prepare_records</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../converters/record_modeler/">record_modeler</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../converters/type_handler/">type_handler</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/basedb/">basedb</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/database/">database</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >models</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../DetailTypes/">DetailTypes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../RecStructure/">RecStructure</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../RecTypeGroups/">RecTypeGroups</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../RecTypes/">RecTypes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Terms/">Terms</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../dty/">dty</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../hml_structure/">hml_structure</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">rst</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#models.rst.RST">RST</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../rtg/">rtg</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../rty/">rty</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../trm/">trm</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../utils/">utils</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >schema</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../schema/json_tools/converter/">converter</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../schema/json_tools/models/">models</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >sql</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/sql_safety/">sql_safety</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >utils</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../utils/rel_to_dict_array/">rel_to_dict_array</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Development</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../development/contributing/">Contributing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../development/code_of_conduct/">Code of Conduct</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../development/coverage/">Coverage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../development/publishing/">Publishing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">My Project</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Code Reference</li>
+          <li class="breadcrumb-item">models</li>
+      <li class="breadcrumb-item active">rst</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<h1 id="models.rst" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">rst</span>
+
+
+<a href="#models.rst" class="headerlink" title="Permanent link">#</a></h1>
+
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <ul>
+        <li class="doc-section-item field-body">
+          <b><code><a class="autorefs autorefs-internal" title="models.rst.RST" href="#models.rst.RST">RST</a></code></b>
+          –
+          <div class="doc-md-description">
+            <p>Dataclass to model one of the database's Record Structures. Record Structures</p>
+          </div>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="models.rst.RST" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">RST</span>
+
+
+<a href="#models.rst.RST" class="headerlink" title="Permanent link">#</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="pydantic_xml.BaseXmlModel">BaseXmlModel</span></code></p>
+
+
+        <p>Dataclass to model one of the database's Record Structures. Record Structures
+    are the fields of a Record Type.</p>
+<p>When possible, the attribute descriptions are taken from Heurist's source code.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>rst_ID</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Primary key for the record structures table</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_RecTypeID</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The record type to which this detail is allocated,             0 = all rectypes</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DetailTypeID</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Detail type for this field or, if MSB set,             FieldSet code + 32767</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DisplayName</code></b>
+                  (<code><span title="str">str</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Display name for this dtl type in this rectype,             autofill with dty_Name</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DisplayHelpText</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The user help text to be displayed for             this detail type for this record type</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DisplayExtendedDescription</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The rollover text to be             displayed for this detail type for this record type</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DisplayOrder</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>A sort order for display of this detail type in the             record edit form</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DisplayWidth</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The field width displayed for this detail type in             this record type</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DisplayHeight</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The field height for this detail type in this record             type, only relevant for memo fields</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DefaultValue</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The default value for this detail type for             this record type</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_RecordMatchOrder</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Indicates order of significance in detecting             duplicate records, 1 = highest</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_CalcFunctionID</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>FK to table of function specifications for             calculating string values</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_CalcFieldMask</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>A mask string along the lines of the title             mask allowing a composite field to be generated from other fields in the             record</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_RequirementType</code></b>
+                  (<code><span title="typing.Literal">Literal</span>[&#39;required&#39;, &#39;recommended&#39;, &#39;optional&#39;, &#39;forbidden&#39;]</code>)
+              –
+              <div class="doc-md-description">
+                
+              </div>
+            </li>
+            <li>
+              <b><code>rst_NonOwnerVisibility</code></b>
+                  (<code><span title="typing.Literal">Literal</span>[&#39;hidden&#39;, &#39;viewable&#39;, &#39;public&#39;, &#39;pending&#39;]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Allows restriction of visibility of a particular field in a specified             record type</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_Status</code></b>
+                  (<code><span title="typing.Literal">Literal</span>[&#39;reserved&#39;, &#39;approved&#39;, &#39;pending&#39;, &#39;open&#39;]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Reserved             Heurist codes, approved/pending by ''Board'', and user additions</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_MayModify</code></b>
+                  (<code><span title="typing.Literal">Literal</span>[&#39;locked&#39;, &#39;discouraged&#39;, &#39;open&#39;]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Extent to which             detail may be modified within this record structure</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_OriginatingDBID</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Database where this record structure element             originated, 0 = locally</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_IDInOriginatingDB</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>ID used in database where this record             structure element originated</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_MaxValues</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Maximum number of values per record for this detail, 1 -             single, &gt;1 limited, NULL or 0 = no limit</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_MinValues</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>If required, minimum number of values per record for this             detail</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_InitialRepeats</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Number of repeat values to be displayed for this             field when a new record is first displayed</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_DisplayDetailTypeGroupID</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>If set, places detail in             specified group instead of according to dty_DetailTypeGroup</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_FilteredJsonTermIDTree</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>JSON encoded tree of allowed             terms, subset of those defined in defDetailType. This field is no             longer used</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_PtrFilteredIDs</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Allowed Rectypes (CSV) within list defined             by defDetailType (for pointer details) This field is no longer used</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_CreateChildIfRecPtr</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>For pointer fields, flags that new records             created from this field should be marked as children of the creating record</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_PointerMode</code></b>
+                  (<code><span title="typing.Literal">Literal</span>[&#39;dropdown_add&#39;, &#39;dropdown&#39;, &#39;addorbrowse&#39;, &#39;addonly&#39;, &#39;browseonly&#39;]</code>)
+              –
+              <div class="doc-md-description">
+                <p>When adding record pointer values, default or null = show             both add and browse, otherwise only allow add or only allow             browse-for-existing</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_PointerBrowseFilter</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>When adding record pointer values,             defines a Heurist filter to restrict the list of target records browsed</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_OrderForThumbnailGeneration</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Priority order of fields to             use in generating thumbnail, null = do not use</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_TermIDTreeNonSelectableIDs</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Term IDs to use as             non-selectable headers for this field</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_ShowDetailCertainty</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>When editing the field, allow editng of the             dtl_Certainty value (off by default)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_ShowDetailAnnotation</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>When editing the field, allow editng of the             dtl_Annotation value (off by default)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_NumericLargestValueUsed</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="int">int</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>For numeric fields, Null =             no auto increment, 0 or more indicates largest value used so far.             Set to 0 to switch on incrementing</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_EntryMask</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>Data entry mask, use to control decimals on             numeric values, content of text fields etc. for this record type - future             implementation Aug 2017</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_Modified</code></b>
+                  (<code><span title="datetime.datetime">datetime</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Date of last modification of this record, used to get             last updated date for table</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_LocallyModified</code></b>
+                  (<code><span title="int">int</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>Flags a definition element which has been modified             relative to the original source</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_SemanticReferenceURL</code></b>
+                  (<code><span title="typing.Optional">Optional</span>[<span title="str">str</span>]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The URI to a semantic definition or             web page describing this field used within this record type</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rst_TermsAsButtons</code></b>
+                  (<code><span title="bool">bool</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>If 1, term list fields are represented as buttons             (if single value) or checkboxes (if repeat values)</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../hml_structure/" class="btn btn-neutral float-left" title="hml_structure"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../rtg/" class="btn btn-neutral float-right" title="rtg">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../hml_structure/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../rtg/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
