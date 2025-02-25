@@ -44,7 +44,9 @@ def schema_command(
     else:
         from heurist.mock_data import DB_STRUCTURE_XML
 
-        db = TransformedDatabase(hml_xml=DB_STRUCTURE_XML, record_type_groups=record_group)
+        db = TransformedDatabase(
+            hml_xml=DB_STRUCTURE_XML, record_type_groups=record_group
+        )
         record_types = list(db.pydantic_models.keys())
 
     # Describe each targeted record type
@@ -54,7 +56,7 @@ def schema_command(
         descriptions = []
         t = p.add_task("Describing record types", total=len(record_types))
         for id in record_types:
-            descriptions.append(db.describe_record_fields(rty_ID=id))
+            descriptions.append(db.describe_record_schema(rty_ID=id))
             p.advance(t)
 
     # Output the descriptions according to the desired data format

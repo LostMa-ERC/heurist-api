@@ -5,7 +5,7 @@ from heurist.api.param_manager import APIParamManager
 from heurist.cli.load import load_command
 
 
-class DumpCommand(unittest.TestCase):
+class DownloadCommand(unittest.TestCase):
     def setUp(self):
         params = APIParamManager()
         try:
@@ -24,3 +24,7 @@ class DumpCommand(unittest.TestCase):
             user=(),
             outdir=None,
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
