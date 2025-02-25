@@ -111,19 +111,22 @@ class APIParamManager:
             loaded_env_vars = load_dotenv(find_dotenv())
             if not loaded_env_vars:
                 load_dotenv(find_dotenv(Path.cwd().joinpath(".env")))
-            # Try getting parameters from environment variables
-            self.database_name = os.environ["DB_NAME"]
-            self.login = os.environ["DB_LOGIN"]
-            self.password = os.environ["DB_PASSWORD"]
 
-        if self.database_name is None:
-            raise MissingParameterException(parameter="database")
+        # If not provided as parameters, try getting from environment variables
+        if not self.database_name and get_env_vars:
+            self.database_name = os.environ.get("DB_NAME")
+            if self.database_name is None:
+                raise MissingParameterException(parameter="database")
 
-        if self.login is None:
-            raise MissingParameterException(parameter="login")
+        if not self.login and get_env_vars:
+            self.login = os.environ.get("DB_LOGIN")
+            if self.login is None:
+                raise MissingParameterException(parameter="login")
 
-        if self.password is None:
-            raise MissingParameterException(parameter="password")
+        if not self.password and get_env_vars:
+            self.password = os.environ.get("DB_PASSWORD")
+            if self.password is None:
+                raise MissingParameterException(parameter="password")
 
     @property
     def kwargs(self) -> dict:
