@@ -10,6 +10,15 @@ from heurist.converters.type_handler import HeuristDataType
 
 class RecordModeler:
     def __init__(self, pydantic_model: DynamicRecordTypeModel, record: dict):
+        """
+        Class for validating a Heurist record's data according to the dynamically \
+            created Pydantic model.
+
+        Args:
+            pydantic_model (DynamicRecordTypeModel): Pydantic model.
+            record (dict): A Heurist record JSON object.
+        """
+
         self.plural_fields = [
             v.description
             for v in pydantic_model.model.model_fields.values()

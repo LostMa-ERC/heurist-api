@@ -27,7 +27,7 @@ logger.info("TableName\tColumnName\tDataType")
 
 class DynamicRecordTypeModel:
     def __init__(self, rty_ID: int, rty_Name: str, detail_metadata: list[dict]) -> None:
-        """_summary_
+        """
         The records' detail metadata includes the following keys: dty_ID, \
             rst_DisplayName, dty_Type, rst_MaxValues.
 
