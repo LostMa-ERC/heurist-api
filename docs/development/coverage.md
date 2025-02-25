@@ -1,5 +1,7 @@
 # Badges
 
+> Warning: This documentation is under development.
+
 - `coverage` (install independently), ^7.6
 - `genbadge` (install insependently), ^1.1
 

@@ -1,5 +1,7 @@
 # Publishing Versions
 
+> Warning: This documentation is under development.
+
 [I found this blog helpful.](https://hermann-web.github.io/blog/blog/2024/03/16/publishing-your-python-project-with-poetry/#configuring-poetry-one-time-setup)
 
 ## Configure PyPI authentication

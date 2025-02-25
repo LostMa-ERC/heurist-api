@@ -1,5 +1,7 @@
 # Contributing File
 
+> Warning: This documentation is under development.
+
 ## VS Code settings
 
 ```json
