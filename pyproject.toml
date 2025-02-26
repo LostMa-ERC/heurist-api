@@ -45,10 +45,6 @@ Issues = "https://github.com/LostMa-ERC/heurist-etl-pipeline/issues"
 heurist = "heurist.cli.__main__:cli"
 
 
-[project.urls]
-repository = "https://github.com/LostMA-ERC/heurist-etl-pipeline"
-
-
 [tool.poetry]
 readme = ["README.md"]
 package-mode = true
