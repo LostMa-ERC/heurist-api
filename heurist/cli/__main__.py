@@ -118,10 +118,16 @@ def records(ctx, record_type, outfile):
 def doc(ctx, record_group, outdir, output_type):
     # Get context variables
     client = ctx["CLIENT"]
-    testing = ctx["DEBUGGING"]
+    debugging = ctx["DEBUGGING"]
 
     # Run the doc command
-    schema_command(client, testing, record_group, outdir, output_type)
+    schema_command(
+        client=client,
+        record_group=record_group,
+        outdir=outdir,
+        output_type=output_type,
+        debugging=debugging,
+    )
 
 
 # =========================== #
