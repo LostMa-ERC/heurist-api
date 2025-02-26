@@ -10,10 +10,9 @@ Extract, transform, and load data from your Heurist database into local formats.
 
 ## Documentation
 
-For information about installation, usage, etc, open the documentation site below:
+For information about installation, usage, etc., open the documentation site below:
 
-- [Documentation Home](https://lostma-erc.github.io/heurist-etl-pipeline/)
-- [Installation & Basic Usage](https://lostma-erc.github.io/heurist-etl-pipeline/usage/)
+- [Documentation](https://lostma-erc.github.io/heurist-etl-pipeline/)
 
 ## License
 
