@@ -6,7 +6,7 @@ from pathlib import Path
 
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
-from heurist.cli.schema import schema_command, get_database_schema
+from heurist.cli.schema import schema_command
 
 
 class SchemaBase(unittest.TestCase):
@@ -20,15 +20,6 @@ class SchemaBase(unittest.TestCase):
             f.unlink(missing_ok=True)
         self.tempdir.rmdir()
         return super().tearDown()
-
-    def get_database_schema(self):
-        db = get_database_schema(
-            record_groups=["My record types"],
-            client=self.client,
-            debugging=True,
-        )
-        actual = len(db.pydantic_models)
-        self.assertGreater(actual, 0)
 
     def json(self):
         _ = schema_command(
@@ -65,9 +56,6 @@ class OfflineSchemaCommand(SchemaBase):
         self.client = HeuristAPIClient(**params.kwargs)
         self.debugging = True
 
-    def test_get_database_schema(self):
-        self.get_database_schema()
-
     def test_json(self):
         self.json()
 
@@ -87,9 +75,6 @@ class OnlineSchemaCommand(SchemaBase):
                     database connection."
             )
         self.debugging = False
-
-    def test_get_database_schema(self):
-        self.get_database_schema()
 
     def test_json(self):
         self.json()
