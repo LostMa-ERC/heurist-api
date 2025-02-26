@@ -2,7 +2,7 @@ import unittest
 
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
-from heurist.api.exceptions import MissingParameterException, AuthenticationError
+from heurist.api.exceptions import AuthenticationError, MissingParameterException
 from heurist.cli.load import load_command
 
 

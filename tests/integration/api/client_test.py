@@ -10,7 +10,7 @@ from lxml import etree
 
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
-from heurist.api.exceptions import MissingParameterException, AuthenticationError
+from heurist.api.exceptions import AuthenticationError, MissingParameterException
 
 
 TEST_RECORD_TYPE = 102

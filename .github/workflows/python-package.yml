@@ -7,7 +7,7 @@ on:
   push:
     paths:
       - "heurist/**"
-      - "./.github/workflows/python-package.yml"
+      - "tests/**"
     branches:
       - main
   pull_request:
