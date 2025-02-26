@@ -19,8 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install poetry
-          poetry install
+          pip install
           pip install pytest coverage
           pip install genbadge[all]
       - name: Coverage badge
