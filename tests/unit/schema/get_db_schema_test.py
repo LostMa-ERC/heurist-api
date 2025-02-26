@@ -3,12 +3,19 @@ import unittest
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
 from heurist.cli.schema import get_database_schema
+from heurist.api.exceptions import MissingParameterException
 
 
 class SchemaTest(unittest.TestCase):
 
     def setUp(self):
-        params = APIParamManager(debugging=True)
+        try:
+            params = APIParamManager(debugging=True)
+        except MissingParameterException:
+            self.skipTest(
+                "Connection could not be established.\nCannot test client without \
+                    database connection."
+            )
         self.client = HeuristAPIClient(**params.kwargs)
         self.debugging = True
 

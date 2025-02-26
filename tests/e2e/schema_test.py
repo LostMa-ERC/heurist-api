@@ -53,7 +53,7 @@ class SchemaBase(unittest.TestCase):
 class OfflineSchemaCommand(SchemaBase):
     def setUp(self):
         self.tempdir.mkdir(exist_ok=False)
-        params = APIParamManager(debugging=True)
+        params = APIParamManager(debugging=True, get_env_vars=False)
         self.client = HeuristAPIClient(**params.kwargs)
         self.debugging = True
 
@@ -67,14 +67,14 @@ class OfflineSchemaCommand(SchemaBase):
 class OnlineSchemaCommand(SchemaBase):
     def setUp(self):
         self.tempdir.mkdir(exist_ok=False)
-        params = APIParamManager()
         try:
-            self.client = HeuristAPIClient(**params.kwargs)
+            params = APIParamManager()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
             )
+        self.client = HeuristAPIClient(**params.kwargs)
         self.debugging = False
 
     def test_json(self):

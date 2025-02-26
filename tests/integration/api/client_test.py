@@ -19,14 +19,14 @@ TEST_USER = 6
 
 class ClientUnitTest(unittest.TestCase):
     def setUp(self) -> None:
-        params = APIParamManager()
         try:
-            self.client = HeuristAPIClient(**params.kwargs)
+            params = APIParamManager()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
             )
+        self.client = HeuristAPIClient(**params.kwargs)
 
     def test_user_filter(self):
         """Test the API client's ability to extract records created by a \

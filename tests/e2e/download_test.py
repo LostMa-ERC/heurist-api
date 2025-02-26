@@ -8,14 +8,14 @@ from heurist.cli.load import load_command
 
 class DownloadCommand(unittest.TestCase):
     def setUp(self):
-        params = APIParamManager()
         try:
-            self.client = HeuristAPIClient(**params.kwargs)
+            params = APIParamManager()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
             )
+        self.client = HeuristAPIClient(**params.kwargs)
 
     def test(self):
         load_command(
