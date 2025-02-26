@@ -1,27 +1,28 @@
-name: build
+name: badges
 
 on:
   push:
     paths:
       - "tests/**"
+      - ".github/workflows/badge-update.yml"
     branches:
       - main
   workflow_call:
 
 jobs:
   build:
-    name: build
+    name: badges
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          pip install --upgrade pip
           pip install poetry
           poetry install
-          pip install genbadge[all]
           pip install coverage
+          pip install genbadge[all]
       - name: Coverage badge
         run: |
             coverage run -m pytest

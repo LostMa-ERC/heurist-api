@@ -1,8 +1,8 @@
 import unittest
 
-from heurist.cli.schema import get_database_schema
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
+from heurist.cli.schema import get_database_schema
 
 
 class SchemaTest(unittest.TestCase):
