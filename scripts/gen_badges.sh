@@ -12,3 +12,4 @@ rm coverage.xml
 pytest --junitxml=reports/junit/junit.xml
 genbadge tests
 mv tests-badge.svg docs/assets
+rm -r reports

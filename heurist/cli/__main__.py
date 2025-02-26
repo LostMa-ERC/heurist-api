@@ -83,8 +83,7 @@ def records(ctx, record_type, outfile):
 # =========================== #
 @cli.command(
     "schema",
-    help="Command to export documentation \
-             about the database schema.",
+    help="Generate documentation about the database schema.",
 )
 @click.option(
     "-t",
@@ -135,8 +134,7 @@ def doc(ctx, record_group, outdir, output_type):
 # =========================== #
 @cli.command(
     "download",
-    help="Command to export data of records of 1 or more \
-        record group types.",
+    help="Export data of records of 1 or more record group types.",
 )
 @click.option(
     "-r",
