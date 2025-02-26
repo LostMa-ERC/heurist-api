@@ -22,7 +22,17 @@
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-ABC123");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -54,13 +64,19 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="usage/">Usage</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+                  <li class="toctree-l1"><a class="reference internal" >Recipes</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="usage/recipes/">Recipes</a>
+                <li class="toctree-l2"><a class="reference internal" href="usage/recipes/download/">Download record groups (CLI)</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="usage/troubleshooting/">Troubleshooting</a>
+                <li class="toctree-l2"><a class="reference internal" href="usage/recipes/records/">Export a record type (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="usage/recipes/schema/">Generate schema (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="usage/recipes/module/">Python API client (module)</a>
                 </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="usage/faq/">Heurist Fact Sheet</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
@@ -137,13 +153,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >schema</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="reference/schema/json_tools/converter/">converter</a>
+                <li class="toctree-l2"><a class="reference internal" href="reference/schema/models/">models</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="reference/schema/json_tools/models/">models</a>
-                </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="reference/schema/rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -194,18 +206,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="heurist-pipeline">Heurist Pipeline<a class="headerlink" href="#heurist-pipeline" title="Permanent link">#</a></h1>
-<p><a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml"><img alt="Python package" src="https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml/badge.svg" /></a> <a href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="License: CC BY-NC 4.0" src="https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg" /></a></p>
-<blockquote>
-<p>Warning: This documentation is under development.</p>
-</blockquote>
+                <h1 id="heurist-etl">Heurist ETL<a class="headerlink" href="#heurist-etl" title="Permanent link">#</a></h1>
+<p><a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml"><img alt="Python package" src="https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml/badge.svg" /></a> <a href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="License: CC BY-NC 4.0" src="https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg" /></a>
+<a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/coverage-badge.svg"><img alt="coverage" src="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/coverage-badge.svg" /></a>
+<a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/tests-badge.svg"><img alt="tests" src="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/tests-badge.svg" /></a></p>
+<p>This Python package Extracts, Transforms, and Loads (ETL) data from a Heurist database server into a local <a href="https://duckdb.org">DuckDB</a> database file.</p>
 <h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">#</a></h2>
 <ul>
-<li><code>heurist download -f [file]</code> - Load records from Heurist into a DuckDB file.</li>
-<li><code>heurist record -t [record-type]</code> - Export records of a certain type in a JSON file.</li>
-<li><code>heurist schema -t [output-type]</code> - Transform and load Heurist schema.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
+<li><code>heurist download -f [file]</code> - Load all the records of a certain record group type into a DuckDB database file. There is also the option to export the transformed tables into CSV files for each record type.</li>
+<li><code>heurist record -t [record-type]</code> - Simply calling Heurist's API, export all of a targeted record type's records to a JSON file.</li>
+<li><code>heurist schema -t [output-type]</code> - Transform a Heurist database schema into descriptive CSV tables for each record type or into a descriptive JSON array.</li>
 </ul>
+<p>Learn how to install and start using the <code>heurist</code> Command-Line Interface (CLI) on the <a href="usage/">Usage</a> page.</p>
+<blockquote>
+<p><em>Note: Currently, the </em><code>heurist</code><em> package has only been developed for Heurist databases hosted on <a href="https://heurist.huma-num.fr/heurist/startup/">Huma-Num's Heurist server</a>. This includes nearly 2000 database instances, which is a good place to start! If you want to help develop the API client to work with other servers, consider <a href="development/contributing/">contributing</a>.</em></p>
+</blockquote>
+<hr />
 <h2 id="project-layout">Project layout<a class="headerlink" href="#project-layout" title="Permanent link">#</a></h2>
 <div class="highlight"><pre><span></span><code>heurist/
     api/            # Python client for Heurist API
@@ -265,5 +281,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-02-25 19:07:54.990845+00:00
+Build Date UTC : 2025-02-26 18:12:06.091334+00:00
 -->

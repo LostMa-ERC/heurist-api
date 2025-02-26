@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../../img/favicon.ico" />
-    <title>exceptions - Heurist ETL</title>
+    <title>models - Heurist ETL</title>
     <link rel="stylesheet" href="../../../css/theme.css" />
     <link rel="stylesheet" href="../../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "exceptions";
-        var mkdocs_page_input_path = "reference/api/exceptions.md";
+        var mkdocs_page_name = "models";
+        var mkdocs_page_input_path = "reference/schema/models.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -75,27 +75,19 @@
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" >api</a>
-    <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../client/">client</a>
+                  <li class="toctree-l1"><a class="reference internal" >api</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/client/">client</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../constants/">constants</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/constants/">constants</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">exceptions</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#api.exceptions.APIException">APIException</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#api.exceptions.AuthenticationError">AuthenticationError</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#api.exceptions.MissingParameterException">MissingParameterException</a>
-    </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/exceptions/">exceptions</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../param_manager/">param_manager</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/param_manager/">param_manager</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../session/">session</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/session/">session</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../url_builder/">url_builder</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/url_builder/">url_builder</a>
                 </li>
     </ul>
                   </li>
@@ -153,11 +145,15 @@
                 </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >schema</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../schema/models/">models</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >schema</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">models</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#schema.models.convert_vocab_map_to_list">convert_vocab_map_to_list</a>
+    </li>
+    </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../schema/rel_to_dict/">rel_to_dict</a>
+                <li class="toctree-l2"><a class="reference internal" href="../rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -200,8 +196,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Code Reference</li>
-          <li class="breadcrumb-item">api</li>
-      <li class="breadcrumb-item active">exceptions</li>
+          <li class="breadcrumb-item">schema</li>
+      <li class="breadcrumb-item active">models</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -214,11 +210,11 @@
 
 
 
-<h1 id="api.exceptions" class="doc doc-heading">
-            <span class="doc doc-object-name doc-module-name">exceptions</span>
+<h1 id="schema.models" class="doc doc-heading">
+            <span class="doc doc-object-name doc-module-name">models</span>
 
 
-<a href="#api.exceptions" class="headerlink" title="Permanent link">#</a></h1>
+<a href="#schema.models" class="headerlink" title="Permanent link">#</a></h1>
 
     <div class="doc doc-contents first">
 
@@ -228,37 +224,23 @@
 
 
 
-<p><span class="doc-section-title">Classes:</span></p>
+
+
+<p><span class="doc-section-title">Functions:</span></p>
     <ul>
-        <li class="doc-section-item field-body">
-          <b><code><a class="autorefs autorefs-internal" title="api.exceptions.APIException" href="#api.exceptions.APIException">APIException</a></code></b>
-          –
-          <div class="doc-md-description">
-            <p>Problem calling Heurist API.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-          <b><code><a class="autorefs autorefs-internal" title="api.exceptions.AuthenticationError" href="#api.exceptions.AuthenticationError">AuthenticationError</a></code></b>
-          –
-          <div class="doc-md-description">
-            <p>Error raised when unable to authenticate Heurist login.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-          <b><code><a class="autorefs autorefs-internal" title="api.exceptions.MissingParameterException" href="#api.exceptions.MissingParameterException">MissingParameterException</a></code></b>
-          –
-          <div class="doc-md-description">
-            <p>Exception raised for a missing parameter.</p>
-          </div>
-        </li>
+          <li class="doc-section-item field-body">
+            <b><code><a class="autorefs autorefs-internal" title="schema.models.convert_vocab_map_to_list" href="#schema.models.convert_vocab_map_to_list">convert_vocab_map_to_list</a></code></b>
+            –
+            <div class="doc-md-description">
+              <p>Convert map generated in the SQL query to a list of vocab dictionary objects.</p>
+            </div>
+          </li>
     </ul>
 
 
 
 
 
-
-
   <div class="doc doc-children">
 
 
@@ -268,136 +250,95 @@
 
 
 
-<div class="doc doc-object doc-class">
+
+<div class="doc doc-object doc-function">
 
 
-
-<h2 id="api.exceptions.APIException" class="doc doc-heading">
-            <span class="doc doc-object-name doc-class-name">APIException</span>
-
-
-<a href="#api.exceptions.APIException" class="headerlink" title="Permanent link">#</a></h2>
+<h2 id="schema.models.convert_vocab_map_to_list" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">convert_vocab_map_to_list</span>
 
 
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><span title="Exception">Exception</span></code></p>
-
-
-        <p>Problem calling Heurist API.</p>
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="api.exceptions.AuthenticationError" class="doc doc-heading">
-            <span class="doc doc-object-name doc-class-name">AuthenticationError</span>
-
-
-<a href="#api.exceptions.AuthenticationError" class="headerlink" title="Permanent link">#</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">AuthenticationError</span><span class="p">(</span><span class="n"><span title="api.exceptions.AuthenticationError(message)">message</span></span><span class="p">)</span>
+<a href="#schema.models.convert_vocab_map_to_list" class="headerlink" title="Permanent link">#</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">convert_vocab_map_to_list</span><span class="p">(</span>
+    <span class="n"><span title="schema.models.convert_vocab_map_to_list(vocab_map)">vocab_map</span></span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><span title="Exception">Exception</span></code></p>
+
+        <p>Convert map generated in the SQL query to a list of vocab dictionary objects.</p>
+<p>See the SQL query in the sql/ directory. The relevant selection is:
+    map(list(trm_Label), list(
+        {
+            "description": trm_Description,
+            "url": trm_SemanticReferenceURL,
+            "id": trm_ID
+        })
+    ) AS terms</p>
 
 
-        <p>Error raised when unable to authenticate Heurist login.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="api.exceptions.MissingParameterException" class="doc doc-heading">
-            <span class="doc doc-object-name doc-class-name">MissingParameterException</span>
-
-
-<a href="#api.exceptions.MissingParameterException" class="headerlink" title="Permanent link">#</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">MissingParameterException</span><span class="p">(</span><span class="n"><span title="api.exceptions.MissingParameterException(parameter)">parameter</span></span><span class="p">)</span>
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">vocab0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;perg&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Parchment&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">9782</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vocab1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;chart&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Paper&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">9783</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vocab2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mixed&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">9785</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">vocab0</span> <span class="o">|</span> <span class="n">vocab1</span> <span class="o">|</span> <span class="n">vocab2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">terms</span> <span class="o">=</span> <span class="n">convert_vocab_map_to_list</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">terms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">{&#39;label&#39;: &#39;perg&#39;, &#39;description&#39;: &#39;Parchment&#39;, &#39;url&#39;: None, &#39;id&#39;: 9782}</span>
 </code></pre></div>
 
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><span title="Exception">Exception</span></code></p>
 
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>vocab_map</code></b>
+                  (<code><span title="dict">dict</span> | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>Map created in SQL query from aggregation function.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-        <p>Exception raised for a missing parameter.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code><span title="list">list</span>[<span title="dict">dict</span>]</code>
+              –
+              <div class="doc-md-description">
+                <p>list[dict]: List of vocabulary term metadata in dictionary objects.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
 </div>
-
 
 
 
@@ -410,8 +351,8 @@
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../constants/" class="btn btn-neutral float-left" title="constants"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../param_manager/" class="btn btn-neutral float-right" title="param_manager">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../models/utils/" class="btn btn-neutral float-left" title="utils"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../rel_to_dict/" class="btn btn-neutral float-right" title="rel_to_dict">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -434,10 +375,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../constants/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../models/utils/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../param_manager/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../rel_to_dict/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

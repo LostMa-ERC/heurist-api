@@ -22,7 +22,17 @@
       <script src="../../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-ABC123");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -48,13 +58,19 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../usage/">Usage</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+                  <li class="toctree-l1"><a class="reference internal" >Recipes</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/">Recipes</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/download/">Download record groups (CLI)</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../usage/troubleshooting/">Troubleshooting</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/records/">Export a record type (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/schema/">Generate schema (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/module/">Python API client (module)</a>
                 </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/faq/">Heurist Fact Sheet</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
@@ -131,13 +147,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >schema</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../reference/schema/json_tools/converter/">converter</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../reference/schema/models/">models</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../reference/schema/json_tools/models/">models</a>
-                </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../reference/schema/rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -158,13 +170,31 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Contributing</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#vs-code-settings">VS Code settings</a>
+    <li class="toctree-l2"><a class="reference internal" href="#set-up">Set up</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#ide">IDE</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#dependency-publishing-manager">Dependency / publishing manager</a>
+    <li class="toctree-l3"><a class="reference internal" href="#git-python">Git &amp; Python</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#repository">Repository</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#linting">Linting</a>
+    <li class="toctree-l4"><a class="reference internal" href="#virtual-environment">Virtual Environment</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a>
+    <li class="toctree-l4"><a class="reference internal" href="#development-branch">Development branch</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#development">Development</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#style-guide">Style guide</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#linting">Linting</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a>
+    </li>
+        </ul>
     </li>
     </ul>
                   </li>
@@ -203,68 +233,101 @@
 <blockquote>
 <p>Warning: This documentation is under development.</p>
 </blockquote>
-<h2 id="vs-code-settings">VS Code settings<a class="headerlink" href="#vs-code-settings" title="Permanent link">#</a></h2>
-<pre><code class="language-json">{
-    &quot;[python]&quot;: {
-        &quot;editor.codeActionsOnSave&quot;: {
-            &quot;source.organizeImports&quot;: true
-        },
-        &quot;editor.formatOnSave&quot;: true,
-        &quot;editor.defaultFormatter&quot;: &quot;ms-python.black-formatter&quot;
-    },
-    &quot;flake8.args&quot;: [
-            &quot;--max-line-length&quot;, &quot;88&quot;,
-            &quot;--extend-ignore&quot;, &quot;E203&quot;
-        ],
-    &quot;black-formatter.args&quot;: [
-        &quot;--line-length&quot;, &quot;88&quot;
-    ],
-    &quot;isort.args&quot;: [
-        &quot;--line_length&quot;, &quot;88&quot;,
-        &quot;--wrap-length&quot;, &quot;88&quot;
-    ],
-    &quot;editor.defaultFoldingRangeProvider&quot;: &quot;ms-python.black-formatter&quot;,
-    &quot;isort.check&quot;: true
-}
+<p>Overall workflow:</p>
+<ol>
+<li>
+<p>From the GitHub repository, open an issue about what you want to contribute.</p>
+</li>
+<li>
+<p>Develop your contribution on the development (<code>dev</code>) branch of the git repository.</p>
+</li>
+<li>
+<p>Run linting and tests locally. Affirm that everything is passing.</p>
+</li>
+<li>
+<p>Push changes to the development branch.</p>
+</li>
+<li>
+<p>From the GitHub repository, make a pull request.</p>
+</li>
+</ol>
+<hr />
+<h2 id="set-up">Set up<a class="headerlink" href="#set-up" title="Permanent link">#</a></h2>
+<p>Install the project and set up the environment.</p>
+<h3 id="ide">IDE<a class="headerlink" href="#ide" title="Permanent link">#</a></h3>
+<p>If you're using VS Code, apply the example settings.</p>
+<pre><code class="language-shell">mkdir .vscode
+cp vscode-settings.example.json .vscode/settings.json
 </code></pre>
-<h2 id="dependency-publishing-manager">Dependency / publishing manager<a class="headerlink" href="#dependency-publishing-manager" title="Permanent link">#</a></h2>
-<p>Install <code>poetry</code>.</p>
-<pre><code class="language-shell">pip install --upgrade pip
-pip install poetry
+<h3 id="git-python">Git &amp; Python<a class="headerlink" href="#git-python" title="Permanent link">#</a></h3>
+<h4 id="repository">Repository<a class="headerlink" href="#repository" title="Permanent link">#</a></h4>
+<p>Clone the repository.</p>
+<pre><code class="language-shell">git clone git@github.com:LostMa-ERC/heurist-etl-pipeline.git
 </code></pre>
-<p>Using poetry, install the package for development.</p>
-<pre><code class="language-shell">poetry install
+<h4 id="virtual-environment">Virtual Environment<a class="headerlink" href="#virtual-environment" title="Permanent link">#</a></h4>
+<p>Set up a virtual Python environment and install the package.</p>
+<pre><code class="language-shell">pip install --upgrade pip poetry
+poetry install
 </code></pre>
-<h2 id="linting">Linting<a class="headerlink" href="#linting" title="Permanent link">#</a></h2>
-<p><code>poetry run flake8</code></p>
-<pre><code class="language-console">$ poetry run flake8 --extend-exclude ./examples --max-line-length 88
+<h4 id="development-branch">Development branch<a class="headerlink" href="#development-branch" title="Permanent link">#</a></h4>
+<p>Move to the git repository's development (<code>dev</code>) branch. If you've never worked on the development branch, create it with <code>checkout -b</code> instead of <code>checkout</code>.</p>
+<pre><code class="language-shell">git checkout dev
+git pull
+</code></pre>
+<hr />
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">#</a></h2>
+<p>Before pushing changes to the repository, locally run linting and testing. These checks will be run again and for all covered Python versions when pushed to the remote repository.</p>
+<h3 id="style-guide">Style guide<a class="headerlink" href="#style-guide" title="Permanent link">#</a></h3>
+<ol>
+<li>
+<p>Module names are written in snake case.</p>
+<ul>
+<li>Example: <a href="../../reference/api/param_manager/"><code>param_manager.py</code></a></li>
+<li>An exception is made for the modules of the <code>pydantic.BaseXmlModel</code> models in <code>heurist/models</code>, i.e. <a href="../../reference/models/DetailTypes/"><code>DetailTypes.py</code></a>.</li>
+</ul>
+</li>
+<li>
+<p>Classes are written in camel case, i.e. <code>HeuristAPIClient</code>.</p>
+</li>
+<li>
+<p>Functions and class methods have docstrings written in Google's format.</p>
+<ul>
+<li>When describing what the function or method does, the tense is in the imperative, i.e. "Construct a URL from path parameters."</li>
+<li>When a function or method's parameters can be written in a single line and/or don't depend on complex class instances, write unit tests in the docstring with <a href="https://docs.python.org/3/library/doctest.html"><code>doctest</code></a>.<ul>
+<li>Preface the shell instructions with <code>Examples:</code>.</li>
+<li>On the next line, indent by 4 spaces before the doctest string <code>&gt;&gt;&gt; 1+1</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>The location of test modules depends on whether they're end-to-end (<code>tests/e2e</code>), integration (<code>tests/integration</code>), or unit tests (<code>tests/unit</code>).</p>
+<ul>
+<li>From the relevant test directory, the test module is placed in a subdirectory named after the package's corresponding subdirectory.</li>
+<li>For example, a unit test about <code>heurist/api/client.py</code> is written in the subdirectory <code>tests/unit/api</code>.</li>
+<li>An exception is made for end-to-end tests, which test CLI commands from the <code>tests/e2e</code> directory.</li>
+</ul>
+</li>
+<li>
+<p>Test modules are written in snake case and their name starts with the element being tested, followed by <code>_test.py</code> at the end.</p>
+<ul>
+<li>For example, a unit test about <code>heurist/api/client.py</code> is written in <code>tests/unit/api/client_test.py</code></li>
+</ul>
+</li>
+<li>
+<p>Complex SQL queries are written in individual SQL files in the <code>sql/</code> directory, i.e. <code>sql/query.sql</code>. Then, the query's parsed text is read in the <code>sql/__init__.py</code> module and made available as a constant, as follows:</p>
+</li>
+</ol>
+<pre><code class="language-python">sql_file = Path(__file__).parent.joinpath(&quot;query.sql&quot;)
 
-./heurist/examples/file/single.py:8:89: E501 line too long (120 &gt; 88 characters)
-./heurist/examples/geo/single.py:16:89: E501 line too long (79411 &gt; 88 characters)
+with open(sql_file) as f:
+    QUERY = f.read()
 </code></pre>
-<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h2>
-<p><code>poetry run pytest</code></p>
-<pre><code class="language-console">$ poetry run pytest
-===================== test session starts =====================
-platform darwin -- Python 3.12.2, pytest-8.3.4, pluggy-1.5.0
-rootdir: /Users/kellychristensen/Dev/LostMa/heurist-api
-configfile: pytest.ini
-testpaths: tests, heurist/src
-plugins: anyio-4.8.0
-collected 50 items
-
-tests/integration/dump_test.py .                                         [  2%]
-tests/unit/api_client/client_test.py ....                                [ 10%]
-tests/unit/database/database_test.py .                                   [ 12%]
-tests/unit/database/modeling_test.py .                                   [ 14%]
-tests/unit/database/skeleton_test.py .                                   [ 16%]
-tests/unit/heurist_transformers/detail_converter_test.py .......         [ 30%]
-tests/unit/heurist_transformers/dynamic_pydantic_data_field_test.py .... [ 38%]
-..                                                                       [ 42%]
-tests/unit/heurist_transformers/prepare_records_test.py ........         [ 58%]
-tests/unit/heurist_transformers/record_modeler_test.py ......            [ 70%]
-heurist/src/api_client/client.py F.                                      [ 74%]
-heurist/src/api_client/url_builder.py ...                                [ 80%]
+<h3 id="linting">Linting<a class="headerlink" href="#linting" title="Permanent link">#</a></h3>
+<pre><code class="language-console">poetry run flake8 --extend-exclude ./heurist/mock_data/ --max-line-length 88
+</code></pre>
+<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h3>
+<pre><code class="language-console">poetry run pytest
 </code></pre>
               
             </div>

@@ -22,7 +22,17 @@
       <script src="../../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-ABC123");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -48,13 +58,19 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../usage/">Usage</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+                  <li class="toctree-l1"><a class="reference internal" >Recipes</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/">Recipes</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/download/">Download record groups (CLI)</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../usage/troubleshooting/">Troubleshooting</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/records/">Export a record type (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/schema/">Generate schema (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/module/">Python API client (module)</a>
                 </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/faq/">Heurist Fact Sheet</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
@@ -131,13 +147,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >schema</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../reference/schema/json_tools/converter/">converter</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../reference/schema/models/">models</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../reference/schema/json_tools/models/">models</a>
-                </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../reference/schema/rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -162,6 +174,10 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Coverage</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#set-up-development-environment">Set up development environment</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#generate-badges">Generate badges</a>
+    </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../publishing/">Publishing</a>
@@ -192,26 +208,15 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="badges">Badges<a class="headerlink" href="#badges" title="Permanent link">#</a></h1>
-<blockquote>
-<p>Warning: This documentation is under development.</p>
-</blockquote>
-<ul>
-<li><code>coverage</code> (install independently), ^7.6</li>
-<li><code>genbadge</code> (install insependently), ^1.1</li>
-</ul>
-<pre><code class="language-shell">pip install genbadge[all]
+<p>This repository has 2 generated badges related to testing coverage. They require the <code>coverage</code> and <code>genbadge</code> Python libraries.</p>
+<h2 id="set-up-development-environment">Set up development environment<a class="headerlink" href="#set-up-development-environment" title="Permanent link">#</a></h2>
+<p>In your virtual Python environment, run the following:</p>
+<pre><code class="language-shell">pip install --upgrade pip poetry
+poetry install
 </code></pre>
-<p>Coverage badge:</p>
-<pre><code class="language-shell">coverage run -m pytest
-coverage xml
-genbadge coverage -i coverage.xml
-mv coverage-badge.svg ./docs/assets
-rm coverage.xml
-</code></pre>
-<p>Tests badge:</p>
-<pre><code class="language-shell">pytest --junitxml=reports/junit/junit.xml
-genbadge tests
-mv tests-badge.svg ./docs/assets
+<h2 id="generate-badges">Generate badges<a class="headerlink" href="#generate-badges" title="Permanent link">#</a></h2>
+<p>Run the prepared <code>gen_badges.sh</code> script in the <code>./scripts</code> directory at the root of the GitHub repository.</p>
+<pre><code class="language-shell">bash ./scripts/gen_badges.sh
 </code></pre>
               
             </div>

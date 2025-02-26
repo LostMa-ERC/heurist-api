@@ -22,7 +22,17 @@
       <script src="../../../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-ABC123");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -48,13 +58,19 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../../usage/">Usage</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+                  <li class="toctree-l1"><a class="reference internal" >Recipes</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/">Recipes</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/download/">Download record groups (CLI)</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../usage/troubleshooting/">Troubleshooting</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/records/">Export a record type (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/schema/">Generate schema (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/module/">Python API client (module)</a>
                 </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../usage/faq/">Heurist Fact Sheet</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
@@ -131,13 +147,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >schema</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../schema/json_tools/converter/">converter</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../schema/models/">models</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../schema/json_tools/models/">models</a>
-                </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../schema/rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -275,14 +287,14 @@
             <b><code><a class="autorefs autorefs-internal" title="sql.sql_safety.SafeSQLName.create_column_name" href="#sql.sql_safety.SafeSQLName.create_column_name">create_column_name</a></code></b>
             –
             <div class="doc-md-description">
-              <p><em>summary</em></p>
+              <p>Create an SQL-safe column name for the Pydantic data field.</p>
             </div>
           </li>
           <li class="doc-section-item field-body">
             <b><code><a class="autorefs autorefs-internal" title="sql.sql_safety.SafeSQLName.create_table_name" href="#sql.sql_safety.SafeSQLName.create_table_name">create_table_name</a></code></b>
             –
             <div class="doc-md-description">
-              <p><em>summary</em></p>
+              <p>Create SQL-safe table name for the record's data model.</p>
             </div>
           </li>
           <li class="doc-section-item field-body">
@@ -322,7 +334,7 @@
 
     <div class="doc doc-contents ">
 
-        <p><em>summary</em></p>
+        <p>Create an SQL-safe column name for the Pydantic data field.</p>
 
 
 <table class="field-list">
@@ -340,7 +352,7 @@
                   (<code><span title="str">str</span></code>)
               –
               <div class="doc-md-description">
-                <p><em>description</em></p>
+                <p>Displayed name of the field (detail) in Heurist.</p>
               </div>
             </li>
             <li>
@@ -348,7 +360,7 @@
                   (<code><span title="str">str</span></code>)
               –
               <div class="doc-md-description">
-                <p><em>description</em></p>
+                <p>Heurist type of the field (detail).</p>
               </div>
             </li>
         </ul>
@@ -371,7 +383,7 @@
 <b><code>str</code></b>(                  <code><span title="str">str</span></code>
 )              –
               <div class="doc-md-description">
-                <p><em>description</em></p>
+                <p>SQL-safe column name.</p>
               </div>
             </li>
         </ul>
@@ -396,7 +408,7 @@
 
     <div class="doc doc-contents ">
 
-        <p><em>summary</em></p>
+        <p>Create SQL-safe table name for the record's data model.</p>
 <p>Examples:</p>
 <blockquote>
 <blockquote>
@@ -424,7 +436,7 @@ SafeSQLName().create_table_name(heurist_name)
                   (<code><span title="str">str</span></code>)
               –
               <div class="doc-md-description">
-                <p><em>description</em></p>
+                <p>Name of the Heurist record type.</p>
               </div>
             </li>
         </ul>
@@ -447,7 +459,7 @@ SafeSQLName().create_table_name(heurist_name)
 <b><code>str</code></b>(                  <code><span title="str">str</span></code>
 )              –
               <div class="doc-md-description">
-                <p><em>description</em></p>
+                <p>SQL-safe name for the record type's table.</p>
               </div>
             </li>
         </ul>
@@ -562,7 +574,7 @@ SafeSQLName.remove_characters(s)
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../../schema/json_tools/models/" class="btn btn-neutral float-left" title="models"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../schema/rel_to_dict/" class="btn btn-neutral float-left" title="rel_to_dict"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../../utils/rel_to_dict_array/" class="btn btn-neutral float-right" title="rel_to_dict_array">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -586,7 +598,7 @@ SafeSQLName.remove_characters(s)
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../../schema/json_tools/models/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../schema/rel_to_dict/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../../utils/rel_to_dict_array/" style="color: #fcfcfc">Next &raquo;</a></span>

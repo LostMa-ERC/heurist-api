@@ -22,7 +22,17 @@
       <script src="../../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-ABC123");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -48,13 +58,19 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../usage/">Usage</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+                  <li class="toctree-l1"><a class="reference internal" >Recipes</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/">Recipes</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/download/">Download record groups (CLI)</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../usage/troubleshooting/">Troubleshooting</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/records/">Export a record type (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/schema/">Generate schema (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../usage/recipes/module/">Python API client (module)</a>
                 </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../usage/faq/">Heurist Fact Sheet</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
@@ -131,13 +147,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >schema</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../reference/schema/json_tools/converter/">converter</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../reference/schema/models/">models</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../reference/schema/json_tools/models/">models</a>
-                </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../reference/schema/rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -164,15 +176,21 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Publishing</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#configure-pypi-authentication">Configure PyPI authentication</a>
+    <li class="toctree-l2"><a class="reference internal" href="#automated-workflow">Automated workflow</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a>
+    <li class="toctree-l2"><a class="reference internal" href="#manual-workflow">Manual workflow</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#configure-pypi-authentication">Configure PyPI authentication</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#update">Update</a>
+    <li class="toctree-l3"><a class="reference internal" href="#run-tests">Run tests</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#commit">Commit</a>
+    <li class="toctree-l3"><a class="reference internal" href="#update-the-package-dependencies">Update the package dependencies</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#push-publish">Push &amp; Publish</a>
+    <li class="toctree-l3"><a class="reference internal" href="#commit-the-changes">Commit the changes</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#push-publish">Push &amp; publish</a>
+    </li>
+        </ul>
     </li>
     </ul>
                   </li>
@@ -202,20 +220,69 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="publishing-versions">Publishing Versions<a class="headerlink" href="#publishing-versions" title="Permanent link">#</a></h1>
+<h2 id="automated-workflow">Automated workflow<a class="headerlink" href="#automated-workflow" title="Permanent link">#</a></h2>
+<p>It is recommended to use the automated workflow for releasing new versions of the package to PyPI.</p>
+<ol>
+<li>
+<p>Finish pull requests to the main branch and/or push your changes to the main branch. Make sure all changes you want in the new release are committed and pushed.</p>
+</li>
+<li>
+<p>Locally, use <code>poetry</code> to update the package version according to semantic versioning practices. This will modify the <code>pyproject.toml</code> file.</p>
+<ul>
+<li><code>poetry version prerelease</code></li>
+<li><code>poetry version patch</code></li>
+<li><code>poetry version minor</code></li>
+<li><code>poetry version major</code></li>
+</ul>
+</li>
+<li>
+<p>Track the modified <code>pyproject.toml</code> file in git.</p>
+<ul>
+<li><code>git add pyproject.toml</code>.</li>
+</ul>
+</li>
+<li>
+<p>Commit the updated <code>pyproject.toml</code> file; the message starts with <code>bump</code> and indicates the new version number.</p>
+<ul>
+<li>For example: <code>git commit -m "bump v0.0.0"</code>.</li>
+</ul>
+</li>
+<li>
+<p>Push the finalised <code>pyproject.toml</code> to the repository.</p>
+<ul>
+<li><code>git push</code></li>
+</ul>
+</li>
+<li>
+<p>Create a tag for the new version, starting with <code>v</code>.</p>
+<ul>
+<li>For example: <code>git tag v0.0.0</code></li>
+</ul>
+</li>
+<li>
+<p>Push the tag to the repository.</p>
+<ul>
+<li>For example: <code>git push origin v0.0.0</code></li>
+</ul>
+</li>
+<li>
+<p>Pushing a tag that starts with <code>v</code> will trigger the workflow <a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/blob/main/.github/workflows/pypi-release.yml"><code>pypi-release.yml</code></a></p>
+</li>
+</ol>
+<h2 id="manual-workflow">Manual workflow<a class="headerlink" href="#manual-workflow" title="Permanent link">#</a></h2>
 <blockquote>
-<p>Warning: This documentation is under development.</p>
+<p><em>Note: I used <a href="https://hermann-web.github.io/blog/blog/2024/03/16/publishing-your-python-project-with-poetry/#configuring-poetry-one-time-setup">this blog post</a> to design this workflow.</em></p>
 </blockquote>
-<p><a href="https://hermann-web.github.io/blog/blog/2024/03/16/publishing-your-python-project-with-poetry/#configuring-poetry-one-time-setup">I found this blog helpful.</a></p>
-<h2 id="configure-pypi-authentication">Configure PyPI authentication<a class="headerlink" href="#configure-pypi-authentication" title="Permanent link">#</a></h2>
+<h3 id="configure-pypi-authentication">Configure PyPI authentication<a class="headerlink" href="#configure-pypi-authentication" title="Permanent link">#</a></h3>
 <p>If you haven't already, configure your PyPI authentication using your API key for that package.</p>
 <pre><code class="language-shell">poetry config repositories.test-pypi https://test.pypi.org/legacy/
 poetry config pypi-token.test-pypi pypi-YYYYYYYY
 </code></pre>
-<h2 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">#</a></h2>
+<h3 id="run-tests">Run tests<a class="headerlink" href="#run-tests" title="Permanent link">#</a></h3>
 <p>When you're ready to publish a new version of the package to PyPI, run all the tests.</p>
 <pre><code class="language-shell">poetry run pytest
 </code></pre>
-<h2 id="update">Update<a class="headerlink" href="#update" title="Permanent link">#</a></h2>
+<h3 id="update-the-package-dependencies">Update the package dependencies<a class="headerlink" href="#update-the-package-dependencies" title="Permanent link">#</a></h3>
 <p>Lock in any changes that have been made to the package's scripts and/or dependencies.</p>
 <pre><code class="language-shell">poetry lock
 </code></pre>
@@ -228,7 +295,7 @@ poetry version minor
 # or
 poetry version major
 </code></pre>
-<h2 id="commit">Commit<a class="headerlink" href="#commit" title="Permanent link">#</a></h2>
+<h3 id="commit-the-changes">Commit the changes<a class="headerlink" href="#commit-the-changes" title="Permanent link">#</a></h3>
 <p>With a message indicating the new version (i.e. <code>v0.0.0</code>) updated in the <code>pyproject.toml</code>, commit the file's changes.</p>
 <pre><code class="language-shell">git add pyproject.toml
 git commit -m &quot;bump v0.0.0&quot;
@@ -236,7 +303,7 @@ git commit -m &quot;bump v0.0.0&quot;
 <p>Build a distribution of the package with the new version name.</p>
 <pre><code class="language-shell">poetry build
 </code></pre>
-<h2 id="push-publish">Push &amp; Publish<a class="headerlink" href="#push-publish" title="Permanent link">#</a></h2>
+<h3 id="push-publish">Push &amp; publish<a class="headerlink" href="#push-publish" title="Permanent link">#</a></h3>
 <p>Tag and push the commit to GitHub.</p>
 <pre><code class="language-shell">git tag v0.0.0
 git push origin v0.0.0

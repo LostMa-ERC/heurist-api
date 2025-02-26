@@ -22,7 +22,17 @@
       <script src="../../../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-ABC123");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -48,13 +58,19 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../../../usage/">Usage</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+                  <li class="toctree-l1"><a class="reference internal" >Recipes</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/">Recipes</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/download/">Download record groups (CLI)</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../usage/troubleshooting/">Troubleshooting</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/records/">Export a record type (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/schema/">Generate schema (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../usage/recipes/module/">Python API client (module)</a>
                 </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../usage/faq/">Heurist Fact Sheet</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
@@ -139,13 +155,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >schema</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../schema/json_tools/converter/">converter</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../schema/models/">models</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../schema/json_tools/models/">models</a>
-                </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../schema/rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -254,7 +266,6 @@
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">TransformedDatabase</span><span class="p">(</span>
     <span class="n"><span title="database.database.TransformedDatabase(hml_xml)">hml_xml</span></span><span class="p">:</span> <span class="n"><span title="bytes">bytes</span></span><span class="p">,</span>
     <span class="n"><span title="database.database.TransformedDatabase(conn)">conn</span></span><span class="p">:</span> <span class="n"><span title="duckdb.DuckDBPyConnection">DuckDBPyConnection</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n"><span title="database.database.TransformedDatabase(save_structure)">save_structure</span></span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n"><span title="database.database.TransformedDatabase(db)">db</span></span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;:memory:&quot;</span><span class="p">,</span>
     <span class="n"><span title="database.database.TransformedDatabase(record_type_groups)">record_type_groups</span></span><span class="p">:</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;My record types&quot;</span><span class="p">],</span>
 <span class="p">)</span>

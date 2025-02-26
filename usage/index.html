@@ -22,7 +22,17 @@
       <script src="../js/html5shiv.min.js"></script>
     <![endif]-->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
       <script>hljs.highlightAll();</script> 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABC123"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', "G-ABC123");
+      </script>
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -48,15 +58,47 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#installation-all-purposes">Installation (all purposes)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configure-the-cli">Configure the CLI</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#option-1-manually-declare-login-credentials">Option 1: Manually declare login credentials</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#option-2-set-environment-variables">Option 2: Set environment variables</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#download-groups-of-records">Download groups of records</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#download-a-record-types-records">Download a record type's records</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#generate-documentation-about-heurists-schema">Generate documentation about Heurist's schema</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" >Guides</a>
+                  <li class="toctree-l1"><a class="reference internal" >Recipes</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="recipes/">Recipes</a>
+                <li class="toctree-l2"><a class="reference internal" href="recipes/download/">Download record groups (CLI)</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="troubleshooting/">Troubleshooting</a>
+                <li class="toctree-l2"><a class="reference internal" href="recipes/records/">Export a record type (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="recipes/schema/">Generate schema (CLI)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="recipes/module/">Python API client (module)</a>
                 </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="faq/">Heurist Fact Sheet</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Code Reference</span></p>
@@ -133,13 +175,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >schema</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" >json_tools</a>
-    <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../reference/schema/json_tools/converter/">converter</a>
+                <li class="toctree-l2"><a class="reference internal" href="../reference/schema/models/">models</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../reference/schema/json_tools/models/">models</a>
-                </li>
-    </ul>
+                <li class="toctree-l2"><a class="reference internal" href="../reference/schema/rel_to_dict/">rel_to_dict</a>
                 </li>
     </ul>
                   </li>
@@ -192,15 +230,118 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h1>
+<p>This package's primary use is as a command-line interface (CLI). It's meant to efficiently extract, transform, and load data from their Heurist database into local CSV, JSON, and DuckDB files.</p>
+<p>Secondarily, you can also exploit certain modules, such as the API client, for your own Python development. For this secondary use, read the documentation <a href="recipes/module/">here</a>.</p>
+<h2 id="installation-all-purposes">Installation (all purposes)<a class="headerlink" href="#installation-all-purposes" title="Permanent link">#</a></h2>
+<h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">#</a></h3>
+<ul>
+<li>Python version 3.10 or greater</li>
+<li>Virtual Python environment, i.e. <a href="https://github.com/pyenv/pyenv?tab=readme-ov-file#installation"><code>pyenv</code></a>.</li>
+</ul>
+<h3 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">#</a></h3>
+<ol>
+<li>If you don't have Python installed on your machine, download version 3.10 or greater.<ul>
+<li>Need help installing Python? Check out the <a href="https://realpython.com/installing-python/">Real Python</a> blog's tutorial.</li>
+</ul>
+</li>
+<li>Create a new virtual environment for the package. Then activate it.<ul>
+<li>What's the simplest way? Check out <a href="https://realpython.com/python-virtual-environments-a-primer/">Real Python</a>'s thorough blog post.</li>
+<li>I recommend naming the environment <code>heurist</code>.</li>
+</ul>
+</li>
+<li>Use <code>pip install</code> to install the <code>heurist</code> Python package.</li>
+</ol>
+<pre><code class="language-console">$ pip install -i https://test.pypi.org/simple/ heurist
+</code></pre>
+<h2 id="configure-the-cli">Configure the CLI<a class="headerlink" href="#configure-the-cli" title="Permanent link">#</a></h2>
+<p>All of the <code>heurist</code> subcommands require connecting to your Heurist database.</p>
+<h3 id="option-1-manually-declare-login-credentials">Option 1: Manually declare login credentials<a class="headerlink" href="#option-1-manually-declare-login-credentials" title="Permanent link">#</a></h3>
+<p>After the <code>heurist</code> command, provide the Heurist database name (<code>--database</code>, <code>-d</code>) as well as the username (<code>--login</code>, <code>-l</code>) and password (<code>--password</code>, <code>-p</code>) for a user with access to the Heurist database.</p>
+<pre><code class="language-console">$ heurist -d YOUR_DATABASE -l &quot;your.username&quot; -p &quot;your-password&quot;
+</code></pre>
+<h3 id="option-2-set-environment-variables">Option 2: Set environment variables<a class="headerlink" href="#option-2-set-environment-variables" title="Permanent link">#</a></h3>
+<p>From wherever you're running the command in the terminal, create a <code>.env</code> file.</p>
+<pre><code class="language-console">$ touch .env
+</code></pre>
+<p>Then, using some kind of simple text editor (and replacing the defaults with your login credentials), add the following 3 lines to the <code>.env</code> file:</p>
+<pre><code class="language-shell">DB_NAME=your_database
+DB_LOGIN=your.username
+DB_PASSWORD=your-password
+</code></pre>
+<p>With the <code>.env</code> file, you can run any <code>heurist</code> subcommand without needing to provide any other information.</p>
+<pre><code class="language-shell">$ heurist --help
+Usage: heurist [OPTIONS] COMMAND [ARGS]...
+
+  Group CLI command for connecting to the Heurist DB
+
+Options:
+  --version            Show the version and exit.
+  -d, --database TEXT  Name of the Heurist database
+  -l, --login TEXT     Login name for the database user
+  -p, --password TEXT  Password for the database user
+  --debugging          Whether to run in debug mode, default false.
+  --help               Show this message and exit.
+
+Commands:
+  download  Export data of records of 1 or more record group types.
+  record    Get a JSON export of a certain record type.
+  schema    Generate documentation about the database schema.
+</code></pre>
+<hr />
+<h2 id="basic-usage">Basic usage<a class="headerlink" href="#basic-usage" title="Permanent link">#</a></h2>
+<h3 id="download-groups-of-records">Download groups of records<a class="headerlink" href="#download-groups-of-records" title="Permanent link">#</a></h3>
+<pre><code class="language-shell">heurist download -f NEW_DATABASE.db
+</code></pre>
+<p>By default, without specifying any target record groups, <code>heurist download</code> will download all the records you created in the "My record types" group.</p>
+<pre><code class="language-shell">$ heurist download -f NEW_DATABASE.db
+Get DB Structure ⠼ 0:00:00
+Get Records ━━━━━━━━━━━━ 3/3 0:00:08
+
+Created the following tables
+┌───────────────┐
+│     name      │
+│    varchar    │
+├───────────────┤
+│ YourRecord_A  │
+│ YourRecord_B  │
+│ YourRecord_C  │
+│ dty           │
+│ rst           │
+│ rtg           │
+│ rty           │
+│ trm           │
+├───────────────┤
+│    18 rows    │
+└───────────────┘
+</code></pre>
+<p>For full documentation on this subcommand, read the <a href="./recipes/download"><code>Download record groups</code></a> recipe.</p>
 <blockquote>
-<p>Warning: This documentation is under development.</p>
+<p>The lowercase table names are structural tables Heurist uses to keep track of the record types (<code>rty</code>, <code>rtg</code>), data fields (<code>dty</code>, <code>rst</code>), and vocabularies (<code>trm</code>) you create / modify in Heurist. They're also made available in your download in case you need them.</p>
 </blockquote>
+<h3 id="download-a-record-types-records">Download a record type's records<a class="headerlink" href="#download-a-record-types-records" title="Permanent link">#</a></h3>
+<pre><code class="language-console">heurist record -t RECORD_TYPE_ID_NUMBER
+</code></pre>
+<p>Specify the targeted record type with the option <code>-t</code> or <code>--record-type</code>. The subcommand <code>record</code> will call Heurist's API and download the type's records in Heurist's JSON export.</p>
+<pre><code class="language-shell">$ heurist record -t 101
+Get Records of type 101 ⠋ 0:00:00
+Writing results to: RTY_101.json
+</code></pre>
+<p>For full documentation on this subcommand, read the <a href="./recipes/download"><code>Export a record type</code></a> recipe.</p>
+<h3 id="generate-documentation-about-heurists-schema">Generate documentation about Heurist's schema<a class="headerlink" href="#generate-documentation-about-heurists-schema" title="Permanent link">#</a></h3>
+<pre><code class="language-console">heurist schema -t OUTPUT_TYPE
+</code></pre>
+<p>Specify the format in which you want to read the schema, either <code>csv</code> or <code>json</code>.</p>
+<pre><code class="language-shell">$ heurist schema -t csv
+Downloading schemas ⠋ 0:00:04
+Describing record types ━━━━━━━━━━━━ 3/3
+</code></pre>
+<p>For full documentation on this subcommand, read the <a href="./recipes/schema"><code>Generate schema</code></a> recipe.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="recipes/" class="btn btn-neutral float-right" title="Recipes">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="recipes/download/" class="btn btn-neutral float-right" title="Download record groups (CLI)">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -226,7 +367,7 @@
       <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="recipes/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="recipes/download/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
