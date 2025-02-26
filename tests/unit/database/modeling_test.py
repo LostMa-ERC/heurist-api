@@ -12,7 +12,6 @@ class ModelingTest(unittest.TestCase):
     def setUp(self) -> None:
         self.db = TransformedDatabase(
             DB_STRUCTURE_XML,
-            save_structure=True,
             conn=duckdb.connect(),
         )
         group_id = (

@@ -53,7 +53,7 @@ nav:
     - Recipes: usage/recipes.md
     - Troubleshooting: usage/troubleshooting.md
 # defer to gen-files + literate-nav
-- Code Reference: reference/  
+- Code Reference: reference/
 - Development:
   - Contributing: development/contributing.md
   - Code of Conduct: development/code_of_conduct.md

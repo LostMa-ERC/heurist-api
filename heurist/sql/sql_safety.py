@@ -21,7 +21,7 @@ class SafeSQLName:
         >>> s = "Author or Creator (Person, Organization)"
         >>> SafeSQLName.remove_characters(s)
         'Author or Creator'
-        >>>
+
         >>> s = "Status_trad_freetext"
         >>> SafeSQLName.remove_characters(s)
         'Status_trad_freetext'
@@ -57,14 +57,15 @@ class SafeSQLName:
         return "".join(capitalized_words)
 
     def create_column_name(self, field_name: str, field_type: str) -> str:
-        """_summary_
+        """
+        Create an SQL-safe column name for the Pydantic data field.
 
         Args:
-            field_name (str): _description_
-            field_type (str): _description_
+            field_name (str): Displayed name of the field (detail) in Heurist.
+            field_type (str): Heurist type of the field (detail).
 
         Returns:
-            str: _description_
+            str: SQL-safe column name.
         """
 
         simplified_name = self.remove_characters(field_name)
@@ -77,7 +78,8 @@ class SafeSQLName:
         return final_name
 
     def create_table_name(self, record_name: str) -> str:
-        """_summary_
+        """
+        Create SQL-safe table name for the record's data model.
 
         Examples:
         >>> heurist_name = "Sequence"
@@ -85,10 +87,10 @@ class SafeSQLName:
         'SequenceTable'
 
         Args:
-            record_name (str): _description_
+            record_name (str): Name of the Heurist record type.
 
         Returns:
-            str: _description_
+            str: SQL-safe name for the record type's table.
         """
 
         camel_case_name = self.to_pascal_case(record_name)

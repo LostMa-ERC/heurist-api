@@ -1,10 +1,20 @@
 import duckdb
 
 from heurist.utils.rel_to_dict_array import rel_to_dict_array
-from heurist.schema.json_tools.models import DTY, RTY
+from heurist.schema.models import DTY, RTY
 
 
 def convert_rty_description(description: duckdb.DuckDBPyRelation) -> dict:
+    """
+    Convert the SQL result of the joined record type schema description into \
+    a Python dictionary.
+
+    Args:
+        description (duckdb.DuckDBPyRelation): Relation from SQL query.
+
+    Returns:
+        dict: Dictionary representation of a record's schema.
+    """
 
     rel = description.filter("dty_Type not like 'separator'").order(
         "group_id asc, rst_DisplayOrder asc"

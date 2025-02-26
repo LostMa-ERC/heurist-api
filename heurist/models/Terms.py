@@ -23,9 +23,6 @@ class Terms(BaseXmlModel):
         >>> first_detail_type = hml.Terms.trm[0]
         >>> first_detail_type.trm_ID
         12
-
-    Args:
-        BaseXmlModel (_type_): _description_
     """
 
     trm: list[TRM] = element()

@@ -1,0 +1,51 @@
+name: build
+
+on:
+  push:
+    paths:
+      - tests
+    branches:
+      - main
+  workflow_call:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+          pip install genbadge[all]
+          pip install coverage
+      - name: Coverage badge
+        run: |
+            coverage run -m pytest
+            coverage xml
+            genbadge coverage -i coverage.xml
+            mv coverage-badge.svg docs/assets
+      - name: Tests badge
+        run: |
+            pytest --junitxml=reports/junit/junit.xml
+            genbadge tests
+            mv tests-badge.svg ./docs/assets
+      - name: Commit data
+        run: |
+            if git diff docs/assets | grep . > /dev/null ; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git pull
+            git add docs/assets/*.svg
+            git commit -m "update badges"
+            git push
+            fi

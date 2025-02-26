@@ -23,7 +23,6 @@ class TransformedDatabase(HeuristDatabase):
         self,
         hml_xml: bytes,
         conn: DuckDBPyConnection | None = None,
-        save_structure: bool = False,
         db: str | None = ":memory:",
         record_type_groups: list[str] = ["My record types"],
     ) -> None:

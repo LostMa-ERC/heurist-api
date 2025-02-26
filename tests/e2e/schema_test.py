@@ -1,18 +1,83 @@
+import csv
 import unittest
+import json
 
 from pathlib import Path
 
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
-from heurist.cli.schema import schema_command
+from heurist.cli.schema import schema_command, get_database_schema
 
 
-class SchemaCommand(unittest.TestCase):
-    tempfile_json = Path(__file__).parent.joinpath("temp.json")
-    tempdir_csv = Path(__file__).parent.joinpath("temp")
+class SchemaBase(unittest.TestCase):
+    tempdir = Path(__file__).parent.joinpath("temp")
+    tempfile_json = tempdir.joinpath("recordTypes.json")
+    client = None
+    debugging = False
 
+    def tearDown(self):
+        for f in self.tempdir.iterdir():
+            f.unlink(missing_ok=True)
+        self.tempdir.rmdir()
+        return super().tearDown()
+
+    def get_database_schema(self):
+        db = get_database_schema(
+            record_groups=["My record types"],
+            client=self.client,
+            debugging=True,
+        )
+        actual = len(db.pydantic_models)
+        self.assertGreater(actual, 0)
+
+    def json(self):
+        _ = schema_command(
+            client=self.client,
+            record_group=["My record types"],
+            outdir=self.tempdir,
+            output_type="json",
+            debugging=True,
+        )
+        with open(self.tempfile_json) as f:
+            data = json.load(f)
+        actual = len(data["items"])
+        self.assertGreater(actual, 0)
+
+    def csv(self):
+        _ = schema_command(
+            client=self.client,
+            record_group=["My record types"],
+            outdir=self.tempdir,
+            output_type="csv",
+            debugging=True,
+        )
+        for file in self.tempdir.iterdir():
+            with open(file, mode="r") as f:
+                reader = csv.DictReader(f)
+                row_count = len([_ for r in reader])
+                self.assertGreater(row_count, 0)
+
+
+class OfflineSchemaCommand(SchemaBase):
     def setUp(self):
-        self.tempdir_csv.mkdir(exist_ok=False)
+        self.tempdir.mkdir(exist_ok=False)
+        params = APIParamManager(debugging=True)
+        self.client = HeuristAPIClient(**params.kwargs)
+        self.debugging = True
+
+    def test_get_database_schema(self):
+        self.get_database_schema()
+
+    def test_json(self):
+        self.json()
+
+    def test_csv(self):
+        self.csv()
+
+
+class OnlineSchemaCommand(SchemaBase):
+    def setUp(self):
+        self.tempdir.mkdir(exist_ok=False)
         params = APIParamManager()
         try:
             self.client = HeuristAPIClient(**params.kwargs)
@@ -21,31 +86,16 @@ class SchemaCommand(unittest.TestCase):
                 "Connection could not be established.\nCannot test client without \
                     database connection."
             )
+        self.debugging = False
 
-    def tearDown(self):
-        self.tempfile_json.unlink(missing_ok=True)
-        for f in self.tempdir_csv.iterdir():
-            f.unlink(missing_ok=True)
-        self.tempdir_csv.rmdir()
-        return super().tearDown()
+    def test_get_database_schema(self):
+        self.get_database_schema()
 
     def test_json(self):
-        schema_command(
-            client=self.client,
-            testing=True,
-            record_group="My record groups",
-            outdir=None,
-            output_type="json",
-        )
+        self.json()
 
     def test_csv(self):
-        schema_command(
-            client=self.client,
-            testing=True,
-            record_group="My record groups",
-            outdir=self.tempdir_csv,
-            output_type="csv",
-        )
+        self.csv()
 
 
 if __name__ == "__main__":

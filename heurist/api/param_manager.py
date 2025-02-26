@@ -86,21 +86,27 @@ class APIParamManager:
             >>> APIParamManager(**params)
             Traceback (most recent call last):
             ...
-            heurist.api.exceptions.MissingParameterException: Missing parameter: DB_NAME
+            heurist.api.exceptions.MissingParameterException: Missing parameter: \
+database_name
+
+            >>> # Do not get parameters from environment variables
+            >>> params = {"get_env_vars": False}
             >>> # Raise exception because login was not provided
             >>> params.update({"database_name": "test_db"})
             >>> APIParamManager(**params)
             Traceback (most recent call last):
             ...
-            heurist.api.exceptions.MissingParameterException: Missing parameter: \
-                DB_LOGIN
+            heurist.api.exceptions.MissingParameterException: Missing parameter: login
+
+            >>> # Do not get parameters from environment variables
+            >>> params = {"get_env_vars": False}
             >>> # Raise exception because password was not provided
             >>> params.update({"database_name": "test_db", "login": "test_user"})
             >>> APIParamManager(**params)
             Traceback (most recent call last):
             ...
             heurist.api.exceptions.MissingParameterException: Missing parameter: \
-                DB_PASSWORD
+password
 
         Raises:
             MissingParameterException: If a parameter is missing, raise an exception.
@@ -112,21 +118,20 @@ class APIParamManager:
             if not loaded_env_vars:
                 load_dotenv(find_dotenv(Path.cwd().joinpath(".env")))
 
-        # If not provided as parameters, try getting from environment variables
-        if not self.database_name and get_env_vars:
-            self.database_name = os.environ.get("DB_NAME")
-            if self.database_name is None:
-                raise MissingParameterException(parameter="database")
+            # If not provided as parameters, try getting from environment variables
+            if not self.database_name:
+                self.database_name = os.environ.get("DB_NAME")
+            if not self.login:
+                self.login = os.environ.get("DB_LOGIN")
+            if not self.password:
+                self.password = os.environ.get("DB_PASSWORD")
 
-        if not self.login and get_env_vars:
-            self.login = os.environ.get("DB_LOGIN")
-            if self.login is None:
-                raise MissingParameterException(parameter="login")
-
-        if not self.password and get_env_vars:
-            self.password = os.environ.get("DB_PASSWORD")
-            if self.password is None:
-                raise MissingParameterException(parameter="password")
+        if self.database_name is None:
+            raise MissingParameterException(parameter="database_name")
+        if self.login is None:
+            raise MissingParameterException(parameter="login")
+        if self.password is None:
+            raise MissingParameterException(parameter="password")
 
     @property
     def kwargs(self) -> dict:
@@ -139,7 +144,7 @@ class APIParamManager:
             >>> params = APIParamManager(**vs)
             >>> params.kwargs
             {'database_name': 'test_db', 'login': 'test_user', 'password': \
-                'test_password'}
+'test_password'}
 
         Returns:
             dict: Heurist API client parameters in key-value pairs.

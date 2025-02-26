@@ -5,7 +5,7 @@ from pathlib import Path
 import duckdb
 
 from heurist.sql.sql_safety import SafeSQLName
-from heurist.schema.json_tools.converter import convert_rty_description
+from heurist.schema.rel_to_dict import convert_rty_description
 
 
 def output_csv(dir: Path, descriptions: list[duckdb.DuckDBPyRelation]) -> None:
