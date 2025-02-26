@@ -251,7 +251,10 @@
 </li>
 <li>Use <code>pip install</code> to install the <code>heurist</code> Python package.</li>
 </ol>
-<pre><code class="language-console">$ pip install -i https://test.pypi.org/simple/ heurist
+<pre><code class="language-console">$ pip install \
+--index-url https://test.pypi.org/simple/ \
+--extra-index-url https://pypi.org/simple \
+heurist
 </code></pre>
 <h2 id="configure-the-cli">Configure the CLI<a class="headerlink" href="#configure-the-cli" title="Permanent link">#</a></h2>
 <p>All of the <code>heurist</code> subcommands require connecting to your Heurist database.</p>
