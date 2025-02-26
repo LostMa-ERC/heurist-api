@@ -2,6 +2,7 @@ import unittest
 
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
+from heurist.api.exceptions import MissingParameterException
 from heurist.cli.load import load_command
 
 
@@ -10,7 +11,7 @@ class DownloadCommand(unittest.TestCase):
         params = APIParamManager()
         try:
             self.client = HeuristAPIClient(**params.kwargs)
-        except KeyError:
+        except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."

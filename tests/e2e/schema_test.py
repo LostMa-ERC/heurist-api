@@ -7,6 +7,7 @@ from pathlib import Path
 from heurist.api.client import HeuristAPIClient
 from heurist.api.param_manager import APIParamManager
 from heurist.cli.schema import schema_command
+from heurist.api.exceptions import MissingParameterException
 
 
 class SchemaBase(unittest.TestCase):
@@ -69,7 +70,7 @@ class OnlineSchemaCommand(SchemaBase):
         params = APIParamManager()
         try:
             self.client = HeuristAPIClient(**params.kwargs)
-        except KeyError:
+        except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
