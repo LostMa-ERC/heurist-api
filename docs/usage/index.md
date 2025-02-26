@@ -21,7 +21,10 @@ Secondarily, you can also exploit certain modules, such as the API client, for y
 3. Use `pip install` to install the `heurist` Python package.
 
 ```console
-$ pip install -i https://test.pypi.org/simple/ heurist
+$ pip install \
+--index-url https://test.pypi.org/simple/ \
+--extra-index-url https://pypi.org/simple \
+heurist
 ```
 
 ## Configure the CLI
