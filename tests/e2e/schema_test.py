@@ -57,6 +57,9 @@ class OfflineSchemaCommand(SchemaBase):
         self.client = HeuristAPIClient(**params.kwargs)
         self.debugging = True
 
+    def tearDown(self):
+        return super().tearDown()
+
     def test_json(self):
         self.json()
 
@@ -76,6 +79,9 @@ class OnlineSchemaCommand(SchemaBase):
             )
         self.client = HeuristAPIClient(**params.kwargs)
         self.debugging = False
+
+    def tearDown(self):
+        return super().tearDown()
 
     def test_json(self):
         self.json()
