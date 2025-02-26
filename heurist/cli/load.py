@@ -1,7 +1,10 @@
-"""CLI command for extracting, transforming, and loading remote Heurist data."""
+"""
+CLI command for extracting, transforming, and loading remote Heurist data.
+"""
 
 from pathlib import Path
 
+import duckdb
 from rich.progress import (
     BarColumn,
     MofNCompleteColumn,
@@ -10,7 +13,7 @@ from rich.progress import (
     TextColumn,
     TimeElapsedColumn,
 )
-import duckdb
+
 from heurist.api.client import HeuristAPIClient
 from heurist.database import TransformedDatabase
 
@@ -42,7 +45,10 @@ def load_command(
         database = TransformedDatabase(
             conn=conn, hml_xml=xml, record_type_groups=record_group
         )
-        t = p.add_task("Get Records", total=len(database.pydantic_models.keys()))
+        t = p.add_task(
+            "Get Records",
+            total=len(database.pydantic_models.keys()),
+        )
         for record_type in database.pydantic_models.values():
             rty_ID = record_type.rty_ID
             records = client.get_records(rty_ID, users=user)

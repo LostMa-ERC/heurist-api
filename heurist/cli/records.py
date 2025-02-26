@@ -1,14 +1,25 @@
-"""CLI command for extracting, transforming, and loading remote Heurist data."""
+"""
+CLI command for extracting, transforming, and loading remote Heurist data.
+"""
 
 import json
 from pathlib import Path
 
-from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+from rich.progress import (
+    Progress,
+    SpinnerColumn,
+    TextColumn,
+    TimeElapsedColumn,
+)
 
 from heurist.api.client import HeuristAPIClient
 
 
-def rty_command(client: HeuristAPIClient, rty: int, outfile: Path | str | None):
+def rty_command(
+    client: HeuristAPIClient,
+    rty: int,
+    outfile: Path | str | None,
+):
     with Progress(
         TextColumn("{task.description}"),
         SpinnerColumn(),

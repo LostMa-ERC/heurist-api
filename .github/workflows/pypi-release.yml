@@ -4,9 +4,15 @@ on:
     push:
         tags:
             - 'v*'
+    workflow_call:
 
 jobs:
+  test:
+    name: Tests
+    uses: ./.github/workflows/python-package.yml
+
   build:
+    needs: test
     name: Build distribution 📦
     runs-on: ubuntu-latest
 

@@ -1,28 +1,20 @@
 # Badges
 
-> Warning: This documentation is under development.
+This repository has 2 generated badges related to testing coverage. They require the `coverage` and `genbadge` Python libraries.
 
-- `coverage` (install independently), ^7.6
-- `genbadge` (install insependently), ^1.1
+## Set up development environment
+
+In your virtual Python environment, run the following:
 
 ```shell
-pip install genbadge[all]
+pip install --upgrade pip poetry
+poetry install
 ```
 
-Coverage badge:
+## Generate badges
+
+Run the prepared `gen_badges.sh` script in the `./scripts` directory at the root of the GitHub repository.
 
 ```shell
-coverage run -m pytest
-coverage xml
-genbadge coverage -i coverage.xml
-mv coverage-badge.svg ./docs/assets
-rm coverage.xml
-```
-
-Tests badge:
-
-```shell
-pytest --junitxml=reports/junit/junit.xml
-genbadge tests
-mv tests-badge.svg ./docs/assets
+bash ./scripts/gen_badges.sh
 ```

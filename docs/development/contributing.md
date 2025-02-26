@@ -2,83 +2,106 @@
 
 > Warning: This documentation is under development.
 
-## VS Code settings
+Overall workflow:
 
-```json
-{
-    "[python]": {
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        },
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "ms-python.black-formatter"
-    },
-    "flake8.args": [
-            "--max-line-length", "88",
-            "--extend-ignore", "E203"
-        ],
-    "black-formatter.args": [
-        "--line-length", "88"
-    ],
-    "isort.args": [
-        "--line_length", "88",
-        "--wrap-length", "88"
-    ],
-    "editor.defaultFoldingRangeProvider": "ms-python.black-formatter",
-    "isort.check": true
-}
-```
+1. From the GitHub repository, open an issue about what you want to contribute.
 
-## Dependency / publishing manager
+2. Develop your contribution on the development (`dev`) branch of the git repository.
 
-Install `poetry`.
+3. Run linting and tests locally. Affirm that everything is passing.
+
+4. Push changes to the development branch.
+
+5. From the GitHub repository, make a pull request.
+
+---
+
+## Set up
+
+Install the project and set up the environment.
+
+### IDE
+
+If you're using VS Code, apply the example settings.
 
 ```shell
-pip install --upgrade pip
-pip install poetry
+mkdir .vscode
+cp vscode-settings.example.json .vscode/settings.json
 ```
 
-Using poetry, install the package for development.
+### Git & Python
+
+#### Repository
+
+Clone the repository.
 
 ```shell
+git clone git@github.com:LostMa-ERC/heurist-etl-pipeline.git
+```
+
+#### Virtual Environment
+
+Set up a virtual Python environment and install the package.
+
+```shell
+pip install --upgrade pip poetry
 poetry install
 ```
 
-## Linting
+#### Development branch
 
-`poetry run flake8`
+Move to the git repository's development (`dev`) branch. If you've never worked on the development branch, create it with `checkout -b` instead of `checkout`.
 
-```console
-$ poetry run flake8 --extend-exclude ./examples --max-line-length 88
-
-./heurist/examples/file/single.py:8:89: E501 line too long (120 > 88 characters)
-./heurist/examples/geo/single.py:16:89: E501 line too long (79411 > 88 characters)
+```shell
+git checkout dev
+git pull
 ```
 
-## Testing
+---
 
-`poetry run pytest`
+## Development
+
+Before pushing changes to the repository, locally run linting and testing. These checks will be run again and for all covered Python versions when pushed to the remote repository.
+
+### Style guide
+
+1. Module names are written in snake case.
+    - Example: [`param_manager.py`](../reference/api/param_manager.md)
+    - An exception is made for the modules of the `pydantic.BaseXmlModel` models in `heurist/models`, i.e. [`DetailTypes.py`](../reference/models/DetailTypes.md).
+
+2. Classes are written in camel case, i.e. `HeuristAPIClient`.
+
+3. Functions and class methods have docstrings written in Google's format.
+    - When describing what the function or method does, the tense is in the imperative, i.e. "Construct a URL from path parameters."
+    - When a function or method's parameters can be written in a single line and/or don't depend on complex class instances, write unit tests in the docstring with [`doctest`](https://docs.python.org/3/library/doctest.html).
+        - Preface the shell instructions with `Examples:`.
+        - On the next line, indent by 4 spaces before the doctest string `>>> 1+1`.
+
+4. The location of test modules depends on whether they're end-to-end (`tests/e2e`), integration (`tests/integration`), or unit tests (`tests/unit`).
+    - From the relevant test directory, the test module is placed in a subdirectory named after the package's corresponding subdirectory.
+    - For example, a unit test about `heurist/api/client.py` is written in the subdirectory `tests/unit/api`.
+    - An exception is made for end-to-end tests, which test CLI commands from the `tests/e2e` directory.
+
+5. Test modules are written in snake case and their name starts with the element being tested, followed by `_test.py` at the end.
+    - For example, a unit test about `heurist/api/client.py` is written in `tests/unit/api/client_test.py`
+
+6. Complex SQL queries are written in individual SQL files in the `sql/` directory, i.e. `sql/query.sql`. Then, the query's parsed text is read in the `sql/__init__.py` module and made available as a constant, as follows:
+
+```python
+sql_file = Path(__file__).parent.joinpath("query.sql")
+
+with open(sql_file) as f:
+    QUERY = f.read()
+```
+
+### Linting
 
 ```console
-$ poetry run pytest
-===================== test session starts =====================
-platform darwin -- Python 3.12.2, pytest-8.3.4, pluggy-1.5.0
-rootdir: /Users/kellychristensen/Dev/LostMa/heurist-api
-configfile: pytest.ini
-testpaths: tests, heurist/src
-plugins: anyio-4.8.0
-collected 50 items
+poetry run flake8 --extend-exclude ./heurist/mock_data/ --max-line-length 88
+```
 
-tests/integration/dump_test.py .                                         [  2%]
-tests/unit/api_client/client_test.py ....                                [ 10%]
-tests/unit/database/database_test.py .                                   [ 12%]
-tests/unit/database/modeling_test.py .                                   [ 14%]
-tests/unit/database/skeleton_test.py .                                   [ 16%]
-tests/unit/heurist_transformers/detail_converter_test.py .......         [ 30%]
-tests/unit/heurist_transformers/dynamic_pydantic_data_field_test.py .... [ 38%]
-..                                                                       [ 42%]
-tests/unit/heurist_transformers/prepare_records_test.py ........         [ 58%]
-tests/unit/heurist_transformers/record_modeler_test.py ......            [ 70%]
-heurist/src/api_client/client.py F.                                      [ 74%]
-heurist/src/api_client/url_builder.py ...                                [ 80%]
+### Testing
+
+```console
+poetry run pytest
 ```

@@ -16,8 +16,9 @@ class HeuristDateHandler:
         cls, date_representations: str | int | float | list[str | str | float]
     ) -> list[datetime]:
         """
-        Convert Heurist's representation of dates into a list of Python datetime \
-            objects, representing the earliest and latest dates in the given values.
+        Convert Heurist's representation of dates into a list of Python \
+            datetime objects, representing the earliest and latest dates \
+            in the given values.
 
         Examples:
             >>> # Test a string representation of a date
@@ -33,10 +34,11 @@ class HeuristDateHandler:
             >>> # Test a list of date representations
             >>> v = [1180, 1250.1231]
             >>> HeuristDateHandler.list_min_max(v)
-            [datetime.datetime(1180, 1, 1, 0, 0), datetime.datetime(1250, 12, 31, 0, 0)]
+            [datetime.datetime(1180, 1, 1, 0, 0), \
+datetime.datetime(1250, 12, 31, 0, 0)]
 
         Args:
-            date_representations (str | int | float | list[str | int | float]): \
+            date_representations (str | int | float | list[str|int|float]): \
                 Heurist's representation of dates.
 
         Returns:
@@ -75,7 +77,8 @@ class HeuristDateHandler:
             '1250-12-31'
 
         Args:
-            date_representation (str | int | float): Heurist representation of a date.
+            date_representation (str | int | float): Heurist representation \
+                of a date.
 
         Returns:
             str: ISO string format of a date, YYYY-MM-DD.
@@ -84,7 +87,8 @@ class HeuristDateHandler:
         # Affirm the representation is a string
         s = str(date_representation)
 
-        # If the Heurist representation is a year, change it to the start of the year.
+        # If the Heurist representation is a year, change it to the start of
+        # the year.
         if len(s) == 4:
             return f"{s}-01-01"
 
@@ -115,7 +119,8 @@ class HeuristDateHandler:
         Parse a single date's representation into a Python datetime object.
 
         Args:
-            date_representation (str | int | float): Heurist date representation.
+            date_representation (str | int | float): Heurist date \
+                representation.
 
         Returns:
             datetime: Datetime object representing a date in Heurist data.

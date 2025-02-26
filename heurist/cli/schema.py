@@ -34,11 +34,16 @@ def get_database_schema(
     # If not testing, request the database XML schema from the server
     else:
         with Progress(
-            TextColumn("{task.description}"), SpinnerColumn(), TimeElapsedColumn()
+            TextColumn("{task.description}"),
+            SpinnerColumn(),
+            TimeElapsedColumn(),
         ) as p:
             _ = p.add_task("Downloading schemas")
             xml = client.get_structure()
-            db = TransformedDatabase(hml_xml=xml, record_type_groups=record_groups)
+            db = TransformedDatabase(
+                hml_xml=xml,
+                record_type_groups=record_groups,
+            )
     return db
 
 

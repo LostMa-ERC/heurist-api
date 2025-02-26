@@ -1,9 +1,9 @@
-import click
 import importlib.metadata
 
-from heurist.api.param_manager import APIParamManager
-from heurist.api.client import HeuristAPIClient
+import click
 
+from heurist.api.client import HeuristAPIClient
+from heurist.api.param_manager import APIParamManager
 from heurist.cli.load import load_command
 from heurist.cli.records import rty_command
 from heurist.cli.schema import schema_command

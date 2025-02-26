@@ -63,6 +63,11 @@ mkdocs-gen-files = "^0.5.0"
 mkdocs-literate-nav = "^0.6.1"
 coverage = "^7.6.12"
 genbadge = {extras = ["all"], version = "^1.1.1"}
+isort = "^6.0.0"
+
+
+[tool.isort]
+profile = "black"
 
 
 [build-system]

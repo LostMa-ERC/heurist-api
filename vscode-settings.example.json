@@ -1,0 +1,21 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "editor.defaultFoldingRangeProvider": "ms-python.black-formatter",
+    "python.formatting.provider": "black",
+    "black-formatter.args": [
+        "--line-length", "88"
+    ],
+    "flake8.args": [
+            "--max-line-length", "88",
+            "--extend-ignore", "E203"
+        ],
+    "isort.args": [
+        "--profile", "black",
+        "--line_length", "88",
+        "--wrap-length", "88"
+    ],
+    "isort.check": true
+}

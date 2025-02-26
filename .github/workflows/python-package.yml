@@ -9,6 +9,7 @@ on:
       - "heurist/**"
     branches:
       - main
+  pull_request:
   workflow_call:
 
 jobs:

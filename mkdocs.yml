@@ -2,6 +2,13 @@ site_name: Heurist ETL
 
 theme:
   name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - python
+  analytics:
+    gtag: G-ABC123
+  sticky_navigation: true
 
 plugins:
   - search
@@ -49,9 +56,12 @@ nav:
   # - License: license.md
 - Usage:
   - usage/index.md
-  - Guides:
-    - Recipes: usage/recipes.md
-    - Troubleshooting: usage/troubleshooting.md
+  - Recipes:
+    - Download record groups (CLI): usage/recipes/download.md
+    - Export a record type (CLI): usage/recipes/records.md
+    - Generate schema (CLI): usage/recipes/schema.md
+    - Python API client (module): usage/recipes/module.md
+  - Heurist Fact Sheet: usage/faq.md
 # defer to gen-files + literate-nav
 - Code Reference: reference/
 - Development:
