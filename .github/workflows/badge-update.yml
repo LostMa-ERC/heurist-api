@@ -20,18 +20,19 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install .
-          pip install pytest coverage
+          pip install pytest
           pip install genbadge[all]
-      - name: Coverage badge
-        run: |
-            coverage run -m pytest
-            coverage xml
-            genbadge coverage -i coverage.xml
-            mv coverage-badge.svg docs/assets
+      # - name: Coverage badge
+      #   run: |
+      #       pip install coverage
+      #       coverage run -m pytest
+      #       coverage xml
+      #       genbadge coverage -i coverage.xml
+      #       mv coverage-badge.svg docs/assets
       - name: Tests badge
         run: |
-            pytest --junitxml=reports/junit/junit.xml
-            genbadge tests
+            python -m pytest --junitxml=reports/junit/junit.xml
+            python -m genbadge tests
             mv tests-badge.svg ./docs/assets
       - name: Commit data
         run: |
