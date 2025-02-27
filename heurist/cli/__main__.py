@@ -176,15 +176,28 @@ def doc(ctx, record_group, outdir, output_type):
     help="Directory in which CSV files of the dumped tabular data \
         will be written.",
 )
+@click.option(
+    "--require-date-object",
+    required=False,
+    default=False,
+    is_flag=True,
+)
 @click.pass_obj
-def load(ctx, filepath, record_group, user: tuple[int], outdir):
+def load(ctx, filepath, record_group, user, outdir, require_date_object):
     # Get context variable
     client = ctx["CLIENT"]
     testing = ctx["DEBUGGING"]
 
     # Run the dump command
     if not testing:
-        load_command(client, filepath, record_group, user, outdir)
+        load_command(
+            client=client,
+            filepath=filepath,
+            record_group=record_group,
+            user=user,
+            outdir=outdir,
+            require_date_object=require_date_object,
+        )
     else:
         print(
             "\nCannot run 'dump' command in debugging mode.\

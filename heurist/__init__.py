@@ -20,7 +20,7 @@ def setup_logger(
     formatter=DEFAULT_FORMATTER,
     filter: logging.Filter | None = None,
 ):
-    handler = logging.FileHandler(filepath, mode="at", encoding="utf-8")
+    handler = logging.FileHandler(filepath, mode="wt", encoding="utf-8")
     handler.setFormatter(formatter)
     if filter:
         handler.addFilter(filter())

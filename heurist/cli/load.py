@@ -24,6 +24,7 @@ def load_command(
     record_group: tuple,
     user: tuple,
     outdir: Path,
+    require_date_object: bool = False,
 ):
     # Export the Heurist database's structure
     with Progress(
@@ -43,7 +44,10 @@ def load_command(
         ) as p,
     ):
         database = TransformedDatabase(
-            conn=conn, hml_xml=xml, record_type_groups=record_group
+            conn=conn,
+            hml_xml=xml,
+            record_type_groups=record_group,
+            require_date_object=require_date_object,
         )
         t = p.add_task(
             "Get Records",

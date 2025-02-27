@@ -9,9 +9,13 @@ from heurist.converters.dynamic_record_type_modeler import (
     DynamicRecordTypeModel,
 )
 from heurist.converters.record_modeler import RecordModeler
+from heurist.converters.exceptions import (
+    RepeatedValueInSingularDetailType,
+    DateNotEnteredAsDateObject,
+)
 
 
-logger = setup_logger(name="validate-pydantic-model", filepath=DATABASE_LOG)
+logger = setup_logger(name="validation", filepath=DATABASE_LOG)
 
 
 class TransformedDatabase(HeuristDatabase):
@@ -25,12 +29,14 @@ class TransformedDatabase(HeuristDatabase):
         conn: DuckDBPyConnection | None = None,
         db: str | None = ":memory:",
         record_type_groups: list[str] = ["My record types"],
+        require_date_object: bool = False,
     ) -> None:
         super().__init__(hml_xml, conn, db)
 
         self.pydantic_models = {
             r.rty_ID: r for r in self.yield_record_details(record_type_groups)
         }
+        self.require_date_objects = require_date_object
 
     def model_record_data(
         self, pydantic_model: DynamicRecordTypeModel, records: list[dict]
@@ -53,9 +59,18 @@ class TransformedDatabase(HeuristDatabase):
             if record["rec_RecTypeID"] != str(pydantic_model.rty_ID):
                 continue
 
-            record_modeler = RecordModeler(pydantic_model=pydantic_model, record=record)
+            record_modeler = RecordModeler(
+                pydantic_model=pydantic_model,
+                record=record,
+                require_date_object=self.require_date_objects,
+                logger=logger,
+            )
 
-            flat_details = record_modeler.flatten_record_details()
+            try:
+                flat_details = record_modeler.flatten_record_details()
+            # If the detail was found to violate its cardinality or date detail, skip.
+            except (RepeatedValueInSingularDetailType, DateNotEnteredAsDateObject):
+                pass
 
             # Validate the flattened details inside the record type's Pydantic model
             try:
@@ -63,8 +78,8 @@ class TransformedDatabase(HeuristDatabase):
                     pydantic_model.model.model_validate(flat_details)
                 )
             except Exception as e:
-                message = f"Record ID: {record['rec_ID']}\t{e}"
-                logger.warning(message)
+                message = f"Record ID: {record['rec_ID']}\n\t{e}\n"
+                logger.error(message)
 
         # Return a list of validated Pydantic models
         return modeled_records
