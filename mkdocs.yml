@@ -1,4 +1,5 @@
 site_name: Heurist ETL
+site_url: https://lostma-erc.github.io/heurist-etl-pipeline/
 
 theme:
   name: material
