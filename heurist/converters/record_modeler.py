@@ -59,8 +59,10 @@ class RecordModeler:
             str: Log message.
         """
 
-        header = f"Record: {self.model.rty_Name}\tRecord ID: {self.record['rec_ID']}"
-        return header + f"\nDTY: {dty_ID}\t{error_message}\n"
+        header = (
+            f"\n\tRecord: {self.model.rty_Name}\tRecord ID: {self.record['rec_ID']}"
+        )
+        return header + f"\n\tDTY: {dty_ID}\t{error_message}\n"
 
     def log_warning(self, dty_ID: int, error_message: str) -> None:
         """
@@ -240,7 +242,7 @@ class RecordModeler:
         for detail in details:
             # If all of the date field's values are not dictionaries, log a warning.
             if not isinstance(detail["value"], dict):
-                e = DateNotEnteredAsDateObject(detail_type_id=dty_id)
+                e = DateNotEnteredAsDateObject(value=detail["value"])
                 self.log_warning(dty_ID=dty_id, error_message=e.message)
                 return False
         else:
@@ -329,10 +331,7 @@ class RecordModeler:
             # that there are more than 1 details aggregated in this detail type.
             value_count = len(details)
             if not self.is_plural(dty_id=dty_id) and value_count > 1:
-                e = RepeatedValueInSingularDetailType(
-                    detail_type_id=dty_id,
-                    value_count=value_count,
-                )
+                e = RepeatedValueInSingularDetailType(value_count=value_count)
                 self.log_error(dty_ID=dty_id, error_message=e.message)
                 continue
 
