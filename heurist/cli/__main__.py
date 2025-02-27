@@ -177,13 +177,15 @@ def doc(ctx, record_group, outdir, output_type):
         will be written.",
 )
 @click.option(
-    "--require-date-object",
+    "--require-compound-dates",
     required=False,
     default=False,
     is_flag=True,
+    show_default=True,
+    help="Impose strict data validation on Heurist dates, requiring compound dates.",
 )
 @click.pass_obj
-def load(ctx, filepath, record_group, user, outdir, require_date_object):
+def load(ctx, filepath, record_group, user, outdir, require_compound_dates):
     # Get context variable
     client = ctx["CLIENT"]
     testing = ctx["DEBUGGING"]
@@ -196,7 +198,7 @@ def load(ctx, filepath, record_group, user, outdir, require_date_object):
             record_group=record_group,
             user=user,
             outdir=outdir,
-            require_date_object=require_date_object,
+            require_date_object=require_compound_dates,
         )
     else:
         print(

@@ -18,7 +18,7 @@ class RepeatedValueInSingularDetailType(Exception):
 class DateNotEnteredAsDateObject(Exception):
     """The date field was not entered as a constructed Heurist date object."""
 
-    description = """The date field was not entered as a constructed Heurist date \
+    description = """The date field was not entered as a compound Heurist date \
 object.\n\tEntered value = {}"""
 
     def __init__(self, value: int | str | float):

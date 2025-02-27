@@ -1,7 +1,9 @@
 site_name: Heurist ETL
 
 theme:
-  name: readthedocs
+  name: material
+  palette:
+    primary: purple
   highlightjs: true
   hljs_languages:
     - yaml
@@ -17,10 +19,6 @@ plugins:
       - scripts/gen_ref_pages.py
   - literate-nav:
       nav_file: SUMMARY.md
-  # - mkdocs-autoapi:
-  #     autoapi_keep_files: True
-  #     autoapi_dir: heurist
-  #     autoapi_add_nav_entry: Reference
   - mkdocstrings:
       handlers:
         python:
@@ -39,7 +37,7 @@ plugins:
             show_root_full_path: false
             show_signature_annotations: true
             show_source: false
-            show_symbol_type_heading: false
+            show_symbol_type_heading: true
             show_symbol_type_toc: false
             signature_crossrefs: true
             summary: true
@@ -48,24 +46,32 @@ markdown_extensions:
   - pymdownx.highlight
   - toc:
       permalink: "#"
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 nav:
 - Home: index.md
-  # - Overview: index.md
-  # - Credits: credits.md
-  # - License: license.md
 - Usage:
-  - usage/index.md
-  - Recipes:
-    - Download record groups (CLI): usage/recipes/download.md
-    - Export a record type (CLI): usage/recipes/records.md
-    - Generate schema (CLI): usage/recipes/schema.md
-    - Python API client (module): usage/recipes/module.md
-  - Heurist Fact Sheet: usage/faq.md
+  - "Installation & basic usage": usage/index.md
+  - Download:
+    - "Basic: My record types": usage/download/index.md
+    - Multiple record groups: usage/download/group_types.md
+    - Export CSV: usage/download/export_csv.md
+    - Filter by user: usage/download/user_filter.md
+    - Strict date validation: usage/download/date_validation.md
+    - Logs & name changes: usage/download/logs.md
+  - Export from API: usage/records.md
+  - Generate schema: usage/schema.md
+  - Python API client: usage/module.md
 # defer to gen-files + literate-nav
-- Code Reference: reference/
+- Code reference: reference/
 - Development:
   - Contributing: development/contributing.md
-  - Code of Conduct: development/code_of_conduct.md
+  - Code of conduct: development/code_of_conduct.md
   - Coverage: development/coverage.md
   - Publishing: development/publishing.md
+- Credits: legal.md
+- GitHub: https://github.com/LostMa-ERC/heurist-etl-pipeline

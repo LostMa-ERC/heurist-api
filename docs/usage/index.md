@@ -2,9 +2,9 @@
 
 This package's primary use is as a command-line interface (CLI). It's meant to efficiently extract, transform, and load data from their Heurist database into local CSV, JSON, and DuckDB files.
 
-Secondarily, you can also exploit certain modules, such as the API client, for your own Python development. For this secondary use, read the documentation [here](./recipes/module.md).
+Secondarily, you can also exploit certain modules, such as the API client, for your own Python development. For this secondary use, read the documentation [here](./module.md).
 
-## Installation (all purposes)
+## Installation
 
 ### Requirements
 
@@ -35,16 +35,16 @@ All of the `heurist` subcommands require connecting to your Heurist database.
 
 After the `heurist` command, provide the Heurist database name (`--database`, `-d`) as well as the username (`--login`, `-l`) and password (`--password`, `-p`) for a user with access to the Heurist database.
 
-```console
-$ heurist -d YOUR_DATABASE -l "your.username" -p "your-password"
+```shell
+heurist -d YOUR_DATABASE -l "your.username" -p "your-password"
 ```
 
 ### Option 2: Set environment variables
 
 From wherever you're running the command in the terminal, create a `.env` file.
 
-```console
-$ touch .env
+```shell
+touch .env
 ```
 
 Then, using some kind of simple text editor (and replacing the defaults with your login credentials), add the following 3 lines to the `.env` file:
@@ -79,71 +79,28 @@ Commands:
 
 ---
 
-## Basic usage
+## CLI commands
 
 ### Download groups of records
+
+For full documentation on this command, see the [basic usage of `download`](./download/index.md).
 
 ```shell
 heurist download -f NEW_DATABASE.db
 ```
 
-By default, without specifying any target record groups, `heurist download` will download all the records you created in the "My record types" group.
+### Export a record type from Heurist's API
+
+For full documentation on this command, see [Export from API](./records.md).
 
 ```shell
-$ heurist download -f NEW_DATABASE.db
-Get DB Structure ⠼ 0:00:00
-Get Records ━━━━━━━━━━━━ 3/3 0:00:08
-
-Created the following tables
-┌───────────────┐
-│     name      │
-│    varchar    │
-├───────────────┤
-│ YourRecord_A  │
-│ YourRecord_B  │
-│ YourRecord_C  │
-│ dty           │
-│ rst           │
-│ rtg           │
-│ rty           │
-│ trm           │
-├───────────────┤
-│    18 rows    │
-└───────────────┘
-```
-
-For full documentation on this subcommand, read the [`Download record groups`](./recipes/download) recipe.
-
-> The lowercase table names are structural tables Heurist uses to keep track of the record types (`rty`, `rtg`), data fields (`dty`, `rst`), and vocabularies (`trm`) you create / modify in Heurist. They're also made available in your download in case you need them.
-
-### Download a record type's records
-
-```console
 heurist record -t RECORD_TYPE_ID_NUMBER
 ```
 
-Specify the targeted record type with the option `-t` or `--record-type`. The subcommand `record` will call Heurist's API and download the type's records in Heurist's JSON export.
-
-```shell
-$ heurist record -t 101
-Get Records of type 101 ⠋ 0:00:00
-Writing results to: RTY_101.json
-```
-
-For full documentation on this subcommand, read the [`Export a record type`](./recipes/download) recipe.
-
 ### Generate documentation about Heurist's schema
 
-```console
-heurist schema -t OUTPUT_TYPE
-```
-
-Specify the format in which you want to read the schema, either `csv` or `json`.
+For full documentation on this command, see [Generate schema](./schema.md).
 
 ```shell
-$ heurist schema -t csv
-Downloading schemas ⠋ 0:00:04
-Describing record types ━━━━━━━━━━━━ 3/3
+heurist schema -t CSV|JSON
 ```
-
-For full documentation on this subcommand, read the [`Generate schema`](./recipes/schema) recipe.
