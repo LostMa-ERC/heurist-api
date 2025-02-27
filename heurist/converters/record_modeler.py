@@ -47,7 +47,7 @@ class RecordModeler:
         self.require_date_object = require_date_object
 
     def log_message(self, dty_ID: int, error_message: str) -> str:
-        header = f"Record: {self.model.rty_Name}\tRecord ID: {self.record["rec_ID"]}"
+        header = f"Record: {self.model.rty_Name}\tRecord ID: {self.record['rec_ID']}"
         return header + f"\nDTY: {dty_ID}\t{error_message}\n"
 
     def log_warning(self, dty_ID: int, error_message: str) -> None:
