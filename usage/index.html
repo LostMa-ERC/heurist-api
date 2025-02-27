@@ -54,6 +54,32 @@
 
     
     
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="Installation & basic usage - Heurist ETL" >
+      
+        <meta  property="og:description"  content="None" >
+      
+        <meta  property="og:image"  content="./assets/images/social/usage/index.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="None" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="Installation & basic usage - Heurist ETL" >
+      
+        <meta  name="twitter:description"  content="None" >
+      
+        <meta  name="twitter:image"  content="./assets/images/social/usage/index.png" >
+      
+    
     
   </head>
   
@@ -2051,16 +2077,16 @@
 
 
 
-<h1 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">#</a></h1>
+<h1 id="usage">Usage</h1>
 <p>This package's primary use is as a command-line interface (CLI). It's meant to efficiently extract, transform, and load data from their Heurist database into local CSV, JSON, and DuckDB files.</p>
 <p>Secondarily, you can also exploit certain modules, such as the API client, for your own Python development. For this secondary use, read the documentation <a href="module/">here</a>.</p>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
-<h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">#</a></h3>
+<h2 id="installation">Installation</h2>
+<h3 id="requirements">Requirements</h3>
 <ul>
 <li>Python version 3.10 or greater</li>
 <li>Virtual Python environment, i.e. <a href="https://github.com/pyenv/pyenv?tab=readme-ov-file#installation"><code>pyenv</code></a>.</li>
 </ul>
-<h3 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">#</a></h3>
+<h3 id="steps">Steps</h3>
 <ol>
 <li>If you don't have Python installed on your machine, download version 3.10 or greater.<ul>
 <li>Need help installing Python? Check out the <a href="https://realpython.com/installing-python/">Real Python</a> blog's tutorial.</li>
@@ -2078,13 +2104,13 @@
 --extra-index-url<span class="w"> </span>https://pypi.org/simple<span class="w"> </span><span class="se">\</span>
 heurist
 </code></pre></div>
-<h2 id="configure-the-cli">Configure the CLI<a class="headerlink" href="#configure-the-cli" title="Permanent link">#</a></h2>
+<h2 id="configure-the-cli">Configure the CLI</h2>
 <p>All of the <code>heurist</code> subcommands require connecting to your Heurist database.</p>
-<h3 id="option-1-manually-declare-login-credentials">Option 1: Manually declare login credentials<a class="headerlink" href="#option-1-manually-declare-login-credentials" title="Permanent link">#</a></h3>
+<h3 id="option-1-manually-declare-login-credentials">Option 1: Manually declare login credentials</h3>
 <p>After the <code>heurist</code> command, provide the Heurist database name (<code>--database</code>, <code>-d</code>) as well as the username (<code>--login</code>, <code>-l</code>) and password (<code>--password</code>, <code>-p</code>) for a user with access to the Heurist database.</p>
 <div class="highlight"><pre><span></span><code>heurist<span class="w"> </span>-d<span class="w"> </span>YOUR_DATABASE<span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;your.username&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;your-password&quot;</span>
 </code></pre></div>
-<h3 id="option-2-set-environment-variables">Option 2: Set environment variables<a class="headerlink" href="#option-2-set-environment-variables" title="Permanent link">#</a></h3>
+<h3 id="option-2-set-environment-variables">Option 2: Set environment variables</h3>
 <p>From wherever you're running the command in the terminal, create a <code>.env</code> file.</p>
 <div class="highlight"><pre><span></span><code>touch<span class="w"> </span>.env
 </code></pre></div>
@@ -2113,16 +2139,16 @@ Commands:
 <span class="w">  </span>schema<span class="w">    </span>Generate<span class="w"> </span>documentation<span class="w"> </span>about<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>schema.
 </code></pre></div>
 <hr />
-<h2 id="cli-commands">CLI commands<a class="headerlink" href="#cli-commands" title="Permanent link">#</a></h2>
-<h3 id="download-groups-of-records">Download groups of records<a class="headerlink" href="#download-groups-of-records" title="Permanent link">#</a></h3>
+<h2 id="cli-commands">CLI commands</h2>
+<h3 id="download-groups-of-records">Download groups of records</h3>
 <p>For full documentation on this command, see the <a href="download/">basic usage of <code>download</code></a>.</p>
 <div class="highlight"><pre><span></span><code>heurist<span class="w"> </span>download<span class="w"> </span>-f<span class="w"> </span>NEW_DATABASE.db
 </code></pre></div>
-<h3 id="export-a-record-type-from-heurists-api">Export a record type from Heurist's API<a class="headerlink" href="#export-a-record-type-from-heurists-api" title="Permanent link">#</a></h3>
+<h3 id="export-a-record-type-from-heurists-api">Export a record type from Heurist's API</h3>
 <p>For full documentation on this command, see <a href="records/">Export from API</a>.</p>
 <div class="highlight"><pre><span></span><code>heurist<span class="w"> </span>record<span class="w"> </span>-t<span class="w"> </span>RECORD_TYPE_ID_NUMBER
 </code></pre></div>
-<h3 id="generate-documentation-about-heurists-schema">Generate documentation about Heurist's schema<a class="headerlink" href="#generate-documentation-about-heurists-schema" title="Permanent link">#</a></h3>
+<h3 id="generate-documentation-about-heurists-schema">Generate documentation about Heurist's schema</h3>
 <p>For full documentation on this command, see <a href="schema/">Generate schema</a>.</p>
 <div class="highlight"><pre><span></span><code>heurist<span class="w"> </span>schema<span class="w"> </span>-t<span class="w"> </span>CSV<span class="p">|</span>JSON
 </code></pre></div>
@@ -2132,6 +2158,9 @@ Commands:
 
 
 
+
+  
+  
 
 
 

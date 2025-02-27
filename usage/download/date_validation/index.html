@@ -54,6 +54,32 @@
 
     
     
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="Strict date validation - Heurist ETL" >
+      
+        <meta  property="og:description"  content="None" >
+      
+        <meta  property="og:image"  content="./assets/images/social/usage/download/date_validation.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="None" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="Strict date validation - Heurist ETL" >
+      
+        <meta  name="twitter:description"  content="None" >
+      
+        <meta  name="twitter:image"  content="./assets/images/social/usage/download/date_validation.png" >
+      
+    
     
   </head>
   
@@ -2065,13 +2091,13 @@
 
 
 
-<h1 id="download-record-groups">Download record groups<a class="headerlink" href="#download-record-groups" title="Permanent link">#</a></h1>
-<h2 id="require-date-fields-to-have-metadata">Require date fields to have metadata<a class="headerlink" href="#require-date-fields-to-have-metadata" title="Permanent link">#</a></h2>
+<h1 id="download-record-groups">Download record groups</h1>
+<h2 id="require-date-fields-to-have-metadata">Require date fields to have metadata</h2>
 <div class="highlight"><pre><span></span><code>heurist<span class="w"> </span>download<span class="w"> </span>-f<span class="w"> </span>NEW_DATABASE.db<span class="w"> </span>--require-compound-dates
 </code></pre></div>
 <p>Heurist offers a rich way of registering compound date information, including date ranges, uncertain dates, as well as details about a fuzzy date's certainty and probability distribution. However, Heurist also allows users to directly type a date estimate, i.e. a year (<code>1448</code>), in the record's field.</p>
 <p>If you want to confirm that all your records' dates have compound dates, with comparable metadata, use the <code>heurist download</code> command with the <code>--require-compound-dates</code> flag. This flag imposes an extra step of data validation that causes records without compound dates to be reported in the <code>logs/heurist.db.log</code> file (see the <a href="../logs/">Log section</a>) and not included in the DuckDB database produced at the end of the workflow.</p>
-<h3 id="example-of-an-invalid-date-field-in-the-log">Example of an invalid date field in the log<a class="headerlink" href="#example-of-an-invalid-date-field-in-the-log" title="Permanent link">#</a></h3>
+<h3 id="example-of-an-invalid-date-field-in-the-log">Example of an invalid date field in the log</h3>
 <p>A user can enter a year directly in a date field, without going through Heurist's compound date widget or, as in the case of CSV import, indicating a date range. When using the <code>--require-compound-dates</code> flag, this record would fail validation and be reported in the log.</p>
 <div class="highlight"><pre><span></span><code>2025-02-27 12:19:03,378 validation  WARNING
     Record: text    Record ID: 47644
@@ -2079,10 +2105,10 @@
     Entered value = 1448
 </code></pre></div>
 <p>If you want to impose this strict date data validation for your analysis, go back to Heurist and change the reported record's date.</p>
-<h2 id="understanding-heurist-date-metadata">Understanding Heurist date metadata<a class="headerlink" href="#understanding-heurist-date-metadata" title="Permanent link">#</a></h2>
-<h3 id="how-heurists-api-describes-dates">How Heurist's API describes dates<a class="headerlink" href="#how-heurists-api-describes-dates" title="Permanent link">#</a></h3>
+<h2 id="understanding-heurist-date-metadata">Understanding Heurist date metadata</h2>
+<h3 id="how-heurists-api-describes-dates">How Heurist's API describes dates</h3>
 <p>To better understand how the <code>heurist</code> ETL package processes Heurist date data, look at how Heurist's API transmits the data stored in the database.</p>
-<h4 id="simple-date-detail">Simple date detail<a class="headerlink" href="#simple-date-detail" title="Permanent link">#</a></h4>
+<h4 id="simple-date-detail">Simple date detail</h4>
 <p>Simple date detail from Heurist's API:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;dty_ID&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1285</span><span class="p">,</span>
@@ -2093,7 +2119,7 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>The value of a simple date detail from Heurist's API is a year or date string (i.e. <code>1448</code>). If the <code>--require-compound-dates</code> flag is used in the <code>heurist download</code> command, a simple date detail will raise a warning and cause the record to be invalid.</p>
-<h4 id="compound-date-detail">Compound date detail<a class="headerlink" href="#compound-date-detail" title="Permanent link">#</a></h4>
+<h4 id="compound-date-detail">Compound date detail</h4>
 <p>Compound date detail from Heurist's API:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;dty_ID&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1285</span><span class="p">,</span>
@@ -2113,9 +2139,9 @@
 <span class="p">},</span>
 </code></pre></div>
 <p>The value of a compound date detail from Heurist's API is a map of metadata, including the data's earliest (<code>estMinDate</code>) and latest (<code>estMaxDate</code>) dates.</p>
-<h3 id="how-the-heurist-package-processes-compound-dates">How the <code>heurist</code> package processes compound dates<a class="headerlink" href="#how-the-heurist-package-processes-compound-dates" title="Permanent link">#</a></h3>
+<h3 id="how-the-heurist-package-processes-compound-dates">How the <code>heurist</code> package processes compound dates</h3>
 <p>For every 1 date field, the <code>heurist</code> ETL process creates 2 columns, which aim to (i) transform the data into an efficient format and (ii) preserve the original information returned from Heurist's API.</p>
-<h4 id="input-examples-from-heurist-api">Input examples from Heurist API<a class="headerlink" href="#input-examples-from-heurist-api" title="Permanent link">#</a></h4>
+<h4 id="input-examples-from-heurist-api">Input examples from Heurist API</h4>
 <p>Let's look at an example with a date field named <code>date_of_creation</code> and 3 records.</p>
 <p><strong>Record 1: <code>date_of_creation</code> <em>1180 - 1200</em></strong></p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
@@ -2150,7 +2176,7 @@
 <span class="w">    </span><span class="nt">&quot;estMaxDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1188</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="date-column">Date column<a class="headerlink" href="#date-column" title="Permanent link">#</a></h4>
+<h4 id="date-column">Date column</h4>
 <p>The estimated minimum and maximum dates are extracted from Heurist's compound date metadata, transformed into Python <code>datetime</code> objects, arranged in an ordered list of the earliest and latest dates in the data field.</p>
 <table>
 <thead>
@@ -2190,7 +2216,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="map-column">Map column<a class="headerlink" href="#map-column" title="Permanent link">#</a></h4>
+<h4 id="map-column">Map column</h4>
 <p>In addition to the parsed <code>date_of_creation</code> column, the <code>heurist</code> ETL pipeline also preserves the response from Heurist's API in a supplemental column with the suffix <code>_TEMPORAL</code> if it is of a compound date.</p>
 <table>
 <thead>
@@ -2224,6 +2250,9 @@
 
 
 
+
+  
+  
 
 
 

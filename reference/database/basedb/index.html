@@ -54,6 +54,32 @@
 
     
     
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="basedb - Heurist ETL" >
+      
+        <meta  property="og:description"  content="None" >
+      
+        <meta  property="og:image"  content="./assets/images/social/reference/database/basedb.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="None" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="basedb - Heurist ETL" >
+      
+        <meta  name="twitter:description"  content="None" >
+      
+        <meta  name="twitter:image"  content="./assets/images/social/reference/database/basedb.png" >
+      
+    
     
   </head>
   
@@ -2139,7 +2165,7 @@
 <code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">basedb</span>
 
 
-<a href="#database.basedb" class="headerlink" title="Permanent link">#</a></h1>
+</h1>
 
     <div class="doc doc-contents first">
 
@@ -2183,7 +2209,7 @@
 <code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">HeuristDatabase</span>
 
 
-<a href="#database.basedb.HeuristDatabase" class="headerlink" title="Permanent link">#</a></h2>
+</h2>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">HeuristDatabase</span><span class="p">(</span>
     <span class="n"><a class="autorefs autorefs-internal" title="database.basedb.HeuristDatabase(hml_xml)" href="#database.basedb.HeuristDatabase(hml_xml)">hml_xml</a></span><span class="p">:</span> <span class="n"><span title="bytes">bytes</span></span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="database.basedb.HeuristDatabase(conn)" href="#database.basedb.HeuristDatabase(conn)">conn</a></span><span class="p">:</span> <span class="n"><span title="duckdb.DuckDBPyConnection">DuckDBPyConnection</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2204,7 +2230,7 @@
     <ul>
         <li class="doc-section-item field-body">
 <h3 id="database.basedb.HeuristDatabase(hml_xml)" class="doc doc-heading doc-heading-parameter">              <b><code>hml_xml</code></b>
-<a href="#database.basedb.HeuristDatabase(hml_xml)" class="headerlink" title="Permanent link">#</a></h3>              (<code><span title="bytes">bytes</span></code>)
+</h3>              (<code><span title="bytes">bytes</span></code>)
           –
           <div class="doc-md-description">
             <p>Heurist database structure exported in XML format.</p>
@@ -2212,7 +2238,7 @@
         </li>
         <li class="doc-section-item field-body">
 <h3 id="database.basedb.HeuristDatabase(conn)" class="doc doc-heading doc-heading-parameter">              <b><code>conn</code></b>
-<a href="#database.basedb.HeuristDatabase(conn)" class="headerlink" title="Permanent link">#</a></h3>              (<code><span title="duckdb.DuckDBPyConnection">DuckDBPyConnection</span> | None</code>, default:
+</h3>              (<code><span title="duckdb.DuckDBPyConnection">DuckDBPyConnection</span> | None</code>, default:
                   <code>None</code>
 )
           –
@@ -2222,7 +2248,7 @@
         </li>
         <li class="doc-section-item field-body">
 <h3 id="database.basedb.HeuristDatabase(db)" class="doc doc-heading doc-heading-parameter">              <b><code>db</code></b>
-<a href="#database.basedb.HeuristDatabase(db)" class="headerlink" title="Permanent link">#</a></h3>              (<code><span title="str">str</span></code>, default:
+</h3>              (<code><span title="str">str</span></code>, default:
                   <code>&#39;:memory:&#39;</code>
 )
           –
@@ -2305,7 +2331,7 @@
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
   </span>
 
-<a href="#database.basedb.HeuristDatabase.build_query_to_select_records_by_group" class="headerlink" title="Permanent link">#</a></h3>
+</h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">build_query_to_select_records_by_group</span><span class="p">(</span>
     <span class="n"><span title="database.basedb.HeuristDatabase.build_query_to_select_records_by_group(record_type_groups)">record_type_groups</span></span><span class="p">:</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="str">str</span></span>
@@ -2337,7 +2363,7 @@ True</p>
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">create</span>
 
 
-<a href="#database.basedb.HeuristDatabase.create" class="headerlink" title="Permanent link">#</a></h3>
+</h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">create</span><span class="p">(</span><span class="n"><span title="database.basedb.HeuristDatabase.create(name)">name</span></span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="database.basedb.HeuristDatabase.create(model)" href="#database.basedb.HeuristDatabase.create(model)">model</a></span><span class="p">:</span> <span class="n"><span title="pydantic_xml.BaseXmlModel">BaseXmlModel</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2366,7 +2392,7 @@ based on a Pydantic model.</p>
     <ul>
         <li class="doc-section-item field-body">
 <h4 id="database.basedb.HeuristDatabase.create(model)" class="doc doc-heading doc-heading-parameter">              <b><code>model</code></b>
-<a href="#database.basedb.HeuristDatabase.create(model)" class="headerlink" title="Permanent link">#</a></h4>              (<code><span title="pydantic_xml.BaseXmlModel">BaseXmlModel</span></code>)
+</h4>              (<code><span title="pydantic_xml.BaseXmlModel">BaseXmlModel</span></code>)
           –
           <div class="doc-md-description">
             <p>A Pydantic XML model.</p>
@@ -2385,7 +2411,7 @@ based on a Pydantic model.</p>
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">delete_existing_table</span>
 
 
-<a href="#database.basedb.HeuristDatabase.delete_existing_table" class="headerlink" title="Permanent link">#</a></h3>
+</h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">delete_existing_table</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="database.basedb.HeuristDatabase.delete_existing_table(table_name)" href="#database.basedb.HeuristDatabase.delete_existing_table(table_name)">table_name</a></span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2398,7 +2424,7 @@ based on a Pydantic model.</p>
     <ul>
         <li class="doc-section-item field-body">
 <h4 id="database.basedb.HeuristDatabase.delete_existing_table(table_name)" class="doc doc-heading doc-heading-parameter">              <b><code>table_name</code></b>
-<a href="#database.basedb.HeuristDatabase.delete_existing_table(table_name)" class="headerlink" title="Permanent link">#</a></h4>              (<code><span title="str">str</span></code>)
+</h4>              (<code><span title="str">str</span></code>)
           –
           <div class="doc-md-description">
             <p>Name of the table to potentially drop.</p>
@@ -2417,7 +2443,7 @@ based on a Pydantic model.</p>
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">describe_record_schema</span>
 
 
-<a href="#database.basedb.HeuristDatabase.describe_record_schema" class="headerlink" title="Permanent link">#</a></h3>
+</h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">describe_record_schema</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="database.basedb.HeuristDatabase.describe_record_schema(rty_ID)" href="#database.basedb.HeuristDatabase.describe_record_schema(rty_ID)">rty_ID</a></span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="duckdb.DuckDBPyRelation">DuckDBPyRelation</span></span>
 </code></pre></div>
 
@@ -2433,7 +2459,7 @@ label and description of the section / separator associated with each detail
     <ul>
         <li class="doc-section-item field-body">
 <h4 id="database.basedb.HeuristDatabase.describe_record_schema(rty_ID)" class="doc doc-heading doc-heading-parameter">              <b><code>rty_ID</code></b>
-<a href="#database.basedb.HeuristDatabase.describe_record_schema(rty_ID)" class="headerlink" title="Permanent link">#</a></h4>              (<code><span title="int">int</span></code>)
+</h4>              (<code><span title="int">int</span></code>)
           –
           <div class="doc-md-description">
             <p>ID of the targeted record type.</p>
@@ -2468,7 +2494,7 @@ label and description of the section / separator associated with each detail
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
   </span>
 
-<a href="#database.basedb.HeuristDatabase.trim_xml_bytes" class="headerlink" title="Permanent link">#</a></h3>
+</h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">trim_xml_bytes</span><span class="p">(</span><span class="n"><a class="autorefs autorefs-internal" title="database.basedb.HeuristDatabase.trim_xml_bytes(xml)" href="#database.basedb.HeuristDatabase.trim_xml_bytes(xml)">xml</a></span><span class="p">:</span> <span class="n"><span title="bytes">bytes</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="bytes">bytes</span></span>
 </code></pre></div>
 
@@ -2481,7 +2507,7 @@ label and description of the section / separator associated with each detail
     <ul>
         <li class="doc-section-item field-body">
 <h4 id="database.basedb.HeuristDatabase.trim_xml_bytes(xml)" class="doc doc-heading doc-heading-parameter">              <b><code>xml</code></b>
-<a href="#database.basedb.HeuristDatabase.trim_xml_bytes(xml)" class="headerlink" title="Permanent link">#</a></h4>              (<code><span title="bytes">bytes</span></code>)
+</h4>              (<code><span title="bytes">bytes</span></code>)
           –
           <div class="doc-md-description">
             <p>Heurist database structure exported XML format.</p>
@@ -2527,6 +2553,9 @@ label and description of the section / separator associated with each detail
 
 
 
+
+  
+  
 
 
 

@@ -54,6 +54,32 @@
 
     
     
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="Contributing - Heurist ETL" >
+      
+        <meta  property="og:description"  content="None" >
+      
+        <meta  property="og:image"  content="./assets/images/social/development/contributing.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="None" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="Contributing - Heurist ETL" >
+      
+        <meta  name="twitter:description"  content="None" >
+      
+        <meta  name="twitter:image"  content="./assets/images/social/development/contributing.png" >
+      
+    
     
   </head>
   
@@ -2051,7 +2077,7 @@
 
 
 
-<h1 id="contributing-file">Contributing File<a class="headerlink" href="#contributing-file" title="Permanent link">#</a></h1>
+<h1 id="contributing-file">Contributing File</h1>
 <blockquote>
 <p>Warning: This documentation is under development.</p>
 </blockquote>
@@ -2074,32 +2100,32 @@
 </li>
 </ol>
 <hr />
-<h2 id="set-up">Set up<a class="headerlink" href="#set-up" title="Permanent link">#</a></h2>
+<h2 id="set-up">Set up</h2>
 <p>Install the project and set up the environment.</p>
-<h3 id="ide">IDE<a class="headerlink" href="#ide" title="Permanent link">#</a></h3>
+<h3 id="ide">IDE</h3>
 <p>If you're using VS Code, apply the example settings.</p>
 <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>.vscode
 cp<span class="w"> </span>vscode-settings.example.json<span class="w"> </span>.vscode/settings.json
 </code></pre></div>
-<h3 id="git-python">Git &amp; Python<a class="headerlink" href="#git-python" title="Permanent link">#</a></h3>
-<h4 id="repository">Repository<a class="headerlink" href="#repository" title="Permanent link">#</a></h4>
+<h3 id="git-python">Git &amp; Python</h3>
+<h4 id="repository">Repository</h4>
 <p>Clone the repository.</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:LostMa-ERC/heurist-etl-pipeline.git
 </code></pre></div>
-<h4 id="virtual-environment">Virtual Environment<a class="headerlink" href="#virtual-environment" title="Permanent link">#</a></h4>
+<h4 id="virtual-environment">Virtual Environment</h4>
 <p>Set up a virtual Python environment and install the package.</p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip<span class="w"> </span>poetry
 poetry<span class="w"> </span>install
 </code></pre></div>
-<h4 id="development-branch">Development branch<a class="headerlink" href="#development-branch" title="Permanent link">#</a></h4>
+<h4 id="development-branch">Development branch</h4>
 <p>Move to the git repository's development (<code>dev</code>) branch. If you've never worked on the development branch, create it with <code>checkout -b</code> instead of <code>checkout</code>.</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>dev
 git<span class="w"> </span>pull
 </code></pre></div>
 <hr />
-<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">#</a></h2>
+<h2 id="development">Development</h2>
 <p>Before pushing changes to the repository, locally run linting and testing. These checks will be run again and for all covered Python versions when pushed to the remote repository.</p>
-<h3 id="style-guide">Style guide<a class="headerlink" href="#style-guide" title="Permanent link">#</a></h3>
+<h3 id="style-guide">Style guide</h3>
 <ol>
 <li>
 <p>Module names are written in snake case.</p>
@@ -2145,10 +2171,10 @@ git<span class="w"> </span>pull
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sql_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">QUERY</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </code></pre></div>
-<h3 id="linting">Linting<a class="headerlink" href="#linting" title="Permanent link">#</a></h3>
+<h3 id="linting">Linting</h3>
 <div class="highlight"><pre><span></span><code><span class="go">poetry run flake8 --extend-exclude ./heurist/mock_data/ --max-line-length 88</span>
 </code></pre></div>
-<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">#</a></h3>
+<h3 id="testing">Testing</h3>
 <div class="highlight"><pre><span></span><code><span class="go">poetry run pytest</span>
 </code></pre></div>
 
@@ -2157,6 +2183,9 @@ git<span class="w"> </span>pull
 
 
 
+
+  
+  
 
 
 

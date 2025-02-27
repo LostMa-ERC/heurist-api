@@ -54,6 +54,32 @@
 
     
     
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="Logs & name changes - Heurist ETL" >
+      
+        <meta  property="og:description"  content="None" >
+      
+        <meta  property="og:image"  content="./assets/images/social/usage/download/logs.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="None" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="Logs & name changes - Heurist ETL" >
+      
+        <meta  name="twitter:description"  content="None" >
+      
+        <meta  name="twitter:image"  content="./assets/images/social/usage/download/logs.png" >
+      
+    
     
   </head>
   
@@ -2035,10 +2061,10 @@
 
 
 
-<h1 id="download-record-groups">Download record groups<a class="headerlink" href="#download-record-groups" title="Permanent link">#</a></h1>
-<h2 id="logs">Logs<a class="headerlink" href="#logs" title="Permanent link">#</a></h2>
+<h1 id="download-record-groups">Download record groups</h1>
+<h2 id="logs">Logs</h2>
 <p>All uses of the <code>heurist download</code> command generate log files that help you (1) monitor your data's validity in the Heurist database and (2) understand how <code>heurist download</code> transformed and loaded the Heurist data into the local DuckDB database.</p>
-<h3 id="1-validate-input-logsheuristdblog">1. Validate input: <code>logs/heurist.db.log</code><a class="headerlink" href="#1-validate-input-logsheuristdblog" title="Permanent link">#</a></h3>
+<h3 id="1-validate-input-logsheuristdblog">1. Validate input: <code>logs/heurist.db.log</code></h3>
 <p>This log reports every record in the Heurist database whose data does not match the schema you've designed for the record type in Heurist.</p>
 <ul>
 <li>Heurist allows users to save records that are invalid.</li>
@@ -2046,7 +2072,7 @@
 <li>Any records that violate the schema are not loaded into the local DuckDB database, and they are reported in the <code>heurist.db.log</code> file.</li>
 <li>It is advised that you go back to your Heurist database and fix the invalid records.</li>
 </ul>
-<h4 id="example-log-report-of-invalid-heurist-record">Example log report of invalid Heurist record<a class="headerlink" href="#example-log-report-of-invalid-heurist-record" title="Permanent link">#</a></h4>
+<h4 id="example-log-report-of-invalid-heurist-record">Example log report of invalid Heurist record</h4>
 <p>For example, if you have designed the data field of a Heurist record to allow only 1 value, but it has been saved with multiple, an error will be logged in <code>logs/heurist.db.log</code>.</p>
 <div class="highlight"><pre><span></span><code>2025-02-27 10:54:04,756  validation    ERROR
     Record: stemma  Record ID: 837
@@ -2054,7 +2080,7 @@
     Count of values = 3
 </code></pre></div>
 <p>In this example, we see the problematic record has the ID <code>837</code> and is a <code>stemma</code> record. The problematic detail is <code>note</code> and it was saved with 3 values, while it should be limited to 1. In Heurist, we should either correct the record or modify the schema, then re-run the <code>heurist download</code> command. Invalid records are not loaded in the DuckDB database.</p>
-<h3 id="2-interpret-results-logstableslogtsv">2. Interpret results: <code>logs/tables.log.tsv</code><a class="headerlink" href="#2-interpret-results-logstableslogtsv" title="Permanent link">#</a></h3>
+<h3 id="2-interpret-results-logstableslogtsv">2. Interpret results: <code>logs/tables.log.tsv</code></h3>
 <p>This log summarises all the record tables created in the DuckDB database file, showing the table's name, the names of its columns, and the data type that <code>heurist download</code> used to validate the data in each column.</p>
 <table>
 <thead>
@@ -2079,22 +2105,22 @@
 </table>
 <p>This log is helpful for showing how <code>heurist download</code> might have changed the names of some of the Heurist record types (i.e. <code>Text</code> -&gt; <code>TextTable</code>) and data fields (i.e. <code>language</code> -&gt; <code>language_COLUMN</code>) to make them SQL-safe.</p>
 <p>The log also confirms how <code>heurist download</code> transformed the record type's structure in Heurist and adapted it to Python. For example, the data field <code>language</code> is optional for this record type in Heurist, it's a text field, and it allows only one value. This is indicated with <code>typing.Optional[str]</code>.</p>
-<h2 id="name-changes">Name changes<a class="headerlink" href="#name-changes" title="Permanent link">#</a></h2>
+<h2 id="name-changes">Name changes</h2>
 <p>To adapt the names of record types and data fields to PL/SQL syntax and DuckDB, sometimes changes are made. These changes are available for review in the <code>logs/tables.log.tsv</code> file.</p>
-<h3 id="reserved-names-keywords">Reserved names &amp; keywords<a class="headerlink" href="#reserved-names-keywords" title="Permanent link">#</a></h3>
+<h3 id="reserved-names-keywords">Reserved names &amp; keywords</h3>
 <p>When a table or column name is a <a href="https://en.wikipedia.org/wiki/List_of_SQL_reserved_words">reserved term</a> or keyword in DuckDB's SQL dialect, a suffix is appended.</p>
 <ul>
 <li>Heurist record named <code>Sequence</code> &rarr; Table named <code>SequenceTable</code></li>
 <li>Heurist data field named <code>language</code> &rarr; Column named <code>language_COLUMN</code></li>
 </ul>
 <p>To see a current list of DuckDB's reserved keywords, connect to a DuckDB database instance and execute the command  <code>select * from duckdb_keywords();</code>.</p>
-<h3 id="foreign-keys-heurist-pointer">Foreign keys / Heurist pointer<a class="headerlink" href="#foreign-keys-heurist-pointer" title="Permanent link">#</a></h3>
+<h3 id="foreign-keys-heurist-pointer">Foreign keys / Heurist pointer</h3>
 <p>A Heurist record's data field can point to another Heurist record, which Heurist refers to as a "resource" or "pointer."</p>
 <p>To make the CSV files that you can generate with <code>heurist download</code> useful for updating your Heurist database, we append <code>H-ID</code> to the end of every referential column, as required for Heurist import.</p>
 <ul>
 <li>Heurist pointer field named <code>is_part_of</code> -&gt; Column named <code>is_part_of H-ID</code></li>
 </ul>
-<h3 id="vocabulary-terms">Vocabulary terms<a class="headerlink" href="#vocabulary-terms" title="Permanent link">#</a></h3>
+<h3 id="vocabulary-terms">Vocabulary terms</h3>
 <p>When a Heurist record's data field points to a vocabulary term, the <code>heurist</code> package generates columns for both the term's label and a unique identifier (foreign key) referring to a term in the <code>trm</code> table.</p>
 <ul>
 <li>
@@ -2105,7 +2131,7 @@
 </ol>
 </li>
 </ul>
-<h3 id="heurist-dates">Heurist dates<a class="headerlink" href="#heurist-dates" title="Permanent link">#</a></h3>
+<h3 id="heurist-dates">Heurist dates</h3>
 <p>When a Heurist record's data field is a date, the <code>heurist</code> package generates 2 columns. See a full discusion on <a href="../date_validation/#how-the-heurist-package-processes-compound-dates">How the <code>heurist</code> package processes compound dates</a>.</p>
 
 
@@ -2113,6 +2139,9 @@
 
 
 
+
+  
+  
 
 
 
