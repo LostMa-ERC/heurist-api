@@ -41,11 +41,11 @@ plugins:
             show_symbol_type_toc: false
             signature_crossrefs: true
             summary: true
+  - social
 
 markdown_extensions:
   - pymdownx.highlight
   - toc:
-      permalink: "#"
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid

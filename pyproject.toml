@@ -64,7 +64,7 @@ mkdocs-literate-nav = "^0.6.1"
 coverage = "^7.6.12"
 genbadge = {extras = ["all"], version = "^1.1.1"}
 isort = "^6.0.0"
-mkdocs-material = "^9.6.5"
+mkdocs-material = {extras = ["imaging"], version = "^9.6.5"}
 
 
 [tool.isort]
