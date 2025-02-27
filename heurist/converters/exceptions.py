@@ -7,11 +7,11 @@ class RepeatedValueInSingularDetailType(Exception):
     """The detail type is limited to a maximum of 1 values
     but the record has more than 1 value for this detail."""
 
-    description = """The detail type is limited to a maximum of 1 values.\
+    description = """The detail '{}' is limited to a maximum of 1 values.\
 \n\tCount of values = {}"""
 
-    def __init__(self, value_count: int):
-        self.message = self.description.format(value_count)
+    def __init__(self, detail_name: str, value_count: int):
+        self.message = self.description.format(detail_name, value_count)
         super().__init__(self.message)
 
 

@@ -331,7 +331,10 @@ class RecordModeler:
             # that there are more than 1 details aggregated in this detail type.
             value_count = len(details)
             if not self.is_plural(dty_id=dty_id) and value_count > 1:
-                e = RepeatedValueInSingularDetailType(value_count=value_count)
+                e = RepeatedValueInSingularDetailType(
+                    detail_name=details[0]["fieldName"],
+                    value_count=value_count,
+                )
                 self.log_error(dty_ID=dty_id, error_message=e.message)
                 continue
 
