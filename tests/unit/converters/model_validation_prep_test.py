@@ -4,7 +4,7 @@ import heurist.mock_data.enum.repeated
 import heurist.mock_data.enum.single
 import heurist.mock_data.freetext.single
 import heurist.mock_data.date.fuzzy.single
-from heurist.converters.record_modeler import RecordModeler
+from heurist.converters.model_validation_prep import ModelValidationPrep
 from heurist.converters.dynamic_record_type_modeler import (
     DynamicRecordTypeModel,
 )
@@ -32,20 +32,19 @@ class RecordModelerTest(unittest.TestCase):
         self.maxDiff = None
         self.rec_ID = 1
         self.rec_RecTypeID = 103
-        record = {
+        self.record = {
             "rec_ID": self.rec_ID,
             "rec_RecTypeID": self.rec_RecTypeID,
             "rec_Name": "Story",
             "details": DETAILS,
         }
         self.pydantic_model = DynamicRecordTypeModel(
-            rty_ID=record["rec_RecTypeID"],
-            rty_Name=record["rec_Name"],
+            rty_ID=self.record["rec_RecTypeID"],
+            rty_Name=self.record["rec_Name"],
             detail_metadata=DETAIL_METADATA,
         )
-        self.modeler = RecordModeler(
+        self.modeler = ModelValidationPrep(
             pydantic_model=self.pydantic_model,
-            record=record,
         )
 
     def test_is_plural(self):
@@ -93,7 +92,7 @@ class RecordModelerTest(unittest.TestCase):
         self.assertDictEqual(actual, expected)
 
     def test_flatten_record_details(self):
-        actual = self.modeler.flatten_record_details()
+        actual = self.modeler(record=self.record)
         frontmatter = {"rec_ID": self.rec_ID, "rec_RecTypeID": self.rec_RecTypeID}
         expected = (
             frontmatter

@@ -8,7 +8,7 @@ from heurist.database.basedb import HeuristDatabase
 from heurist.converters.dynamic_record_type_modeler import (
     DynamicRecordTypeModel,
 )
-from heurist.converters.record_modeler import ModelValidationPrep
+from heurist.converters.model_validation_prep import ModelValidationPrep
 
 logger = setup_logger(name="validation", filepath=DATABASE_LOG)
 
