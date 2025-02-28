@@ -8,7 +8,8 @@ This Python package Extracts, Transforms, and Loads (ETL) data from a Heurist da
 
 - [Installation & configuration](usage/index.md#installation)
 - [Basic command-line usage](usage/index.md#cli-commands)
-- [Integrate the API client in your Python code](usage/module.md)
+- [Integrate API client in Python code](usage/module.md)
+- [Load Heurist data into R-studio](usage/rstudio.md)
 
 [![Logo](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png)](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png)
 
@@ -31,15 +32,17 @@ heurist
 
 ## Project layout
 
-    heurist/
-        api/            # Python client for Heurist API
-        cli/            # Commands for CLI tool
-        converters/     # Methods and functions for transforming Heurist data
-        database/       # DuckDB database for loading data
-        mock_data/      # Examples of data structures exported from Heurist API
-        models/         # Pydantic models for parsing exported Heurist data
-        schema/         # Tools for transforming database structure into schema documentation
-        sql/            # SQL scripts for manipulating and transforming Heurist data
+```txt
+heurist/
+    api/            # Python client for Heurist API
+    cli/            # Commands for CLI tool
+    converters/     # Methods and functions for transforming Heurist data
+    database/       # DuckDB database for loading data
+    mock_data/      # Examples of data structures exported from Heurist API
+    models/         # Pydantic models for parsing exported Heurist data
+    schema/         # Tools for transforming database structure into schema documentation
+    sql/            # SQL scripts for manipulating and transforming Heurist data
+```
 
 ## ERC-funded project
 

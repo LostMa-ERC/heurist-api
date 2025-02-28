@@ -67,6 +67,7 @@ nav:
   - Export from API: usage/records.md
   - Generate schema: usage/schema.md
   - Python API client: usage/module.md
+  - R-studio integration: usage/rstudio.md
 # defer to gen-files + literate-nav
 - Code reference: reference/
 - Development:
