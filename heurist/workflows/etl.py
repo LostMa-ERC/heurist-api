@@ -27,8 +27,7 @@ def extract_transform_load(
 
     Args:
         client (HeuristAPIClient): Instance of a Heurist API client.
-        duckdb_database_connection_path (Path | str): Path used to create a connection \
-            to a DuckDB database. Can be ":memory:" for an in-memory connection.
+        duckdb_connection (duckdb.DuckDBPyConnection): Connection to a DuckDB database.
         user (tuple): IDs (integers) of targeted users.
         require_compound_dates (bool, optional): Whether to impose strict validation \
             on Heurist date types. Defaults to False.
