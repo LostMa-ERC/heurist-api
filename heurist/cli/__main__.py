@@ -7,6 +7,7 @@ from heurist.api.param_manager import APIParamManager
 from heurist.cli.load import load_command
 from heurist.cli.records import rty_command
 from heurist.cli.schema import schema_command
+from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 
 __identifier__ = importlib.metadata.version("heurist")
 
@@ -142,7 +143,7 @@ def doc(ctx, record_group, outdir, output_type):
     required=False,
     type=click.STRING,
     multiple=True,
-    default=["My record types"],
+    default=DEFAULT_RECORD_GROUPS,
     help="Record group of the entities whose data is exported. \
         Default: 'My record types'.",
 )
@@ -194,11 +195,11 @@ def load(ctx, filepath, record_group, user, outdir, require_compound_dates):
     if not testing:
         load_command(
             client=client,
-            filepath=filepath,
+            duckdb_database_connection_path=filepath,
             record_group=record_group,
             user=user,
             outdir=outdir,
-            require_date_object=require_compound_dates,
+            require_compound_dates=require_compound_dates,
         )
     else:
         print(

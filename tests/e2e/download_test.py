@@ -21,7 +21,7 @@ class DownloadCommand(unittest.TestCase):
         try:
             load_command(
                 client=self.client,
-                filepath=":memory:",
+                duckdb_database_connection_path=":memory:",
                 record_group="My record groups",
                 user=(),
                 outdir=None,
