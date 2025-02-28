@@ -7,7 +7,7 @@
 This Python package Extracts, Transforms, and Loads (ETL) data from a Heurist database server into a local [DuckDB](https://duckdb.org) database file.
 
 - [Installation & configuration](usage/index.md#installation)
-- [Basic command-line usage](usage/index.md#usage)
+- [Basic command-line usage](usage/index.md#cli-commands)
 - [Integrate the API client in your Python code](usage/module.md)
 
 [![Logo](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png)](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png)
