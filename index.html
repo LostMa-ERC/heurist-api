@@ -871,28 +871,6 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/converters/_skip_prepare_records/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    _skip_prepare_records
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="reference/converters/date_handler/" class="md-nav__link">
         
   
@@ -1003,11 +981,11 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/converters/record_modeler/" class="md-nav__link">
+      <a href="reference/converters/model_validation_prep/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    record_modeler
+    model_validation_prep
     
   </span>
   
@@ -1641,11 +1619,99 @@
   
   
     <li class="md-nav__item">
+      <a href="reference/utils/constants/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    constants
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="reference/utils/rel_to_dict_array/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     rel_to_dict_array
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_8" id="__nav_3_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    workflows
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            workflows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reference/workflows/etl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    etl
     
   </span>
   
@@ -1919,10 +1985,16 @@
 <a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/tests-badge.svg"><img alt="tests" src="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/tests-badge.svg" /></a></p>
 <p>This Python package Extracts, Transforms, and Loads (ETL) data from a Heurist database server into a local <a href="https://duckdb.org">DuckDB</a> database file.</p>
 <ul>
-<li><a href="usage/#installation">Installation</a></li>
-<li><a href="usage/#usage">Basic Usage</a></li>
+<li><a href="usage/#installation">Installation &amp; configuration</a></li>
+<li><a href="usage/#usage">Basic command-line usage</a></li>
+<li><a href="usage/module/">Integrate the API client in your Python code</a></li>
 </ul>
 <p><a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png"><img alt="Logo" src="https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png" /></a></p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+--index-url<span class="w"> </span>https://test.pypi.org/simple/<span class="w"> </span><span class="se">\</span>
+--extra-index-url<span class="w"> </span>https://pypi.org/simple<span class="w"> </span><span class="se">\</span>
+heurist
+</code></pre></div>
 <h2 id="commands">Commands</h2>
 <ul>
 <li><code>heurist download -f [file]</code> - Load all the records of a certain record group type into a DuckDB database file. There is also the option to export the transformed tables into CSV files for each record type.</li>
