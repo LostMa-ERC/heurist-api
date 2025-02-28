@@ -14,26 +14,28 @@ from heurist.converters.exceptions import (
 from logging import Logger
 
 
-class RecordModeler:
+class ModelValidationPrep:
+
+    record: dict = {}
+    details: list = []
 
     def __init__(
         self,
         pydantic_model: DynamicRecordTypeModel,
-        record: dict,
         logger: Logger | None = None,
         require_date_object: bool = False,
     ):
         """
-        Class for validating a Heurist record's data according to the dynamically \
-            created Pydantic model.
+        Class for preparing a Heurist record's details for validation in the record\
+            type's Pydantic model.
 
         Args:
             pydantic_model (DynamicRecordTypeModel): Pydantic model.
-            record (dict): A Heurist record JSON object.
             logger (Logger): Logger for record model validation.
-            require_date_object (bool): Whether to require date data types to have a \
+            require_date_object (bool): Whether to require date data fields to have a \
                 dictionary / JSON object, rather than a simple value. Defaults to False.
         """
+
         self.logger = logger
         self.plural_fields = [
             v.description
@@ -42,8 +44,6 @@ class RecordModeler:
             and not v.annotation == list[Union[datetime, None]]
         ]
         self.model = pydantic_model
-        self.record = record
-        self.details = record["details"]
         self.require_date_object = require_date_object
 
     def log_message(self, dty_ID: int, error_message: str) -> str:
@@ -311,15 +311,20 @@ class RecordModeler:
         # Combine the generic and supplemental key-value pairs.
         return generic_kwarg | date_object_kwarg
 
-    def flatten_record_details(self) -> dict:
+    def __call__(self, record: dict) -> dict:
         """
         Flatten the record's nested array of details into a flat dictionary of \
             key-value pairs for the Pydantic model's validation.
+
+        Args:
+            record (dict): A Heurist record JSON object.
 
         Returns:
             dict: Dictionary of Pydantic key-value pairs for field validation.
         """
 
+        self.record = record
+        self.details = record["details"]
         details_aggregated_by_types = self.aggregate_details(self.details)
 
         # Flatten the aggregated details into a set of key-value pairs, wherein

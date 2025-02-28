@@ -8,12 +8,7 @@ from heurist.database.basedb import HeuristDatabase
 from heurist.converters.dynamic_record_type_modeler import (
     DynamicRecordTypeModel,
 )
-from heurist.converters.record_modeler import RecordModeler
-from heurist.converters.exceptions import (
-    RepeatedValueInSingularDetailType,
-    DateNotEnteredAsDateObject,
-)
-
+from heurist.converters.record_modeler import ModelValidationPrep
 
 logger = setup_logger(name="validation", filepath=DATABASE_LOG)
 
@@ -54,28 +49,26 @@ class TransformedDatabase(HeuristDatabase):
 
         modeled_records = []
 
+        # Create a validation modeler for this record type
+        validation_prep = ModelValidationPrep(
+            pydantic_model=pydantic_model,
+            require_date_object=self.require_date_objects,
+            logger=logger,
+        )
+
         for record in records:
             # Skip any records in the data set that are not targeted
             if record["rec_RecTypeID"] != str(pydantic_model.rty_ID):
                 continue
 
-            record_modeler = RecordModeler(
-                pydantic_model=pydantic_model,
-                record=record,
-                require_date_object=self.require_date_objects,
-                logger=logger,
-            )
+            # Transform the record's details into a set of key-value pairs for
+            # validation in a Pydantic model
+            pydantic_validation_dict = validation_prep(record=record)
 
-            try:
-                flat_details = record_modeler.flatten_record_details()
-            # If the detail was found to violate its cardinality or date detail, skip.
-            except (RepeatedValueInSingularDetailType, DateNotEnteredAsDateObject):
-                pass
-
-            # Validate the flattened details inside the record type's Pydantic model
+            # With the recorrd type's Pydantic model, validate the dictionary
             try:
                 modeled_records.append(
-                    pydantic_model.model.model_validate(flat_details)
+                    pydantic_model.model.model_validate(pydantic_validation_dict)
                 )
             except Exception as e:
                 message = f"Record ID: {record['rec_ID']}\n\t{e}\n"
