@@ -71,6 +71,8 @@ nav:
 # defer to gen-files + literate-nav
 - Code reference: reference/
 - Development:
+  - Heurist:
+    - Temporal objects: development/heuristdb/temporal.md
   - Contributing: development/contributing.md
   - Code of conduct: development/code_of_conduct.md
   - Coverage: development/coverage.md
