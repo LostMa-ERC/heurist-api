@@ -52,7 +52,7 @@ class TestGeo(unittest.TestCase):
 
 class TestDate(unittest.TestCase):
     def setUp(self):
-        from heurist.mock_data.date.fuzzy.single import DETAIL as DETAIL_FUZZY
+        from heurist.mock_data.date.compound.single import DETAIL as DETAIL_FUZZY
         from heurist.mock_data.date.simple.single import DETAIL as DETAIL_SIMPLE
 
         self.fuzzy_date_detail = DETAIL_FUZZY

@@ -31,7 +31,8 @@ DETAIL = [
     },
 ]
 
-# Result of src.heurist_transformers.prepare_records.RecordFlattener
+# Detail's Pydantic field validation alias
+# and the field's value for the Pydantic model
 PYDANTIC_KEY_VALUE = {
     "DTY1111": [
         [datetime(2024, 3, 19, 0, 0), None],
@@ -47,7 +48,7 @@ PYDANTIC_KEY_VALUE = {
     ],
 }
 
-# Result of validating flattened data in the record's DynamicRecordTypeModel
+# Detail's serialization from the Pydantic field
 ALIAS_KEY_VALUE = {
     "date_of_creation": [
         [datetime(2024, 3, 19, 0, 0), None],

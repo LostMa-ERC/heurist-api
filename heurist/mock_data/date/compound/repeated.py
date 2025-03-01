@@ -19,7 +19,7 @@ DETAIL = [
             "estMinDate": 1180,
             "estMaxDate": 1250.1231,
         },
-        "fieldName": "date / time",
+        "fieldName": "date_of_creation",
         "fieldType": "date",
         "conceptID": "",
     },

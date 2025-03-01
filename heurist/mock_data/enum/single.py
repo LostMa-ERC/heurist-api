@@ -17,10 +17,14 @@ DETAIL = {
     "conceptID": "",
 }
 
-# Result of src.heurist_transformers.prepare_records.RecordFlattener
-PYDANTIC_KEY_VALUE = {"DTY1090": "dum (Middle Dutch)", "DTY1090_TRM": 9728}
+# Detail's Pydantic field validation alias
+# and the field's value for the Pydantic model
+PYDANTIC_KEY_VALUE = {
+    "DTY1090": "dum (Middle Dutch)",
+    "DTY1090_TRM": 9728,
+}
 
-# Result of validating flattened data in the record's DynamicRecordTypeModel
+# Detail's serialization from the Pydantic field
 ALIAS_KEY_VALUE = {
     "language_COLUMN": "dum (Middle Dutch)",
     "language_COLUMN TRM-ID": 9728,

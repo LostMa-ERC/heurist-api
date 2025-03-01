@@ -69,7 +69,7 @@ class DynamicDataFieldBuilder:
 
     def is_type_repeatable(self) -> bool:
         """
-        Heurist uses the code 0 to indicate that the a record's detail (field) \
+        Heurist uses the code 0 to indicate that a record's detail (field) \
             can be repeated. Parse this information on the record structure \
             to determine a boolean indicating whether or not the detail is repeated.
 

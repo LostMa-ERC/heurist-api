@@ -34,8 +34,9 @@ DETAIL = [
     },
 ]
 
-# Result of src.heurist_transformers.prepare_records.RecordFlattener
+# Detail's Pydantic field validation alias
+# and the field's value for the Pydantic model
 PYDANTIC_KEY_VALUE = {"DTY1114": [36, 79]}
 
-# Result of validating flattened data in the record's DynamicRecordTypeModel
+# Detail's serialization from the Pydantic field
 ALIAS_KEY_VALUE = {"is_expression_of H-ID": [36, 79]}
