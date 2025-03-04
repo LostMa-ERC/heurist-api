@@ -17,8 +17,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HEURIST_USER: ${{ secrets.HEURISTUSER }}
-      HEURIST_PASS: ${{ secrets.HEURISTPASS }}
+      HEURIST_USER: ${{ secrets.DEV_DB_LOGIN }}
+      HEURIST_PASS: ${{ secrets.DEV_DB_PASSWORD }}
     strategy:
       fail-fast: false
       matrix:
@@ -49,6 +49,6 @@ jobs:
         run: |
           export DB_LOGIN=$HEURIST_USER
           export DB_PASSWORD=$HEURIST_PASS
-          export DB_NAME=jbcamps_gestes
+          export DB_NAME=api_dev
           poetry run pytest tests/e2e
           poetry run pytest tests/integration/api
