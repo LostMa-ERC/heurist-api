@@ -1,15 +1,24 @@
 import unittest
 import pytest
+import os
 
 from heurist.api.connection import HeuristConnection
 from heurist.api.exceptions import MissingParameterException, AuthenticationError
 
+IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
+
 
 class ConnectionWithEnvVars(unittest.TestCase):
+    @pytest.mark.skipif(
+        IN_GITHUB_ACTIONS, reason="Do not run connection test in GitHub Actions."
+    )
     def test_database_env_var(self):
         database = HeuristConnection.load_database(db_name=None)
         self.assertIsNotNone(database)
 
+    @pytest.mark.skipif(
+        IN_GITHUB_ACTIONS, reason="Do not run connection test in GitHub Actions."
+    )
     def test_database_connection(self):
         login = HeuristConnection.load_login(login=None)
         database = HeuristConnection.load_database(db_name=None)
@@ -20,6 +29,9 @@ class ConnectionWithEnvVars(unittest.TestCase):
             login=login,
         )
 
+    @pytest.mark.skipif(
+        IN_GITHUB_ACTIONS, reason="Do not run connection test in GitHub Actions."
+    )
     def test_client_request(self):
         client = HeuristConnection()
         response = client.get_records(form="json", record_type_id=103)
