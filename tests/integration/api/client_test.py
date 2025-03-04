@@ -2,31 +2,29 @@
 Test of the API client.
 Requires a connection to a remote Heurist database.
 
-Declare the login credentials in a .env file in the parent tests/ directory.
+Declare the login credentials in a .env file
 """
 
 import unittest
 from lxml import etree
 
-from heurist.api.client import HeuristAPIClient
-from heurist.api.param_manager import APIParamManager
+from heurist.api.connection import HeuristConnection
 from heurist.api.exceptions import AuthenticationError, MissingParameterException
 
 
-TEST_RECORD_TYPE = 102
-TEST_USER = 6
+TEST_RECORD_TYPE = 103
+TEST_USER = 2
 
 
 class ClientUnitTest(unittest.TestCase):
     def setUp(self) -> None:
         try:
-            params = APIParamManager()
+            self.client = HeuristConnection()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
             )
-        self.client = HeuristAPIClient(**params.kwargs)
 
     def test_user_filter(self):
         """Test the API client's ability to extract records created by a \

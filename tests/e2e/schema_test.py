@@ -4,10 +4,10 @@ import json
 
 from pathlib import Path
 
-from heurist.api.client import HeuristAPIClient
-from heurist.api.param_manager import APIParamManager
+from heurist.api.connection import HeuristConnection
 from heurist.cli.schema import schema_command
 from heurist.api.exceptions import MissingParameterException
+from heurist import remove_logs
 
 
 class SchemaBase(unittest.TestCase):
@@ -20,6 +20,7 @@ class SchemaBase(unittest.TestCase):
         for f in self.tempdir.iterdir():
             f.unlink(missing_ok=True)
         self.tempdir.rmdir()
+        remove_logs()
         return super().tearDown()
 
     def json(self):
@@ -53,9 +54,12 @@ class SchemaBase(unittest.TestCase):
 class OfflineSchemaCommand(SchemaBase):
     def setUp(self):
         self.tempdir.mkdir(exist_ok=True)
-        params = APIParamManager(debugging=True, get_env_vars=False)
-        self.client = HeuristAPIClient(**params.kwargs)
-        self.debugging = True
+        self.client = HeuristConnection(
+            database_name="test_db",
+            login="test_login",
+            password="test_pass",
+            debugging=True,
+        )
 
     def test_json(self):
         self.json()
@@ -68,14 +72,12 @@ class OnlineSchemaCommand(SchemaBase):
     def setUp(self):
         self.tempdir.mkdir(exist_ok=True)
         try:
-            params = APIParamManager()
+            self.client = HeuristConnection()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
             )
-        self.client = HeuristAPIClient(**params.kwargs)
-        self.debugging = False
 
     def test_json(self):
         self.json()

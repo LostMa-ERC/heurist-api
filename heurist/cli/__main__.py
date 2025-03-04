@@ -2,8 +2,7 @@ import importlib.metadata
 
 import click
 
-from heurist.api.client import HeuristAPIClient
-from heurist.api.param_manager import APIParamManager
+from heurist.api.connection import HeuristConnection
 from heurist.cli.load import load_command
 from heurist.cli.records import rty_command
 from heurist.cli.schema import schema_command
@@ -46,13 +45,11 @@ __identifier__ = importlib.metadata.version("heurist")
 def cli(ctx, database, login, password, debugging):
     ctx.ensure_object(dict)
     ctx.obj["DEBUGGING"] = debugging
-    param = APIParamManager(
+    ctx.obj["CLIENT"] = HeuristConnection(
         database_name=database,
         login=login,
         password=password,
-        debugging=debugging,
     )
-    ctx.obj["CLIENT"] = HeuristAPIClient(**param.kwargs)
 
 
 # =========================== #

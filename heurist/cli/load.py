@@ -8,17 +8,20 @@ import duckdb
 
 from heurist.api.client import HeuristAPIClient
 from heurist.workflows import extract_transform_load
+from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 
 
 def load_command(
     client: HeuristAPIClient,
     duckdb_database_connection_path: Path | str,
-    record_group: tuple,
-    user: tuple,
-    outdir: Path,
+    record_group: tuple = DEFAULT_RECORD_GROUPS,
+    user: tuple = (),
+    outdir: Path | None = None,
     require_compound_dates: bool = False,
 ):
     # Run the ETL process
+    if isinstance(duckdb_database_connection_path, Path):
+        duckdb_database_connection_path = str(duckdb_database_connection_path)
     with duckdb.connect(duckdb_database_connection_path) as conn:
         extract_transform_load(
             client=client,
@@ -33,6 +36,8 @@ def load_command(
         tables = new_conn.sql("show tables;")
         print("\nCreated the following tables")
         print(tables)
+
+        # If writing to CSV files, write only tables of record types
         if outdir:
             outdir = Path(outdir)
             outdir.mkdir(exist_ok=True)

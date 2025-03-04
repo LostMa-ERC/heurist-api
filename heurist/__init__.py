@@ -30,3 +30,10 @@ def setup_logger(
     logger.addHandler(handler)
 
     return logger
+
+
+def remove_logs() -> None:
+    if LOG_DIR.is_dir():
+        for f in LOG_DIR.iterdir():
+            f.unlink()
+        LOG_DIR.rmdir()
