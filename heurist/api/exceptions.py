@@ -13,6 +13,6 @@ class AuthenticationError(Exception):
 class MissingParameterException(Exception):
     """Exception raised for a missing parameter."""
 
-    def __init__(self, parameter):
-        self.message = f"Missing parameter: {parameter}"
+    def __init__(self, parameter: str, env_file: str):
+        self.message = f"Missing parameter: {parameter}\nTried looking at: {env_file}"
         super().__init__(self.message)
