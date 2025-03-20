@@ -54,7 +54,7 @@ class HeuristConnection(HeuristAPIClient):
             load_dotenv(find_dotenv())
             var = os.environ.get(key)
         if not var:
-            raise MissingParameterException(parameter=param, env_file=load_dotenv())
+            raise MissingParameterException(parameter=param, env_file=find_dotenv())
         return var
 
     @classmethod
