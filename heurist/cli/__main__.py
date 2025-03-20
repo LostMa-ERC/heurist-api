@@ -1,8 +1,10 @@
 import importlib.metadata
 
 import click
+from rich.console import Console
 
 from heurist.api.connection import HeuristConnection
+from heurist.api.exceptions import MissingParameterException
 from heurist.cli.load import load_command
 from heurist.cli.records import rty_command
 from heurist.cli.schema import schema_command
@@ -45,11 +47,33 @@ __identifier__ = importlib.metadata.version("heurist")
 def cli(ctx, database, login, password, debugging):
     ctx.ensure_object(dict)
     ctx.obj["DEBUGGING"] = debugging
-    ctx.obj["CLIENT"] = HeuristConnection(
-        database_name=database,
-        login=login,
-        password=password,
-    )
+    try:
+        ctx.obj["CLIENT"] = HeuristConnection(
+            database_name=database,
+            login=login,
+            password=password,
+        )
+    except MissingParameterException:
+        c = Console()
+        c.clear()
+        c.print(
+            "A connection to your Heurist database could not be established.",
+            style="red",
+        )
+        c.print(
+            "Please provide the information when prompted. \
+To quit, press Ctrl+C then Enter."
+        )
+        _database = click.prompt("Heurist database name")
+        _login = click.prompt("Heurist user login")
+        _password = click.prompt("Heurist login password")
+        c.print("Retrying the connection...")
+        ctx.obj["CLIENT"] = HeuristConnection(
+            database_name=_database,
+            login=_login,
+            password=_password,
+        )
+        c.print("Success!", style="green")
 
 
 # =========================== #
