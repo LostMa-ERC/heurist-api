@@ -295,7 +295,9 @@ class ModelValidationPrep:
         # values for the supplemental temporal column.
         else:
             converted_values = [
-                d["value"] for d in details if isinstance(d["value"], dict)
+                RecordDetailConverter.temporal(d)
+                for d in details
+                if isinstance(d["value"], dict)
             ]
 
         # If the data field allows multiple values, return the list
