@@ -281,7 +281,11 @@ class ModelValidationPrep:
         if self.require_date_object:
             # If all the date values are valid Heurist date objects, extract them.
             if self.valid_heurist_date_objects(dty_id=dty_id, details=details):
-                converted_values = [d["value"] for d in details]
+                converted_values = []
+                for d in details:
+                    # Convert the (inconsistent) temporal dict into a structured object
+                    struct = RecordDetailConverter.temporal(d)
+                    converted_values.append(struct)
             # If any of the date values were not valid Heurist date objects, stop
             # and simply return the key-value pair of the generic date field.
             else:

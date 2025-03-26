@@ -4,6 +4,7 @@ from datetime import datetime
 
 from heurist.converters.date_handler import HeuristDateHandler
 from heurist.converters.type_handler import HeuristDataType
+from heurist.models.date import TemporalObject
 
 
 class RecordDetailConverter:
@@ -115,6 +116,12 @@ class RecordDetailConverter:
         """
 
         return f"DTY{dty_ID}"
+
+    @classmethod
+    def temporal(cls, detail: dict) -> dict | None:
+        if isinstance(detail.get("value"), dict):
+            model = TemporalObject.model_validate(detail["value"])
+            return model.model_dump(by_alias=True)
 
     @classmethod
     def _convert_value(cls, detail: dict) -> str | int | list | None:
