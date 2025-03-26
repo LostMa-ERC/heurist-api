@@ -12,8 +12,16 @@ METADATA = {
 DETAIL = {
     "dty_ID": 1111,
     "value": {
-        "start": {"earliest": "1180", "latest": "1231", "profile": "1"},
-        "end": {"latest": "1250", "earliest": "1246", "profile": "3"},
+        "start": {
+            "earliest": "1180",
+            "latest": "1231",
+            "profile": "1",
+        },
+        "end": {
+            "latest": "1250",
+            "earliest": "1246",
+            "profile": "3",
+        },
         "determination": "2",
         "estMinDate": 1180,
         "estMaxDate": 1250.1231,
@@ -28,11 +36,23 @@ DETAIL = {
 PYDANTIC_KEY_VALUE = {
     "DTY1111": [datetime(1180, 1, 1, 0, 0), datetime(1250, 12, 31, 0, 0)],
     "DTY1111_TEMPORAL": {
-        "start": {"earliest": "1180", "latest": "1231", "profile": "1"},
-        "end": {"latest": "1250", "earliest": "1246", "profile": "3"},
-        "determination": "2",
-        "estMinDate": 1180,
-        "estMaxDate": 1250.1231,
+        "start": {
+            "earliest": datetime(1180, 1, 1, 0, 0),  # "1180"
+            "latest": datetime(1231, 1, 1, 0, 0),  # "1231"
+            "estProfile": "central",  # 1
+            "estDetermination": None,
+        },
+        "end": {
+            "latest": datetime(1250, 1, 1, 0, 0),  # "1250"
+            "earliest": datetime(1246, 1, 1, 0, 0),  # "1246"
+            "estProfile": "slowFinish",  # 3
+            "estDetermination": None,
+        },
+        "estDetermination": "conjecture",  # 2
+        "estProfile": None,
+        "estMinDate": datetime(1180, 1, 1, 0, 0),  # 1180
+        "estMaxDate": datetime(1250, 12, 31, 0, 0),  # 1250.1231
+        "timestamp": None,
     },
 }
 
@@ -43,9 +63,9 @@ ALIAS_KEY_VALUE = {
         datetime(1250, 12, 31, 0, 0),
     ],
     "date_of_creation_TEMPORAL": {
-        "start": {"earliest": "1180", "latest": "1231", "profile": "1"},
-        "end": {"latest": "1250", "earliest": "1246", "profile": "3"},
-        "determination": "2",
+        "start": {"earliest": "1180", "latest": "1231", "estProfile": "1"},
+        "end": {"latest": "1250", "earliest": "1246", "estProfile": "3"},
+        "estDetermination": "2",
         "estMinDate": 1180,
         "estMaxDate": 1250.1231,
     },
