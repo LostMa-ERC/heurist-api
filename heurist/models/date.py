@@ -35,8 +35,12 @@ HeuristDetermination = Annotated[str, BeforeValidator(parse_determination)]
 class DateLimit(BaseModel):
     earliest: Optional[HeuristDate] = Field(default=None)
     latest: Optional[HeuristDate] = Field(default=None)
-    profile: Optional[HeuristProfile] = Field(default=None)
-    determination: Optional[HeuristDetermination] = Field(default=None)
+    estProfile: Optional[HeuristProfile] = Field(
+        default=None, validation_alias="profile"
+    )
+    estDetermination: Optional[HeuristDetermination] = Field(
+        default=None, validation_alias="determination"
+    )
 
 
 class Timestamp(BaseModel):
@@ -48,8 +52,12 @@ class Timestamp(BaseModel):
 class TemporalObject(BaseModel):
     start: Optional[DateLimit] = Field(default=None)
     end: Optional[DateLimit] = Field(default=None)
-    determination: Optional[HeuristDetermination] = Field(default=None)
-    profile: Optional[HeuristProfile] = Field(default=None)
+    estDetermination: Optional[HeuristDetermination] = Field(
+        default=None, validation_alias="determination"
+    )
+    estProfile: Optional[HeuristProfile] = Field(
+        default=None, validation_alias="profile"
+    )
     timestamp: Optional[Timestamp] = Field(default=None)
     estMinDate: Optional[HeuristDate] = Field(default=None)
     estMaxDate: Optional[HeuristDate] = Field(default=None)
