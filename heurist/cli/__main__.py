@@ -198,16 +198,8 @@ def doc(ctx, record_group, outdir, output_type):
     help="Directory in which CSV files of the dumped tabular data \
         will be written.",
 )
-@click.option(
-    "--require-compound-dates",
-    required=False,
-    default=False,
-    is_flag=True,
-    show_default=True,
-    help="Impose strict data validation on Heurist dates, requiring compound dates.",
-)
 @click.pass_obj
-def load(ctx, filepath, record_group, user, outdir, require_compound_dates):
+def load(ctx, filepath, record_group, user, outdir):
     # Get context variable
     client = ctx["CLIENT"]
     testing = ctx["DEBUGGING"]
@@ -220,7 +212,6 @@ def load(ctx, filepath, record_group, user, outdir, require_compound_dates):
             record_group=record_group,
             user=user,
             outdir=outdir,
-            require_compound_dates=require_compound_dates,
         )
     else:
         print(

@@ -18,14 +18,11 @@ class TransformedDatabase(HeuristDatabase):
         conn: DuckDBPyConnection | None = None,
         db: str | None = ":memory:",
         record_type_groups: list[str] = ["My record types"],
-        require_date_object: bool = False,
     ) -> None:
         super().__init__(hml_xml, conn, db)
 
         # Create an empty index of targeted record types' Pydantic models
         self.pydantic_models = {}
-        # Save whether to require that date fields are a Heurist temporal object
-        self.require_date_objects = require_date_object
 
         # Joining together the Heurist database's structural tables, construct an SQL
         # statement that selects the ID and name of the record types that belong to one

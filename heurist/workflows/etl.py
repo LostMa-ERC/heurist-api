@@ -17,7 +17,6 @@ def extract_transform_load(
     client: HeuristAPIClient,
     duckdb_connection: duckdb.DuckDBPyConnection,
     user: tuple = (),
-    require_compound_dates: bool = False,
     record_group_names: tuple = DEFAULT_RECORD_GROUPS,
 ) -> None:
     """
@@ -29,8 +28,6 @@ def extract_transform_load(
         client (HeuristAPIClient): Instance of a Heurist API client.
         duckdb_connection (duckdb.DuckDBPyConnection): Connection to a DuckDB database.
         user (tuple): IDs (integers) of targeted users.
-        require_compound_dates (bool, optional): Whether to impose strict validation \
-            on Heurist date types. Defaults to False.
         record_group_names (tuple): Names of the record group types. Must include at \
             least 1. Defaults to ("My record types").
 
@@ -58,7 +55,6 @@ def extract_transform_load(
             conn=duckdb_connection,
             hml_xml=xml,
             record_type_groups=record_group_names,
-            require_date_object=require_compound_dates,
         )
         t = p.add_task(
             "Get Records",

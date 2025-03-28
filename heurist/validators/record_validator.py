@@ -16,7 +16,7 @@ logging.basicConfig(
     style="{",
     datefmt="%Y-%m-%d %H:%M",
     handlers=[
-        logging.FileHandler(filename=VALIDATION_LOG, mode="w"),
+        logging.FileHandler(filename=VALIDATION_LOG, mode="w", delay=True),
         logging.StreamHandler(),
     ],
 )

@@ -17,7 +17,6 @@ def load_command(
     record_group: tuple = DEFAULT_RECORD_GROUPS,
     user: tuple = (),
     outdir: Path | None = None,
-    require_compound_dates: bool = False,
 ):
     # Run the ETL process
     if isinstance(duckdb_database_connection_path, Path):
@@ -28,7 +27,6 @@ def load_command(
             duckdb_connection=conn,
             record_group_names=record_group,
             user=user,
-            require_compound_dates=require_compound_dates,
         )
 
     # Show the results of the created DuckDB database
