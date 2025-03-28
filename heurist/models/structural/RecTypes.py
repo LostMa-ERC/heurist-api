@@ -1,6 +1,6 @@
 from pydantic_xml import BaseXmlModel, element
 
-from heurist.models.rty import RTY
+from heurist.models.structural.rty import RTY
 
 
 class RecTypes(BaseXmlModel):
@@ -12,7 +12,7 @@ class RecTypes(BaseXmlModel):
 
     Examples:
         >>> from heurist.mock_data import DB_STRUCTURE_XML
-        >>> from heurist.models import HMLStructure
+        >>> from heurist.models.structural import HMLStructure
         >>>
         >>>
         >>> # Parse structure

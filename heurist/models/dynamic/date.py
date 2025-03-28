@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field, BeforeValidator
 from typing import Optional, Annotated
 
-from heurist.converters.date_handler import HeuristDateHandler
+from heurist.validators import parse_heurist_date
 
 PROFILE_MAP = {"0": "flat", "1": "central", "2": "slowStart", "3": "slowFinish"}
 DETERMINATION_MAP = {
@@ -11,10 +11,6 @@ DETERMINATION_MAP = {
     "2": "conjecture",
     "3": "measurement",
 }
-
-
-def parse_date(value) -> datetime:
-    return HeuristDateHandler.parse(value)
 
 
 def parse_profile(value) -> str | None:
@@ -27,7 +23,7 @@ def parse_determination(value) -> str | None:
         return DETERMINATION_MAP[value]
 
 
-HeuristDate = Annotated[datetime, BeforeValidator(parse_date)]
+HeuristDate = Annotated[datetime, BeforeValidator(parse_heurist_date)]
 HeuristProfile = Annotated[str, BeforeValidator(parse_profile)]
 HeuristDetermination = Annotated[str, BeforeValidator(parse_determination)]
 
@@ -46,18 +42,20 @@ class DateLimit(BaseModel):
 class Timestamp(BaseModel):
     inYear: Optional[HeuristDate] = Field(default=None, alias="in")
     typeTime: Optional[str] = Field(default=None, alias="type")
-    circa: Optional[bool] = Field(default=None)
+    circa: Optional[bool] = Field(default=False)
 
 
 class TemporalObject(BaseModel):
-    start: Optional[DateLimit] = Field(default=None)
-    end: Optional[DateLimit] = Field(default=None)
+    comment: Optional[str] = Field(default=None)
+    value: Optional[HeuristDate] = Field(default=None)
+    start: Optional[DateLimit] = Field(default=DateLimit(**{}))
+    end: Optional[DateLimit] = Field(default=DateLimit(**{}))
     estDetermination: Optional[HeuristDetermination] = Field(
         default=None, validation_alias="determination"
     )
     estProfile: Optional[HeuristProfile] = Field(
         default=None, validation_alias="profile"
     )
-    timestamp: Optional[Timestamp] = Field(default=None)
+    timestamp: Optional[Timestamp] = Field(default=Timestamp(**{}))
     estMinDate: Optional[HeuristDate] = Field(default=None)
     estMaxDate: Optional[HeuristDate] = Field(default=None)

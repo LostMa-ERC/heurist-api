@@ -1,12 +1,11 @@
 """Dataclass to organize and convert the data type of a Record's detail."""
 
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Any, Optional
 
 
 @dataclass
-class HeuristDataType:
+class FieldType:
     """Organize and convert the data types of a Record's detail."""
 
     dropdown = "enum"
@@ -43,7 +42,7 @@ class HeuristDataType:
             return "TEXT"
 
     @classmethod
-    def from_json_record(cls, detail: dict) -> str:
+    def from_detail(cls, detail: dict) -> str:
         """Extract the field type from a record's detail.
 
         Args:
@@ -79,7 +78,7 @@ class HeuristDataType:
             return Optional[str]
 
         elif datatype == cls.date_time:
-            return list[Optional[datetime]]
+            return dict
 
         elif datatype == cls.geospatial:
             return Optional[str]

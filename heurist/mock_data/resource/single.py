@@ -14,10 +14,3 @@ DETAIL = {
     "fieldType": "resource",
     "conceptID": "",
 }
-
-# Detail's Pydantic field validation alias
-# and the field's value for the Pydantic model
-PYDANTIC_KEY_VALUE = {"DTY1114": 36}
-
-# Detail's serialization from the Pydantic field
-ALIAS_KEY_VALUE = {"is_expression_of H-ID": 36}

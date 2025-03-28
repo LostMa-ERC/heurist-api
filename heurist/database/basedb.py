@@ -3,11 +3,8 @@ import polars as pl
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from pydantic_xml import BaseXmlModel
 
-from heurist.models.hml_structure import HMLStructure
-from heurist.converters.dynamic_record_type_modeler import (
-    DynamicRecordTypeModel,
-)
-from heurist.sql import RECORD_TYPE_SCHEMA, RECORD_BY_GROUP_TYPE, RECORD_TYPE_METADATA
+from heurist.models.structural.hml_structure import HMLStructure
+from heurist.sql import RECORD_TYPE_SCHEMA
 
 
 class HeuristDatabase:
@@ -112,40 +109,6 @@ WHERE table_name like '{table_name}'
         # Create table from model dataframe
         sql = "CREATE TABLE {} AS FROM df".format(name)
         self.conn.sql(sql)
-
-    @staticmethod
-    def build_query_to_select_records_by_group(record_type_groups: list[str]) -> str:
-        """
-        Generate an SQL query that selects the relevant metadata for the records of \
-            the targeted record type group or record type groups.
-
-        Examples:
-        >>> groups = ['My record types']
-        >>> query = HeuristDatabase.build_query_to_select_records_by_group(groups)
-        >>> query.endswith("WHERE rtg.rtg_Name like 'My record types'")
-        True
-        """
-
-        condition = "\nWHERE rtg.rtg_Name like '{}'".format(record_type_groups[0])
-        if len(record_type_groups) > 1:
-            for rtg in record_type_groups[1:]:
-                condition += " OR rtg.rtg_Name like '{}'".format(rtg)
-        return RECORD_BY_GROUP_TYPE + condition
-
-    def yield_record_details(self, record_type_groups: list[str]):
-        # Prepare a statement to select the record types in the target group(s)
-        rty_query = self.build_query_to_select_records_by_group(record_type_groups)
-
-        # Select the targeted records' details (data fields)
-        for rty_ID, rty_Name in self.conn.sql(rty_query).fetchall():
-            rel = self.conn.sql(query=RECORD_TYPE_METADATA, params=[rty_ID])
-
-            # Dynamically build a Pydantic model based on info about the targeted record
-            yield DynamicRecordTypeModel(
-                rty_ID=rty_ID,
-                rty_Name=rty_Name,
-                detail_metadata=rel.pl().to_dicts(),
-            )
 
     def describe_record_schema(self, rty_ID: int) -> DuckDBPyRelation:
         """Join the tables 'dty' (detail), 'rst' (record structure), 'rty' (record type)

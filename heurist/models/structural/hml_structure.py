@@ -1,10 +1,10 @@
 from pydantic_xml import BaseXmlModel, element
 
-from heurist.models.DetailTypes import DetailTypes as DetailTypesModel
-from heurist.models.RecStructure import RecStructure as RecStructureModel
-from heurist.models.RecTypeGroups import RecTypeGroups as RecTypeGroupsModel
-from heurist.models.RecTypes import RecTypes as RecTypesModel
-from heurist.models.Terms import Terms as TermsModel
+from heurist.models.structural.DetailTypes import DetailTypes as DetailTypesModel
+from heurist.models.structural.RecStructure import RecStructure as RecStructureModel
+from heurist.models.structural.RecTypeGroups import RecTypeGroups as RecTypeGroupsModel
+from heurist.models.structural.RecTypes import RecTypes as RecTypesModel
+from heurist.models.structural.Terms import Terms as TermsModel
 
 
 class HMLStructure(BaseXmlModel, tag="hml_structure", search_mode="unordered"):

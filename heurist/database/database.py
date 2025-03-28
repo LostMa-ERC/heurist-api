@@ -1,16 +1,10 @@
-from heurist import setup_logger, DATABASE_LOG
-
 import pandas as pd
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
-from pydantic import BaseModel
 
 from heurist.database.basedb import HeuristDatabase
-from heurist.converters.dynamic_record_type_modeler import (
-    DynamicRecordTypeModel,
-)
-from heurist.converters.model_validation_prep import ModelValidationPrep
-
-logger = setup_logger(name="validation", filepath=DATABASE_LOG)
+from heurist.models.dynamic import HeuristRecord
+from heurist.validators.record_validator import RecordValidator
+from heurist.sql import RECORD_BY_GROUP_TYPE, RECORD_TYPE_METADATA
 
 
 class TransformedDatabase(HeuristDatabase):
@@ -28,83 +22,79 @@ class TransformedDatabase(HeuristDatabase):
     ) -> None:
         super().__init__(hml_xml, conn, db)
 
-        self.pydantic_models = {
-            r.rty_ID: r for r in self.yield_record_details(record_type_groups)
-        }
+        # Create an empty index of targeted record types' Pydantic models
+        self.pydantic_models = {}
+        # Save whether to require that date fields are a Heurist temporal object
         self.require_date_objects = require_date_object
 
-    def model_record_data(
-        self, pydantic_model: DynamicRecordTypeModel, records: list[dict]
-    ) -> list[BaseModel]:
-        """Model the data of each record in a list of records.
+        # Joining together the Heurist database's structural tables, construct an SQL
+        # statement that selects the ID and name of the record types that belong to one
+        # of the targeted record type groups
+        condition = "\nWHERE rtg.rtg_Name like '{}'".format(record_type_groups[0])
+        if len(record_type_groups) > 1:
+            for rtg in record_type_groups[1:]:
+                condition += " OR rtg.rtg_Name like '{}'".format(rtg)
+        query = RECORD_BY_GROUP_TYPE + condition
 
-        Args:
-            pydantic_model (DynamicRecordTypeModel): Pydantic model created for the \
-                record.
-            records (list[dict]): A JSON array of a record's details.
-
-        Yields:
-            Iterator[BaseModel]: Array of Pydantic models validated with records' data.
-        """
-
-        modeled_records = []
-
-        # Create a validation modeler for this record type
-        validation_prep = ModelValidationPrep(
-            pydantic_model=pydantic_model,
-            require_date_object=self.require_date_objects,
-            logger=logger,
-        )
-
-        for record in records:
-            # Skip any records in the data set that are not targeted
-            if record["rec_RecTypeID"] != str(pydantic_model.rty_ID):
-                continue
-
-            # Transform the record's details into a set of key-value pairs for
-            # validation in a Pydantic model
-            pydantic_validation_dict = validation_prep(record=record)
-
-            # With the recorrd type's Pydantic model, validate the dictionary
-            try:
-                modeled_records.append(
-                    pydantic_model.model.model_validate(pydantic_validation_dict)
-                )
-            except Exception as e:
-                message = f"Record ID: {record['rec_ID']}\n\t{e}\n"
-                logger.error(message)
-
-        # Return a list of validated Pydantic models
-        return modeled_records
+        # Iterate through each targeted record type's ID and name
+        for rty_ID, rty_Name in self.conn.sql(query).fetchall():
+            # Using the ID, select the metadata of a record type's data fields (details)
+            rel = self.conn.sql(query=RECORD_TYPE_METADATA, params=[rty_ID])
+            # Using this metadata, create a dynamic Pydantic model for the record type
+            data_field_metadata = rel.pl().to_dicts()
+            model = HeuristRecord(
+                rty_ID=rty_ID,
+                rty_Name=rty_Name,
+                detail_metadata=data_field_metadata,
+            )
+            # Add the dynamic Pydantic model to the index of models
+            self.pydantic_models.update({rty_ID: model})
 
     def insert_records(
         self, record_type_id: int, records: list[dict]
     ) -> DuckDBPyRelation | None:
+        # From the index of Pydantic models, get this record type's
+        # dynamically-created Pydantic model.
+        dynamic_model = self.pydantic_models[record_type_id].model
+        table_name = self.pydantic_models[record_type_id].table_name
 
-        # Given the record type's ID, get the Pydantic model created for this type
-        pydantic_model = self.pydantic_models[record_type_id]
+        # Prepare a list in which to store dictionaries of the validated record data.
+        model_dict_sequence = []
 
-        # Model all the records' data
-        modeled_records = self.model_record_data(pydantic_model, records)
-        if len(modeled_records) == 0:
+        # Using the dynamically-created Pyandtic model, validate the metadata of
+        # all the records of this type.
+        validator = RecordValidator(
+            pydantic_model=dynamic_model,
+            records=records,
+            rty_ID=record_type_id,
+        )
+        for model in validator:
+            # Dump the validated record's data model to a dictionary.
+            model_dict = model.model_dump(by_alias=True)
+            # Add the dictionary representation of the validated data to the sequence.
+            model_dict_sequence.append(model_dict)
+
+        # If no records of this type have been created yet, skip it.
+        if len(model_dict_sequence) == 0:
             return
-        else:
-            modeled_dicts = [m.model_dump(by_alias=True) for m in modeled_records]
 
-        # Transform the series of models into a dataframe
+        # Transform the sequence of dictionaries into a Pandas dataframe
         try:
-            df = pd.DataFrame(modeled_dicts)
+            df = pd.DataFrame(model_dict_sequence)
             assert df.shape[1] > 0
         except Exception as e:
             from pprint import pprint
 
-            pprint(modeled_dicts)
+            pprint(model_dict_sequence)
+            print(df)
+            print(records)
+            print(table_name)
             raise e
 
-        # Delete any existing table
-        self.delete_existing_table(table_name=pydantic_model.table_name)
+        # Delete any existing table for this record type.
+        self.delete_existing_table(table_name=table_name)
 
-        # From the dataframe, build a table for the record type
-        sql = f"""CREATE TABLE {pydantic_model.table_name} AS FROM df"""
+        # From the dataframe, build a new table for the record type.
+        sql = f"""CREATE TABLE {table_name} AS FROM df"""
         self.conn.sql(sql)
-        return self.conn.table(table_name=pydantic_model.table_name)
+        return self.conn.table(table_name=table_name)

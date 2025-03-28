@@ -4,7 +4,7 @@ from typing import List, Literal, Optional
 from pydantic import field_validator
 from pydantic_xml import BaseXmlModel, element
 
-from heurist.models.utils import split_ids
+from heurist.models.structural.utils import split_ids
 
 
 class DTY(BaseXmlModel, tag="dty", search_mode="unordered"):

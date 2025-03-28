@@ -1,6 +1,6 @@
 from pydantic_xml import BaseXmlModel, element
 
-from heurist.models.trm import TRM
+from heurist.models.structural.trm import TRM
 
 
 class Terms(BaseXmlModel):
@@ -12,7 +12,7 @@ class Terms(BaseXmlModel):
 
     Examples:
         >>> from heurist.mock_data import DB_STRUCTURE_XML
-        >>> from heurist.models import HMLStructure
+        >>> from heurist.models.structural import HMLStructure
         >>>
         >>>
         >>> # Parse structure

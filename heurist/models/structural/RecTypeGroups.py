@@ -1,6 +1,6 @@
 from pydantic_xml import BaseXmlModel, element
 
-from heurist.models.rtg import RTG
+from heurist.models.structural.rtg import RTG
 
 
 class RecTypeGroups(BaseXmlModel):
@@ -12,7 +12,7 @@ class RecTypeGroups(BaseXmlModel):
 
     Examples:
         >>> from heurist.mock_data import DB_STRUCTURE_XML
-        >>> from heurist.models import HMLStructure
+        >>> from heurist.models.structural import HMLStructure
         >>>
         >>>
         >>> # Parse structure

@@ -1,6 +1,6 @@
 from pydantic_xml import BaseXmlModel, element
 
-from heurist.models.dty import DTY
+from heurist.models.structural.dty import DTY
 
 
 class DetailTypes(BaseXmlModel):
@@ -12,7 +12,7 @@ class DetailTypes(BaseXmlModel):
 
     Examples:
         >>> from heurist.mock_data import DB_STRUCTURE_XML
-        >>> from heurist.models import HMLStructure
+        >>> from heurist.models.structural import HMLStructure
         >>>
         >>>
         >>> # Parse structure

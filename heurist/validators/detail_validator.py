@@ -1,16 +1,13 @@
 """Class for converting a record's detail before the Pydantic model validation."""
 
-from datetime import datetime
-
-from heurist.converters.date_handler import HeuristDateHandler
-from heurist.converters.type_handler import HeuristDataType
-from heurist.models.date import TemporalObject
+from heurist.models.dynamic.type import FieldType
+from heurist.models.dynamic.date import TemporalObject
 
 
-class RecordDetailConverter:
+class DetailValidator:
     """
     In Heurist, a record's "detail" is what is more commonly known as an attribute, \
-        dimension, or the value of a data field.
+        dimension, or a data field.
 
     This class features methods to extract the key value from Heurist's JSON \
         formatting for all data types in Heurist's system.
@@ -18,11 +15,8 @@ class RecordDetailConverter:
 
     direct_values = ["freetext", "blocktext", "integer", "boolean", "float"]
 
-    def __init__(self) -> None:
-        pass
-
     @classmethod
-    def file(cls, detail: dict) -> str:
+    def validate_file(cls, detail: dict) -> str:
         """
         Extract the value of a file field.
 
@@ -36,7 +30,7 @@ class RecordDetailConverter:
         return detail.get("value", {}).get("file", {}).get("ulf_ExternalFileReference")
 
     @classmethod
-    def enum(cls, detail: dict) -> str:
+    def validate_enum(cls, detail: dict) -> str:
         """
         Extract the value of an enum field.
 
@@ -50,9 +44,14 @@ class RecordDetailConverter:
         return detail["termLabel"]
 
     @classmethod
-    def geo(cls, detail: dict) -> str:
+    def validate_geo(cls, detail: dict) -> str:
         """
         Extract the value of a geo field.
+
+        Examples:
+            >>> from heurist.mock_data.geo.single import DETAIL_POINT
+            >>> DetailValidator.convert(DETAIL_POINT)
+            'POINT(2.19726563 48.57478991)'
 
         Args:
             detail (dict): Record's detail.
@@ -66,31 +65,38 @@ class RecordDetailConverter:
             return geo["wkt"]
 
     @classmethod
-    def date(cls, detail: dict) -> list[datetime | None]:
+    def validate_date(cls, detail: dict) -> dict:
         """
-        Extract the the earliest and latest dates from a date field.
+        Build the variable date value into a structured dictionary.
+
+        Examples:
+            >>> # Test temporal object
+            >>> from heurist.mock_data.date.compound_single import DETAIL
+            >>> value = DetailValidator.convert(DETAIL)
+            >>> value['start']['earliest']
+            datetime.datetime(1180, 1, 1, 0, 0)
+
+            >>> # Test direct date value
+            >>> from heurist.mock_data.date.simple_single import DETAIL
+            >>> value = DetailValidator.convert(DETAIL)
+            >>> value['value']
+            datetime.datetime(2024, 3, 19, 0, 0)
 
         Args:
             detail (dict): Record's detail.
 
         Returns:
-            list[datetime]: Earliest and latest dates from detail.
+            dict: Structured metadata for a Heurist date object.
         """
 
-        value = detail["value"]
-        handler = HeuristDateHandler()
-        if isinstance(value, dict):
-            end_date = value["estMaxDate"]
-            start_date = value["estMinDate"]
-            value = handler.list_min_max([start_date, end_date])
-        elif isinstance(value, str) or isinstance(value, int):
-            value = handler.list_min_max(value)
+        if isinstance(detail.get("value"), dict):
+            model = TemporalObject.model_validate(detail["value"])
         else:
-            value = []
-        return value
+            model = TemporalObject.model_validate(detail)
+        return model.model_dump(by_alias=True)
 
     @classmethod
-    def resource(cls, detail: dict) -> int:
+    def validate_resource(cls, detail: dict) -> int:
         """
         Extract the value of a resource (foreign key) field.
 
@@ -104,27 +110,7 @@ class RecordDetailConverter:
         return int(detail["value"]["id"])
 
     @classmethod
-    def _fieldname(cls, dty_ID: int) -> str:
-        """
-        Format a name for the data field (aka "detail type", "dty").
-
-        Args:
-            dty_ID (int): The ID of the detail type.
-
-        Returns:
-            str: A formatted label for the data field.
-        """
-
-        return f"DTY{dty_ID}"
-
-    @classmethod
-    def temporal(cls, detail: dict) -> dict | None:
-        if isinstance(detail.get("value"), dict):
-            model = TemporalObject.model_validate(detail["value"])
-            return model.model_dump(by_alias=True)
-
-    @classmethod
-    def _convert_value(cls, detail: dict) -> str | int | list | None:
+    def convert(cls, detail: dict) -> str | int | list | dict | None:
         """
         Based on the data type, convert the record's nested detail to a flat value.
 
@@ -132,25 +118,25 @@ class RecordDetailConverter:
             detail (dict): One of the record's details (data fields).
 
         Returns:
-            str | int | list | None: Flattened value of the data field.
+            str | int | list | dict | None: Flattened value of the data field.
         """
 
-        fieldtype = HeuristDataType.from_json_record(detail)
+        fieldtype = FieldType.from_detail(detail)
 
         if any(ft in fieldtype for ft in cls.direct_values):
             return detail["value"]
 
         elif fieldtype == "date":
-            return cls.date(detail)
+            return cls.validate_date(detail)
 
         elif fieldtype == "enum":
-            return cls.enum(detail)
+            return cls.validate_enum(detail)
 
         elif fieldtype == "file":
-            return cls.file(detail)
+            return cls.validate_file(detail)
 
         elif fieldtype == "geo":
-            return cls.geo(detail)
+            return cls.validate_geo(detail)
 
         elif fieldtype == "resource":
-            return cls.resource(detail)
+            return cls.validate_resource(detail)

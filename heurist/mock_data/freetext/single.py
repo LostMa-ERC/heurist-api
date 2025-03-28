@@ -14,10 +14,3 @@ DETAIL = {
     "fieldType": "freetext",
     "conceptID": "",
 }
-
-
-# Detail's Pydantic field validation alias
-# and the field's value for the Pydantic model
-PYDANTIC_KEY_VALUE = {
-    "DTY1109": "name of something",
-}
