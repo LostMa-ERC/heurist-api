@@ -8,25 +8,26 @@ This log reports every record in the Heurist database whose data does not match 
 
 - Heurist allows users to save records that are invalid.
 - The `heurist download` command requires that records' data is valid according to the schema declared in the Heurist database's architecture.
-- Any records that violate the schema are not loaded into the local DuckDB database, and they are reported in the `heurist.db.log` file.
+- Any records that violate the schema are not loaded into the local DuckDB database, and they are reported in the `validation.log` file.
 - It is advised that you go back to your Heurist database and fix the invalid records.
 
 ### Example log report of invalid Heurist record
 
-For example, if you have designed the data field of a Heurist record to allow only 1 value, but it has been saved with multiple, an error will be logged in `logs/heurist.db.log`.
+For example, if you have designed the data field of a Heurist record to allow only 1 value, but it has been saved with multiple, an error will be logged in `validation.log`.
 
 ```txt
-2025-02-27 10:54:04,756  validation    ERROR
-    Record: stemma  Record ID: 837
-    DTY: 1109   The detail 'note' is limited to a maximum of 1 values.
-    Count of values = 3
+2025-03-28 17:12 - WARNING -
+    [rec_Type 104]
+    [rec_ID 834]
+    The detail 'note' is limited to a maximum of 1 values.
+    Count of values = 3.
 ```
 
 In this example, we see the problematic record has the ID `837` and is a `stemma` record. The problematic detail is `note` and it was saved with 3 values, while it should be limited to 1. In Heurist, we should either correct the record or modify the schema, then re-run the `heurist download` command. Invalid records are not loaded in the DuckDB database.
 
 ## Name changes
 
-To adapt the names of record types and data fields to PL/SQL syntax and DuckDB, sometimes changes are made. These changes are available for review in the `logs/tables.log.tsv` file.
+To adapt the names of record types and data fields to PL/SQL syntax and DuckDB, sometimes changes are made.
 
 ### Reserved names & keywords
 

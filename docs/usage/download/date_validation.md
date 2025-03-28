@@ -8,7 +8,7 @@ heurist download -f NEW_DATABASE.db --require-compound-dates
 
 Heurist offers a rich way of registering compound date information, including date ranges, uncertain dates, as well as details about a fuzzy date's certainty and probability distribution. However, Heurist also allows users to directly type a date estimate, i.e. a year (`1448`), in the record's field.
 
-If you want to confirm that all your records' dates have compound dates, with comparable metadata, use the `heurist download` command with the `--require-compound-dates` flag. This flag imposes an extra step of data validation that causes records without compound dates to be reported in the `logs/heurist.db.log` file (see the [Log section](./logs.md)) and not included in the DuckDB database produced at the end of the workflow.
+If you want to confirm that all your records' dates have compound dates, with comparable metadata, use the `heurist download` command with the `--require-compound-dates` flag. This flag imposes an extra step of data validation that causes records without compound dates to be reported in the `validation.log` file (see the [Log section](./logs.md)) and not included in the DuckDB database produced at the end of the workflow.
 
 ### Example of an invalid date field in the log
 
@@ -84,11 +84,11 @@ Let's look at an example with a date field named `date_of_creation` and 3 record
 {
     "start": {
         "earliest": "1180"
-    }, 
+    },
     "end": {
         "latest": "1200"
-    }, 
-    "estMinDate": 1180, 
+    },
+    "estMinDate": 1180,
     "estMaxDate": 1200.1231
 }
 ```
@@ -110,12 +110,12 @@ Let's look at an example with a date field named `date_of_creation` and 3 record
 ```json
 {
     "timestamp": {
-        "in": "1188", 
-        "type": "s", 
+        "in": "1188",
+        "type": "s",
         "circa": true
-    }, 
-    "comment": "1188", 
-    "estMinDate": 1188, 
+    },
+    "comment": "1188",
+    "estMinDate": 1188,
     "estMaxDate": 1188
 }
 ```
