@@ -25,7 +25,7 @@ def parse_heurist_date(repr: str | int | float | None) -> datetime | None:
         datetime.datetime(1250, 12, 31, 0, 0)
 
     Args:
-        date_representation (str | int | float): Heurist representation \
+        repr (str | int | float): Heurist representation \
             of a date.
 
     Returns:

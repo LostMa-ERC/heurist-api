@@ -66,8 +66,8 @@ Before pushing changes to the repository, locally run linting and testing. These
 ### Style guide
 
 1. Module names are written in snake case.
-    - Example: [`param_manager.py`](../reference/api/param_manager.md)
-    - An exception is made for the modules of the `pydantic.BaseXmlModel` models in `heurist/models`, i.e. [`DetailTypes.py`](../reference/models/DetailTypes.md).
+    - Example: [`record_validator.py`](../reference/validators/record_validator.md)
+    - An exception is made for the modules of the `pydantic.BaseXmlModel` models in `heurist/models/structural`, i.e. [`DetailTypes.py`](../reference/models/structural/DetailTypes.md).
 
 2. Classes are written in camel case, i.e. `HeuristAPIClient`.
 

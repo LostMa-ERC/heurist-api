@@ -30,20 +30,6 @@ heurist
 
 ---
 
-## Project layout
-
-```txt
-heurist/
-    api/            # Python client for Heurist API
-    cli/            # Commands for CLI tool
-    converters/     # Methods and functions for transforming Heurist data
-    database/       # DuckDB database for loading data
-    mock_data/      # Examples of data structures exported from Heurist API
-    models/         # Pydantic models for parsing exported Heurist data
-    schema/         # Tools for transforming database structure into schema documentation
-    sql/            # SQL scripts for manipulating and transforming Heurist data
-```
-
 ## ERC-funded project
 
 This Python package is distributed with the [Creative Commons' Attribution-ShareAlike 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/).

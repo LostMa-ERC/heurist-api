@@ -21,7 +21,7 @@ client = HeuristAPIClient(
     database_name = HEURIST_DATABASE,
     login = HEURIST_LOGIN,
     password = HEURIST_PASSWORD
-) 
+)
 ```
 
 ### 2. Create a DuckDB connection
@@ -67,7 +67,7 @@ extract_transform_load(
 
 Running the `extract_transform_load` function causes log files to be generated.
 
-Read the `./logs/heurist.db.log` file to review all the records in the Heurist database that did not pass the data validation and were not loaded into the DuckDB database. For more information, see the section on [logs](./download/logs.md).
+Read the `./validation.log` file to review all the records in the Heurist database that did not pass the data validation and were not loaded into the DuckDB database. For more information, see the section on [logs](./download/logs.md).
 
 ## DuckDB Python as a pivot format
 
@@ -161,9 +161,9 @@ Then, from within your database connection, you can join your Heurist data with 
 
 ```python
 sql = """
-SELECT * 
-FROM MyHeuristRecord h 
-LEFT JOIN OtherDataset o 
+SELECT *
+FROM MyHeuristRecord h
+LEFT JOIN OtherDataset o
     ON h.url = o.url
 """
 rel = conn.sql(sql)
@@ -182,8 +182,8 @@ new_dataframe = pd.DataFrame.from_dict({
     "name": ["Lozère", "Hautes-de-Seine"]
 })
 rel = conn.sql("""
-SELECT * 
-FROM new_dataframe df 
+SELECT *
+FROM new_dataframe df
 JOIN MyHeuristRecord h
     ON df.name = h.department
 """)
