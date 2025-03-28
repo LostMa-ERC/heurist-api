@@ -7,7 +7,7 @@ from pathlib import Path
 from heurist.api.connection import HeuristConnection
 from heurist.cli.schema import schema_command
 from heurist.api.exceptions import MissingParameterException
-from heurist import remove_logs
+from heurist.validators.record_validator import VALIDATION_LOG
 
 
 class SchemaBase(unittest.TestCase):
@@ -20,7 +20,7 @@ class SchemaBase(unittest.TestCase):
         for f in self.tempdir.iterdir():
             f.unlink(missing_ok=True)
         self.tempdir.rmdir()
-        remove_logs()
+        VALIDATION_LOG.unlink(missing_ok=True)
         return super().tearDown()
 
     def json(self):

@@ -6,7 +6,6 @@ import duckdb
 from heurist.api.connection import HeuristConnection
 from heurist.api.exceptions import MissingParameterException
 from heurist.cli.load import load_command
-from heurist import remove_logs
 
 
 class DownloadCommand(unittest.TestCase):
@@ -22,7 +21,6 @@ class DownloadCommand(unittest.TestCase):
 
     def tearDown(self):
         self.database_connection_path.unlink()
-        remove_logs()
 
     def test_database_serialization(self):
         load_command(

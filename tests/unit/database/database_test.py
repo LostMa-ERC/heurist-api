@@ -1,8 +1,8 @@
 import unittest
 
 from heurist.mock_data import DB_STRUCTURE_XML, RECORD_JSON
-from heurist import TABLES_LOG, DATABASE_LOG
 from heurist.database.database import TransformedDatabase
+from heurist.validators.record_validator import VALIDATION_LOG
 
 
 class DatabaseTest(unittest.TestCase):
@@ -12,8 +12,7 @@ class DatabaseTest(unittest.TestCase):
         self.extracted_records = RECORD_JSON["heurist"]["records"]
 
     def tearDown(self):
-        TABLES_LOG.unlink(missing_ok=True)
-        DATABASE_LOG.unlink(missing_ok=True)
+        VALIDATION_LOG.unlink(missing_ok=True)
 
     def test(self):
         # Load the extracted records into the database

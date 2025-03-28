@@ -2,8 +2,7 @@ import unittest
 
 import duckdb
 
-from heurist import TABLES_LOG, DATABASE_LOG
-
+from heurist.validators.record_validator import VALIDATION_LOG
 from heurist.mock_data import DB_STRUCTURE_XML
 from heurist.database.database import TransformedDatabase
 
@@ -29,8 +28,7 @@ class ModelingTest(unittest.TestCase):
         ]
 
     def tearDown(self):
-        TABLES_LOG.unlink(missing_ok=True)
-        DATABASE_LOG.unlink(missing_ok=True)
+        VALIDATION_LOG.unlink(missing_ok=True)
 
     def test_all_my_records(self):
         for id in self.record_types:

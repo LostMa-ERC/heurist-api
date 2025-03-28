@@ -33,7 +33,7 @@ class ConnectionWithEnvVars(unittest.TestCase):
         IN_GITHUB_ACTIONS, reason="Do not run connection test in GitHub Actions."
     )
     def test_client_request(self):
-        client = HeuristConnection()
+        client = HeuristConnection(database_name="api_dev")
         response = client.get_records(form="json", record_type_id=103)
         expected = "Symphony No. 1 in D major"
         actual = [i["rec_Title"] for i in response if i["rec_ID"] == "279"][0]
