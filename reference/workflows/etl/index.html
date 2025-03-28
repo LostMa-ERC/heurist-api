@@ -1862,15 +1862,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#workflows.etl.extract_transform_load(require_compound_dates)" class="md-nav__link">
-    <span class="md-ellipsis">
-      require_compound_dates
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#workflows.etl.extract_transform_load(record_group_names)" class="md-nav__link">
     <span class="md-ellipsis">
       record_group_names
@@ -2211,15 +2202,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#workflows.etl.extract_transform_load(require_compound_dates)" class="md-nav__link">
-    <span class="md-ellipsis">
-      require_compound_dates
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#workflows.etl.extract_transform_load(record_group_names)" class="md-nav__link">
     <span class="md-ellipsis">
       record_group_names
@@ -2306,7 +2288,6 @@
     <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(client)" href="#workflows.etl.extract_transform_load(client)">client</a></span><span class="p">:</span> <span class="n"><span title="heurist.api.client.HeuristAPIClient">HeuristAPIClient</span></span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(duckdb_connection)" href="#workflows.etl.extract_transform_load(duckdb_connection)">duckdb_connection</a></span><span class="p">:</span> <span class="n"><span title="duckdb.DuckDBPyConnection">DuckDBPyConnection</span></span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(user)" href="#workflows.etl.extract_transform_load(user)">user</a></span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span> <span class="o">=</span> <span class="p">(),</span>
-    <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(require_compound_dates)" href="#workflows.etl.extract_transform_load(require_compound_dates)">require_compound_dates</a></span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(record_group_names)" href="#workflows.etl.extract_transform_load(record_group_names)">record_group_names</a></span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span> <span class="o">=</span> <span class="n"><span title="heurist.utils.constants.DEFAULT_RECORD_GROUPS">DEFAULT_RECORD_GROUPS</span></span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
@@ -2342,16 +2323,6 @@
           –
           <div class="doc-md-description">
             <p>IDs (integers) of targeted users.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-<h3 id="workflows.etl.extract_transform_load(require_compound_dates)" class="doc doc-heading doc-heading-parameter">              <b><code>require_compound_dates</code></b>
-</h3>              (<code><span title="bool">bool</span></code>, default:
-                  <code>False</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>Whether to impose strict validation             on Heurist date types. Defaults to False.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">

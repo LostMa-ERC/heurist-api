@@ -2286,19 +2286,20 @@
 <ul>
 <li>Heurist allows users to save records that are invalid.</li>
 <li>The <code>heurist download</code> command requires that records' data is valid according to the schema declared in the Heurist database's architecture.</li>
-<li>Any records that violate the schema are not loaded into the local DuckDB database, and they are reported in the <code>heurist.db.log</code> file.</li>
+<li>Any records that violate the schema are not loaded into the local DuckDB database, and they are reported in the <code>validation.log</code> file.</li>
 <li>It is advised that you go back to your Heurist database and fix the invalid records.</li>
 </ul>
 <h3 id="example-log-report-of-invalid-heurist-record">Example log report of invalid Heurist record</h3>
-<p>For example, if you have designed the data field of a Heurist record to allow only 1 value, but it has been saved with multiple, an error will be logged in <code>logs/heurist.db.log</code>.</p>
-<div class="highlight"><pre><span></span><code>2025-02-27 10:54:04,756  validation    ERROR
-    Record: stemma  Record ID: 837
-    DTY: 1109   The detail &#39;note&#39; is limited to a maximum of 1 values.
-    Count of values = 3
+<p>For example, if you have designed the data field of a Heurist record to allow only 1 value, but it has been saved with multiple, an error will be logged in <code>validation.log</code>.</p>
+<div class="highlight"><pre><span></span><code>2025-03-28 17:12 - WARNING -
+    [rec_Type 104]
+    [rec_ID 834]
+    The detail &#39;note&#39; is limited to a maximum of 1 values.
+    Count of values = 3.
 </code></pre></div>
 <p>In this example, we see the problematic record has the ID <code>837</code> and is a <code>stemma</code> record. The problematic detail is <code>note</code> and it was saved with 3 values, while it should be limited to 1. In Heurist, we should either correct the record or modify the schema, then re-run the <code>heurist download</code> command. Invalid records are not loaded in the DuckDB database.</p>
 <h2 id="name-changes">Name changes</h2>
-<p>To adapt the names of record types and data fields to PL/SQL syntax and DuckDB, sometimes changes are made. These changes are available for review in the <code>logs/tables.log.tsv</code> file.</p>
+<p>To adapt the names of record types and data fields to PL/SQL syntax and DuckDB, sometimes changes are made.</p>
 <h3 id="reserved-names-keywords">Reserved names &amp; keywords</h3>
 <p>When a table or column name is a <a href="https://en.wikipedia.org/wiki/List_of_SQL_reserved_words">reserved term</a> or keyword in DuckDB's SQL dialect, a suffix is appended.</p>
 <ul>
