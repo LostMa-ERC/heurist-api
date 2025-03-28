@@ -27,6 +27,12 @@ def rty_command(
     ) as p:
         _ = p.add_task(f"Get Records of type {rty}", total=1)
         records = client.get_records(rty)
+    # If no records of this type have been entered, stop.
+    if len(records) == 0:
+        print("No records of this type have been entered.\nExiting program...")
+        exit()
+
+    # Else, write the records to a JSON file.
     if not outfile:
         outfile = f"RTY_{rty}.json"
     if not isinstance(outfile, Path):
