@@ -8,13 +8,13 @@ from rich.progress import (
     TimeElapsedColumn,
 )
 
-from heurist.api.client import HeuristAPIClient
+from heurist.api.connection import HeuristAPIConnection
 from heurist.database import TransformedDatabase
 from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 
 
 def extract_transform_load(
-    client: HeuristAPIClient,
+    client: HeuristAPIConnection,
     duckdb_connection: duckdb.DuckDBPyConnection,
     user: tuple = (),
     record_group_names: tuple = DEFAULT_RECORD_GROUPS,
@@ -25,7 +25,7 @@ def extract_transform_load(
         and loading record types' records into the created DuckDB database.
 
     Args:
-        client (HeuristAPIClient): Instance of a Heurist API client.
+        client (HeuristAPIConnection): Context of a Heurist API connection.
         duckdb_connection (duckdb.DuckDBPyConnection): Connection to a DuckDB database.
         user (tuple): IDs (integers) of targeted users.
         record_group_names (tuple): Names of the record group types. Must include at \
