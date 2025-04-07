@@ -23,6 +23,6 @@ class ReadTimeout(Exception):
         server took too long to receive.
     """
 
-    def __init__(self, url: str):
-        self.message = f"URL whose data produced the ReadTimeout error:\n{url}"
+    def __init__(self, url: str, timeout: int):
+        self.message = f"The URL whose data took too long (> {timeout} seconds) to read:\n\n{url}\n"
         super().__init__(self.message)

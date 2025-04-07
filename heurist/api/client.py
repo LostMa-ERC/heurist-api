@@ -3,7 +3,6 @@
 import json
 from typing import Literal, ByteString
 import requests
-import time
 
 from heurist.api.exceptions import APIException, ReadTimeout
 from heurist.api.url_builder import URLBuilder
@@ -13,6 +12,8 @@ class HeuristAPIClient:
     """
     Client for Heurist API.
     """
+
+    timeout = 10
 
     def __init__(self, database_name: str, session: requests.Session) -> None:
         self.database_name = database_name
@@ -30,15 +31,9 @@ class HeuristAPIClient:
         """
 
         try:
-            response = self.session.get(url, timeout=(0.2, 10))
+            response = self.session.get(url, timeout=(self.timeout))
         except requests.exceptions.ReadTimeout:
-            # Retry after waiting a few seconds
-            print("Read timeout. Retrying Heurist server.")
-            time.sleep(5)
-            try:
-                response = self.session.get(url, timeout=(0.2, 10))
-            except requests.exceptions.ReadTimeout:
-                raise ReadTimeout(url=url)
+            raise ReadTimeout(url=url, timeout=self.timeout)
         if not response:
             raise APIException("No response.")
         elif response.status_code != 200:
