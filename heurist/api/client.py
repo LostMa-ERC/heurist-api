@@ -5,7 +5,7 @@ from typing import Literal, ByteString
 import requests
 import time
 
-from heurist.api.exceptions import APIException
+from heurist.api.exceptions import APIException, ReadTimeout
 from heurist.api.url_builder import URLBuilder
 
 
@@ -30,13 +30,15 @@ class HeuristAPIClient:
         """
 
         try:
-            response = self.session.get(url, timeout=(0.2, 15))
-        except requests.exceptions.ReadTimeout as e:
+            response = self.session.get(url, timeout=(0.2, 10))
+        except requests.exceptions.ReadTimeout:
             # Retry after waiting a few seconds
             print("Read timeout. Retrying Heurist server.")
             time.sleep(5)
-            response = self.session.get(url, timeout=(0.2, 15))
-            raise e
+            try:
+                response = self.session.get(url, timeout=(0.2, 10))
+            except requests.exceptions.ReadTimeout:
+                raise ReadTimeout(url=url)
         if not response:
             raise APIException("No response.")
         elif response.status_code != 200:
