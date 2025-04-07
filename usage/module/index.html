@@ -597,18 +597,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-create-the-heurist-api-client" class="md-nav__link">
+  <a href="#1-create-a-duckdb-connection" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Create the heurist API client
+      1. Create a DuckDB connection
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-create-a-duckdb-connection" class="md-nav__link">
+  <a href="#2-open-a-heuristapiconnection" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Create a DuckDB connection
+      2. Open a HeuristAPIConnection
     </span>
   </a>
   
@@ -623,6 +623,15 @@
   
     <nav class="md-nav" aria-label="3. Run the ETL process">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#multiple-record-type-groups" class="md-nav__link">
@@ -916,11 +925,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/api/exceptions/" class="md-nav__link">
+      <a href="../../reference/api/credentials/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    exceptions
+    credentials
     
   </span>
   
@@ -938,11 +947,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/api/session/" class="md-nav__link">
+      <a href="../../reference/api/exceptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    session
+    exceptions
     
   </span>
   
@@ -2287,18 +2296,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-create-the-heurist-api-client" class="md-nav__link">
+  <a href="#1-create-a-duckdb-connection" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Create the heurist API client
+      1. Create a DuckDB connection
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-create-a-duckdb-connection" class="md-nav__link">
+  <a href="#2-open-a-heuristapiconnection" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Create a DuckDB connection
+      2. Open a HeuristAPIConnection
     </span>
   </a>
   
@@ -2313,6 +2322,15 @@
   
     <nav class="md-nav" aria-label="3. Run the ETL process">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#multiple-record-type-groups" class="md-nav__link">
@@ -2444,34 +2462,58 @@
 <h2 id="demos">Demos</h2>
 <p>Explore Jupyter notebooks in the GitHub repository's folder <a href="https://github.com/LostMa-ERC/heurist-etl-pipeline/tree/main/demos"><code>demos/</code></a>.</p>
 <h2 id="coding-with-the-etl-workflow">Coding with the ETL workflow</h2>
-<p>You can integrate a Heurist database's tables into your Python application with just <strong><em>3 lines of code</em></strong>!</p>
-<h3 id="1-create-the-heurist-api-client">1. Create the <code>heurist</code> API client</h3>
-<p>Create an instance of the <code>heurist</code> package's API Client. Provide the name of your Heurist database, your account's login, and your account's password.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">heurist.api.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeuristAPIClient</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">HeuristAPIClient</span><span class="p">(</span>
-    <span class="n">database_name</span> <span class="o">=</span> <span class="n">HEURIST_DATABASE</span><span class="p">,</span>
-    <span class="n">login</span> <span class="o">=</span> <span class="n">HEURIST_LOGIN</span><span class="p">,</span>
-    <span class="n">password</span> <span class="o">=</span> <span class="n">HEURIST_PASSWORD</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="2-create-a-duckdb-connection">2. Create a DuckDB connection</h3>
+<p>You can integrate a Heurist database's tables into your Python application with just <strong><em>3 lines of code</em></strong>! (But 1 line will be really long, so we break it up for readability.)</p>
+<h3 id="1-create-a-duckdb-connection">1. Create a DuckDB connection</h3>
 <p>Create a connection to a <a href="https://duckdb.org/docs/stable/clients/python/overview.html">DuckDB database</a>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
 
+<span class="c1"># Line 1 : DuckDB connection</span>
 <span class="n">conn</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 </code></pre></div>
 <p>To preserve the data that <code>heurist</code> extracts, transforms, and loads into the database, give the <code>connect()</code> method a path to a file, i.e. <code>duckdb.connect("heurist.db")</code>. If no argument is provided, <code>duckdb.connect()</code> creates an in-memory database connection.</p>
+<h3 id="2-open-a-heuristapiconnection">2. Open a <code>HeuristAPIConnection</code></h3>
+<p>To optimise your connection to the Heurist database, we will log in only one time and keep that connection live as a Python context.</p>
+<p>Use your login credentials to create a <code>HeuristAPIConnection</code> context, which returns a client.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">heurist.api.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeuristAPIConnection</span>
+
+<span class="c1"># Line 2 (broken for readability) : API Connection</span>
+<span class="k">with</span> <span class="n">HeuristAPIConnection</span><span class="p">(</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">HEURIST_DATABASE</span><span class="p">,</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">HEURIST_LOGIN</span><span class="p">,</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">HEURIST_PASSWORD</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">_</span> <span class="c1"># ... see below code block</span>
+</code></pre></div>
 <h3 id="3-run-the-etl-process">3. Run the ETL process</h3>
-<p>To load all your custom records, meaning all those of types in your "My record types" group, run the <code>extract_transform_load()</code> function with all its defaults, simply providing your (1) API client and (2) DuckDB connection.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">heurist.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_transform_load</span>
 
-<span class="n">extract_transform_load</span><span class="p">(</span>
-    <span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">,</span>
-    <span class="n">duckdb_connection</span> <span class="o">=</span> <span class="n">conn</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="c1"># Line 2 (broken for readability) : API Connection</span>
+<span class="k">with</span> <span class="n">HeuristAPIConnection</span><span class="p">(</span>
+    <span class="c1"># ... see above code block</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="c1"># Line 3 : ETL process</span>
+    <span class="n">extract_transform_load</span><span class="p">(</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">,</span> <span class="n">duckdb_connection</span> <span class="o">=</span> <span class="n">conn</span><span class="p">)</span>
 </code></pre></div>
+<p>To load all your custom records, meaning all those of types in your "My record types" group, run the <code>extract_transform_load()</code> function with all its defaults, simply providing your (1) API connection and (2) DuckDB connection.</p>
 <p>To explore all of the <code>extract_transform_load</code> function's parameters, see the <a href="../../reference/workflows/etl/">source code</a>.</p>
+<h4 id="summary">Summary</h4>
+<p>See all 3 lines of code in action below:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">duckdb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">heurist.api.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">HeuristAPIConnection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">heurist.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_transform_load</span>
+
+<span class="c1"># Line 1 : DuckDB connection</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="c1"># Line 2 (broken for readbility) : API connection</span>
+<span class="k">with</span> <span class="n">HeuristAPIConnection</span><span class="p">(</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">HEURIST_DATABASE</span><span class="p">,</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">HEURIST_LOGIN</span><span class="p">,</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">HEURIST_PASSWORD</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="c1"># Line 3 : ETL process</span>
+    <span class="n">extract_transform_load</span><span class="p">(</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span><span class="p">,</span> <span class="n">duckdb_connection</span> <span class="o">=</span> <span class="n">conn</span><span class="p">)</span>
+</code></pre></div>
 <h4 id="multiple-record-type-groups">Multiple record type groups</h4>
 <p>If you want to recover records of types in multiple record type groups, list all of them in the <code>record_group_names</code> parameter.</p>
 <div class="highlight"><pre><span></span><code><span class="n">extract_transform_load</span><span class="p">(</span>

@@ -719,11 +719,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/exceptions/" class="md-nav__link">
+      <a href="../../api/credentials/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    exceptions
+    credentials
     
   </span>
   
@@ -741,11 +741,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/session/" class="md-nav__link">
+      <a href="../../api/exceptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    session
+    exceptions
     
   </span>
   
@@ -2285,7 +2285,7 @@
 
 </h2>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">extract_transform_load</span><span class="p">(</span>
-    <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(client)" href="#workflows.etl.extract_transform_load(client)">client</a></span><span class="p">:</span> <span class="n"><span title="heurist.api.client.HeuristAPIClient">HeuristAPIClient</span></span><span class="p">,</span>
+    <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(client)" href="#workflows.etl.extract_transform_load(client)">client</a></span><span class="p">:</span> <span class="n"><span title="heurist.api.connection.HeuristAPIConnection">HeuristAPIConnection</span></span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(duckdb_connection)" href="#workflows.etl.extract_transform_load(duckdb_connection)">duckdb_connection</a></span><span class="p">:</span> <span class="n"><span title="duckdb.DuckDBPyConnection">DuckDBPyConnection</span></span><span class="p">,</span>
     <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(user)" href="#workflows.etl.extract_transform_load(user)">user</a></span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span> <span class="o">=</span> <span class="p">(),</span>
     <span class="n"><a class="autorefs autorefs-internal" title="workflows.etl.extract_transform_load(record_group_names)" href="#workflows.etl.extract_transform_load(record_group_names)">record_group_names</a></span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span> <span class="o">=</span> <span class="n"><span title="heurist.utils.constants.DEFAULT_RECORD_GROUPS">DEFAULT_RECORD_GROUPS</span></span><span class="p">,</span>
@@ -2301,10 +2301,10 @@
     <ul>
         <li class="doc-section-item field-body">
 <h3 id="workflows.etl.extract_transform_load(client)" class="doc doc-heading doc-heading-parameter">              <b><code>client</code></b>
-</h3>              (<code><span title="heurist.api.client.HeuristAPIClient">HeuristAPIClient</span></code>)
+</h3>              (<code><span title="heurist.api.connection.HeuristAPIConnection">HeuristAPIConnection</span></code>)
           –
           <div class="doc-md-description">
-            <p>Instance of a Heurist API client.</p>
+            <p>Context of a Heurist API connection.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
