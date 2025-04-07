@@ -8,48 +8,78 @@ Explore Jupyter notebooks in the GitHub repository's folder [`demos/`](https://g
 
 ## Coding with the ETL workflow
 
-You can integrate a Heurist database's tables into your Python application with just **_3 lines of code_**!
+You can integrate a Heurist database's tables into your Python application with just **_3 lines of code_**! (But 1 line will be really long, so we break it up for readability.)
 
-### 1. Create the `heurist` API client
-
-Create an instance of the `heurist` package's API Client. Provide the name of your Heurist database, your account's login, and your account's password.
-
-```python
-from heurist.api.client import HeuristAPIClient
-
-client = HeuristAPIClient(
-    database_name = HEURIST_DATABASE,
-    login = HEURIST_LOGIN,
-    password = HEURIST_PASSWORD
-)
-```
-
-### 2. Create a DuckDB connection
+### 1. Create a DuckDB connection
 
 Create a connection to a [DuckDB database](https://duckdb.org/docs/stable/clients/python/overview.html).
 
 ```python
 import duckdb
 
+# Line 1 : DuckDB connection
 conn = duckdb.connect()
 ```
 
 To preserve the data that `heurist` extracts, transforms, and loads into the database, give the `connect()` method a path to a file, i.e. `duckdb.connect("heurist.db")`. If no argument is provided, `duckdb.connect()` creates an in-memory database connection.
 
-### 3. Run the ETL process
 
-To load all your custom records, meaning all those of types in your "My record types" group, run the `extract_transform_load()` function with all its defaults, simply providing your (1) API client and (2) DuckDB connection.
+### 2. Open a `HeuristAPIConnection`
+
+To optimise your connection to the Heurist database, we will log in only one time and keep that connection live as a Python context.
+
+Use your login credentials to create a `HeuristAPIConnection` context, which returns a client.
+
+```python
+from heurist.api.connection import HeuristAPIConnection
+
+# Line 2 (broken for readability) : API Connection
+with HeuristAPIConnection(
+    db = HEURIST_DATABASE,
+    login = HEURIST_LOGIN,
+    password = HEURIST_PASSWORD
+) as client:
+    _ # ... see below code block
+```
+
+### 3. Run the ETL process
 
 ```python
 from heurist.workflows import extract_transform_load
 
-extract_transform_load(
-    client = client,
-    duckdb_connection = conn,
-)
+# Line 2 (broken for readability) : API Connection
+with HeuristAPIConnection(
+    # ... see above code block
+) as client:
+    # Line 3 : ETL process
+    extract_transform_load(client = client, duckdb_connection = conn)
 ```
 
+To load all your custom records, meaning all those of types in your "My record types" group, run the `extract_transform_load()` function with all its defaults, simply providing your (1) API connection and (2) DuckDB connection.
+
 To explore all of the `extract_transform_load` function's parameters, see the [source code](../reference/workflows/etl.md).
+
+#### Summary
+
+See all 3 lines of code in action below:
+
+```python
+import duckdb
+from heurist.api.connection import HeuristAPIConnection
+from heurist.workflows import extract_transform_load
+
+# Line 1 : DuckDB connection
+conn = duckdb.connect()
+
+# Line 2 (broken for readbility) : API connection
+with HeuristAPIConnection(
+    db = HEURIST_DATABASE,
+    login = HEURIST_LOGIN,
+    password = HEURIST_PASSWORD
+) as client:
+    # Line 3 : ETL process
+    extract_transform_load(client = client, duckdb_connection = conn)
+```
 
 #### Multiple record type groups
 
