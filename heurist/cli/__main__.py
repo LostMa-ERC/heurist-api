@@ -3,7 +3,7 @@ import importlib.metadata
 import click
 from rich.console import Console
 
-from heurist.api.connection import HeuristConnection
+from heurist.api.credentials import CredentialHandler
 from heurist.api.exceptions import MissingParameterException
 from heurist.cli.load import load_command
 from heurist.cli.records import rty_command
@@ -48,27 +48,23 @@ def cli(ctx, database, login, password, debugging):
     ctx.ensure_object(dict)
     ctx.obj["DEBUGGING"] = debugging
     try:
-        ctx.obj["CLIENT"] = HeuristConnection(
+        ctx.obj["CREDENTIALS"] = CredentialHandler(
             database_name=database,
             login=login,
             password=password,
         )
     except MissingParameterException:
         c = Console()
-        c.clear()
         c.print(
-            "A connection to your Heurist database could not be established.",
-            style="red",
-        )
-        c.print(
-            "Please provide the information when prompted. \
-To quit, press Ctrl+C then Enter."
+            "Login informaiton is missing."
+            "Please provide your credentials when prompted."
+            "\nTo quit, press Ctrl+C then Enter."
         )
         _database = click.prompt("Heurist database name")
         _login = click.prompt("Heurist user login")
         _password = click.prompt("Heurist login password")
         c.print("Retrying the connection...")
-        ctx.obj["CLIENT"] = HeuristConnection(
+        ctx.obj["CREDENTIALS"] = CredentialHandler(
             database_name=_database,
             login=_login,
             password=_password,
@@ -96,8 +92,8 @@ To quit, press Ctrl+C then Enter."
 )
 @click.pass_obj
 def records(ctx, record_type, outfile):
-    client = ctx["CLIENT"]
-    rty_command(client, record_type, outfile)
+    credentials = ctx["CREDENTIALS"]
+    rty_command(credentials, record_type, outfile)
 
 
 # =========================== #
@@ -138,12 +134,12 @@ def records(ctx, record_type, outfile):
 @click.pass_obj
 def doc(ctx, record_group, outdir, output_type):
     # Get context variables
-    client = ctx["CLIENT"]
+    credentials = ctx["CREDENTIALS"]
     debugging = ctx["DEBUGGING"]
 
     # Run the doc command
     schema_command(
-        client=client,
+        credentials=credentials,
         record_group=record_group,
         outdir=outdir,
         output_type=output_type,
@@ -201,13 +197,13 @@ def doc(ctx, record_group, outdir, output_type):
 @click.pass_obj
 def load(ctx, filepath, record_group, user, outdir):
     # Get context variable
-    client = ctx["CLIENT"]
+    credentials = ctx["CREDENTIALS"]
     testing = ctx["DEBUGGING"]
 
     # Run the dump command
     if not testing:
         load_command(
-            client=client,
+            credentials=credentials,
             duckdb_database_connection_path=filepath,
             record_group=record_group,
             user=user,

@@ -4,7 +4,7 @@ import json
 
 from pathlib import Path
 
-from heurist.api.connection import HeuristConnection
+from heurist.api.credentials import CredentialHandler
 from heurist.cli.schema import schema_command
 from heurist.api.exceptions import MissingParameterException
 from heurist.validators.record_validator import VALIDATION_LOG
@@ -13,7 +13,6 @@ from heurist.validators.record_validator import VALIDATION_LOG
 class SchemaBase(unittest.TestCase):
     tempdir = Path(__file__).parent.joinpath("temp")
     tempfile_json = tempdir.joinpath("recordTypes.json")
-    client = None
     debugging = False
 
     def tearDown(self):
@@ -21,11 +20,12 @@ class SchemaBase(unittest.TestCase):
             f.unlink(missing_ok=True)
         self.tempdir.rmdir()
         VALIDATION_LOG.unlink(missing_ok=True)
+        CredentialHandler._reset_envvars()
         return super().tearDown()
 
     def json(self):
         _ = schema_command(
-            client=self.client,
+            credentials=self.credentials,
             record_group=["My record types"],
             outdir=self.tempdir,
             output_type="json",
@@ -38,7 +38,7 @@ class SchemaBase(unittest.TestCase):
 
     def csv(self):
         _ = schema_command(
-            client=self.client,
+            credentials=self.credentials,
             record_group=["My record types"],
             outdir=self.tempdir,
             output_type="csv",
@@ -54,11 +54,10 @@ class SchemaBase(unittest.TestCase):
 class OfflineSchemaCommand(SchemaBase):
     def setUp(self):
         self.tempdir.mkdir(exist_ok=True)
-        self.client = HeuristConnection(
+        self.credentials = CredentialHandler(
             database_name="test_db",
             login="test_login",
             password="test_pass",
-            debugging=True,
         )
 
     def test_json(self):
@@ -67,12 +66,17 @@ class OfflineSchemaCommand(SchemaBase):
     def test_csv(self):
         self.csv()
 
+    def tearDown(self):
+        """Reset environment variables"""
+        CredentialHandler._reset_envvars()
+        return super().tearDown()
+
 
 class OnlineSchemaCommand(SchemaBase):
     def setUp(self):
         self.tempdir.mkdir(exist_ok=True)
         try:
-            self.client = HeuristConnection()
+            self.credentials = CredentialHandler()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
@@ -84,6 +88,11 @@ class OnlineSchemaCommand(SchemaBase):
 
     def test_csv(self):
         self.csv()
+
+    def tearDown(self):
+        """Reset environment variables"""
+        CredentialHandler._reset_envvars()
+        return super().tearDown()
 
 
 if __name__ == "__main__":

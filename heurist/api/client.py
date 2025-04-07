@@ -1,10 +1,11 @@
 """Heurist API client"""
 
 import json
-from typing import ByteString, Literal
+from typing import Literal, ByteString
+import requests
+import time
 
 from heurist.api.exceptions import APIException
-from heurist.api.session import HeuristRequestSession
 from heurist.api.url_builder import URLBuilder
 
 
@@ -13,11 +14,10 @@ class HeuristAPIClient:
     Client for Heurist API.
     """
 
-    def __init__(self, database_name: str, login: str, password: str) -> None:
+    def __init__(self, database_name: str, session: requests.Session) -> None:
         self.database_name = database_name
         self.url_builder = URLBuilder(database_name=database_name)
-        self.__login = login  # Private variable
-        self.__password = password  # Private variable
+        self.session = session
 
     def get_response_content(self, url: str) -> ByteString | None:
         """Request resources from the Heurist server.
@@ -29,21 +29,22 @@ class HeuristAPIClient:
             ByteString | None: Binary response returned from Heurist server.
         """
 
-        kwargs = {
-            "db": self.database_name,
-            "login": self.__login,
-            "password": self.__password,
-        }
-        with HeuristRequestSession(**kwargs) as session:
-            response = session.get(url, timeout=10)
-            if not response:
-                raise APIException("No response.")
-            elif not response.status_code == 200:
-                raise APIException(f"Status {response.status_code}")
-            elif "Cannot connect to database" == response.content.decode("utf-8"):
-                raise APIException("Could not connect to database.")
-            else:
-                return response.content
+        try:
+            response = self.session.get(url, timeout=(0.2, 15))
+        except requests.exceptions.ReadTimeout as e:
+            # Retry after waiting a few seconds
+            print("Read timeout. Retrying Heurist server.")
+            time.sleep(5)
+            response = self.session.get(url, timeout=(0.2, 15))
+            raise e
+        if not response:
+            raise APIException("No response.")
+        elif response.status_code != 200:
+            raise APIException(f"Status {response.status_code}")
+        elif "Cannot connect to database" == response.content.decode("utf-8"):
+            raise APIException("Could not connect to database.")
+        else:
+            return response.content
 
     def get_records(
         self,
@@ -83,11 +84,6 @@ class HeuristAPIClient:
         else:
             return self.get_response_content(url)
 
-    def get_relationship_markers(
-        self, form: Literal["xml", "json"] = "xml"
-    ) -> bytes | list | None:
-        return self.get_records(record_type_id=1, form=form)
-
     def get_structure(self) -> bytes | None:
         """Request the Heurist database's overall structure in XML format.
 
@@ -97,3 +93,8 @@ class HeuristAPIClient:
         """
         url = self.url_builder.get_db_structure()
         return self.get_response_content(url)
+
+    def get_relationship_markers(
+        self, form: Literal["xml", "json"] = "xml"
+    ) -> bytes | list | None:
+        return self.get_records(record_type_id=1, form=form)

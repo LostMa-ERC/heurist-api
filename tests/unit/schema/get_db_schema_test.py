@@ -1,6 +1,6 @@
 import unittest
 
-from heurist.api.connection import HeuristConnection
+from heurist.api.credentials import CredentialHandler
 from heurist.cli.schema import get_database_schema
 from heurist.api.exceptions import MissingParameterException
 
@@ -9,7 +9,7 @@ class SchemaTest(unittest.TestCase):
 
     def setUp(self):
         try:
-            self.client = HeuristConnection()
+            self.credentials = CredentialHandler()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
@@ -20,7 +20,7 @@ class SchemaTest(unittest.TestCase):
     def test(self):
         db = get_database_schema(
             record_groups=["My record types"],
-            client=self.client,
+            credentials=self.credentials,
             debugging=True,
         )
         actual = len(db.pydantic_models)

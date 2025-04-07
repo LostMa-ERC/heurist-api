@@ -1,97 +1,54 @@
-import os
-from dotenv import find_dotenv, load_dotenv
-from heurist.api.client import HeuristAPIClient, HeuristRequestSession
-from heurist.api.exceptions import MissingParameterException, AuthenticationError
+"""Heurist API session"""
+
+import requests
+from requests import Session
+
+from heurist.api.exceptions import AuthenticationError
+from heurist.api.client import HeuristAPIClient
 
 
-class HeuristConnection(HeuristAPIClient):
-    def __init__(
-        self,
-        database_name: str | None = None,
-        login: str | None = None,
-        password: str | None = None,
-        debugging: bool = False,
-    ):
-        # Affirm all the necessary parameters for a connection
-        loaded_dn_name = self.load_database(database_name)
-        loaded_login = self.load_login(login)
-        loaded_password = self.load_password(password)
+class HeuristAPIConnection:
+    def __init__(self, db: str, login: str, password: str) -> None:
+        """
+        Session context for a connection to the Heurist server.
 
-        # Test the connection
-        if not debugging:
-            self.test_connection(
-                db=loaded_dn_name,
-                login=loaded_login,
-                password=loaded_password,
+        Args:
+            db (str): Heurist database name.
+            login (str): Username.
+            password (str): User's password.
+
+        Raises:
+            e: If the requests method fails, raise that exception.
+            AuthenticationError: If the Heurist server returns a bad status code, \
+                raise an exception.
+        """
+
+        self.db = db
+        self.__login = login
+        self.__password = password
+
+    def __enter__(self) -> Session:
+        self.session = requests.Session()
+        url = "https://heurist.huma-num.fr/heurist/api/login"
+
+        body = {
+            "db": self.db,
+            "login": self.__login,
+            "password": self.__password,
+        }
+        try:
+            response = self.session.post(url=url, data=body, timeout=10)
+        except Exception as e:
+            print(
+                "\nUnable to log in to Heurist Huma-Num server. \
+                  Connection timed out."
             )
+            raise e
+        if response.status_code != 200:
+            message = response.json()["message"]
+            raise AuthenticationError(message)
 
-        # If the connection test did not raise an error,
-        # create an instance of the Heurist API client
-        super().__init__(
-            database_name=self.load_database(db_name=loaded_dn_name),
-            login=self.load_login(login=loaded_login),
-            password=self.load_password(password=loaded_password),
-        )
+        return HeuristAPIClient(database_name=self.db, session=self.session)
 
-    @classmethod
-    def test_connection(
-        cls,
-        db: str,
-        login: str,
-        password: str,
-    ) -> bool | AuthenticationError:
-        with HeuristRequestSession(db=db, login=login, password=password) as _:
-            return True
-
-    @staticmethod
-    def load_param(
-        var: str | None,
-        key: str,
-        param: str,
-        debugging: bool = False,
-    ) -> str | MissingParameterException:
-        if not var and not debugging:
-            load_dotenv(find_dotenv())
-            var = os.environ.get(key)
-        if not var:
-            raise MissingParameterException(parameter=param, env_file=find_dotenv())
-        return var
-
-    @classmethod
-    def load_database(
-        cls,
-        db_name: str | None,
-        debugging: bool = False,
-    ) -> str | MissingParameterException:
-        return cls.load_param(
-            var=db_name,
-            key="DB_NAME",
-            param="database",
-            debugging=debugging,
-        )
-
-    @classmethod
-    def load_login(
-        cls,
-        login: str | None,
-        debugging: bool = False,
-    ) -> str | MissingParameterException:
-        return cls.load_param(
-            var=login,
-            key="DB_LOGIN",
-            param="login",
-            debugging=debugging,
-        )
-
-    @classmethod
-    def load_password(
-        cls,
-        password: str | None,
-        debugging: bool = False,
-    ) -> str | MissingParameterException:
-        return cls.load_param(
-            var=password,
-            key="DB_PASSWORD",
-            param="password",
-            debugging=debugging,
-        )
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.session.close()

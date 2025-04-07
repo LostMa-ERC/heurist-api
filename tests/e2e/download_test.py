@@ -3,7 +3,7 @@ from pathlib import Path
 
 import duckdb
 
-from heurist.api.connection import HeuristConnection
+from heurist.api.credentials import CredentialHandler
 from heurist.api.exceptions import MissingParameterException
 from heurist.cli.load import load_command
 
@@ -11,7 +11,7 @@ from heurist.cli.load import load_command
 class DownloadCommand(unittest.TestCase):
     def setUp(self):
         try:
-            self.client = HeuristConnection()
+            self.credentials = CredentialHandler(database_name="api_dev")
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
@@ -24,7 +24,7 @@ class DownloadCommand(unittest.TestCase):
 
     def test_database_serialization(self):
         load_command(
-            client=self.client,
+            credentials=self.credentials,
             duckdb_database_connection_path=self.database_connection_path,
         )
 

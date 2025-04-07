@@ -1,4 +1,5 @@
 import logging
+import os
 
 from pydantic import BaseModel
 from pathlib import Path
@@ -10,15 +11,16 @@ from heurist.validators.exceptions import RepeatedValueInSingularDetailType
 
 VALIDATION_LOG = Path.cwd().joinpath("validation.log")
 
+handlers = [logging.FileHandler(filename=VALIDATION_LOG, mode="w", delay=True)]
+if os.getenv("HEURIST_STREAM_LOG") == "True":
+    handlers.append(logging.StreamHandler())
+
 logging.basicConfig(
     encoding="utf-8",
     format="{asctime} - {levelname} - {message}",
     style="{",
     datefmt="%Y-%m-%d %H:%M",
-    handlers=[
-        logging.FileHandler(filename=VALIDATION_LOG, mode="w", delay=True),
-        logging.StreamHandler(),
-    ],
+    handlers=handlers,
 )
 
 

@@ -14,14 +14,15 @@ from rich.progress import (
     TimeElapsedColumn,
 )
 
-from heurist.api.client import HeuristAPIClient
+from heurist.api.credentials import CredentialHandler
+from heurist.api.connection import HeuristAPIConnection
 from heurist.database import TransformedDatabase
 from heurist.schema import output_csv, output_json
 
 
 def get_database_schema(
     record_groups: list,
-    client: HeuristAPIClient,
+    credentials: CredentialHandler,
     debugging: bool,
 ) -> TransformedDatabase:
     # If testing, load the mock database XML schema
@@ -33,11 +34,18 @@ def get_database_schema(
         )
     # If not testing, request the database XML schema from the server
     else:
-        with Progress(
-            TextColumn("{task.description}"),
-            SpinnerColumn(),
-            TimeElapsedColumn(),
-        ) as p:
+        with (
+            Progress(
+                TextColumn("{task.description}"),
+                SpinnerColumn(),
+                TimeElapsedColumn(),
+            ) as p,
+            HeuristAPIConnection(
+                db=credentials.get_database(),
+                login=credentials.get_login(),
+                password=credentials.get_password(),
+            ) as client,
+        ):
             _ = p.add_task("Downloading schemas")
             xml = client.get_structure()
             db = TransformedDatabase(
@@ -48,7 +56,7 @@ def get_database_schema(
 
 
 def schema_command(
-    client: HeuristAPIClient,
+    credentials: CredentialHandler,
     record_group: list,
     outdir: str,
     output_type: str,
@@ -56,14 +64,14 @@ def schema_command(
 ):
     # Set up the output directory
     if not outdir:
-        outdir = f"{client.database_name}_schema"
+        outdir = f"{credentials.db}_schema"
     DIR = Path(outdir)
     DIR.mkdir(exist_ok=True)
 
     # Get the database schema
     db = get_database_schema(
         record_groups=record_group,
-        client=client,
+        credentials=credentials,
         debugging=debugging,
     )
 

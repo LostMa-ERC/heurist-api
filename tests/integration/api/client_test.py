@@ -8,7 +8,8 @@ Declare the login credentials in a .env file
 import unittest
 from lxml import etree
 
-from heurist.api.connection import HeuristConnection
+from heurist.api.credentials import CredentialHandler
+from heurist.api.connection import HeuristAPIConnection
 from heurist.api.exceptions import AuthenticationError, MissingParameterException
 
 
@@ -18,8 +19,9 @@ TEST_USER = 2
 
 class ClientUnitTest(unittest.TestCase):
     def setUp(self) -> None:
+        CredentialHandler._reset_envvars()
         try:
-            self.client = HeuristConnection()
+            self.credentials = CredentialHandler()
         except MissingParameterException:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
@@ -29,15 +31,21 @@ class ClientUnitTest(unittest.TestCase):
     def test_user_filter(self):
         """Test the API client's ability to extract records created by a \
             certain user."""
-        try:
-            records = self.client.get_records(
-                record_type_id=TEST_RECORD_TYPE, users=(TEST_USER,)
-            )
-        except AuthenticationError:
-            self.skipTest(
-                "Connection could not be established.\nCannot test client without \
-                    database connection."
-            )
+
+        with HeuristAPIConnection(
+            db=self.credentials.get_database(),
+            login=self.credentials.get_login(),
+            password=self.credentials.get_password(),
+        ) as client:
+            try:
+                records = client.get_records(
+                    record_type_id=TEST_RECORD_TYPE, users=(TEST_USER,)
+                )
+            except AuthenticationError:
+                self.skipTest(
+                    "Connection could not be established.\nCannot test client without \
+                        database connection."
+                )
 
         # Confirm that every record was made by the targeted user
         for record in records:
@@ -48,15 +56,21 @@ class ClientUnitTest(unittest.TestCase):
     def test_hml_export(self):
         """Test the API client's ability to extract the database schema."""
 
-        # Confirm that the client receives bytes data.
-        try:
-            hml_bytes = self.client.get_structure()
-        except AuthenticationError:
-            self.skipTest(
-                "Connection could not be established.\nCannot test client without \
-                    database connection."
-            )
-        self.assertIsInstance(hml_bytes, bytes)
+        with HeuristAPIConnection(
+            db=self.credentials.get_database(),
+            login=self.credentials.get_login(),
+            password=self.credentials.get_password(),
+        ) as client:
+
+            # Confirm that the client receives bytes data.
+            try:
+                hml_bytes = client.get_structure()
+            except AuthenticationError:
+                self.skipTest(
+                    "Connection could not be established.\nCannot test client without \
+                        database connection."
+                )
+            self.assertIsInstance(hml_bytes, bytes)
 
         # Confirm that the data is the <hml_structure> XML.
         root = etree.fromstring(hml_bytes)
@@ -66,13 +80,18 @@ class ClientUnitTest(unittest.TestCase):
 
     def test_json_records(self):
         """Test the API client's ability to extract records in a JSON array."""
-        try:
-            records = self.client.get_records(record_type_id=TEST_RECORD_TYPE)
-        except AuthenticationError:
-            self.skipTest(
-                "Connection could not be established.\nCannot test client without \
-                    database connection."
-            )
+        with HeuristAPIConnection(
+            db=self.credentials.get_database(),
+            login=self.credentials.get_login(),
+            password=self.credentials.get_password(),
+        ) as client:
+            try:
+                records = client.get_records(record_type_id=TEST_RECORD_TYPE)
+            except AuthenticationError:
+                self.skipTest(
+                    "Connection could not be established.\nCannot test client without \
+                        database connection."
+                )
 
         # Confirm that the data is a JSON array.
         self.assertIsInstance(records, list)
@@ -81,16 +100,22 @@ class ClientUnitTest(unittest.TestCase):
     def test_xml_records(self):
         """Test the API client's ability to extract records in XML bytes"""
 
-        # Confirm that the client receives bytes data.
-        try:
-            records = self.client.get_records(
-                record_type_id=TEST_RECORD_TYPE, form="xml"
-            )
-        except AuthenticationError:
-            self.skipTest(
-                "Connection could not be established.\nCannot test client without \
-                    database connection."
-            )
+        with HeuristAPIConnection(
+            db=self.credentials.get_database(),
+            login=self.credentials.get_login(),
+            password=self.credentials.get_password(),
+        ) as client:
+
+            # Confirm that the client receives bytes data.
+            try:
+                records = client.get_records(
+                    record_type_id=TEST_RECORD_TYPE, form="xml"
+                )
+            except AuthenticationError:
+                self.skipTest(
+                    "Connection could not be established.\nCannot test client without \
+                        database connection."
+                )
         self.assertIsInstance(records, bytes)
 
         # Confirm that the data is a record XML.

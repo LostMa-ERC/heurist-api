@@ -6,13 +6,14 @@ from pathlib import Path
 
 import duckdb
 
-from heurist.api.client import HeuristAPIClient
+from heurist.api.credentials import CredentialHandler
+from heurist.api.connection import HeuristAPIConnection
 from heurist.workflows import extract_transform_load
 from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 
 
 def load_command(
-    client: HeuristAPIClient,
+    credentials: CredentialHandler,
     duckdb_database_connection_path: Path | str,
     record_group: tuple = DEFAULT_RECORD_GROUPS,
     user: tuple = (),
@@ -21,7 +22,14 @@ def load_command(
     # Run the ETL process
     if isinstance(duckdb_database_connection_path, Path):
         duckdb_database_connection_path = str(duckdb_database_connection_path)
-    with duckdb.connect(duckdb_database_connection_path) as conn:
+    with (
+        duckdb.connect(duckdb_database_connection_path) as conn,
+        HeuristAPIConnection(
+            db=credentials.get_database(),
+            login=credentials.get_login(),
+            password=credentials.get_password(),
+        ) as client,
+    ):
         extract_transform_load(
             client=client,
             duckdb_connection=conn,

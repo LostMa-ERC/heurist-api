@@ -12,19 +12,27 @@ from rich.progress import (
     TimeElapsedColumn,
 )
 
-from heurist.api.client import HeuristAPIClient
+from heurist.api.connection import HeuristAPIConnection
+from heurist.api.credentials import CredentialHandler
 
 
 def rty_command(
-    client: HeuristAPIClient,
+    credentials: CredentialHandler,
     rty: int,
     outfile: Path | str | None,
 ):
-    with Progress(
-        TextColumn("{task.description}"),
-        SpinnerColumn(),
-        TimeElapsedColumn(),
-    ) as p:
+    with (
+        Progress(
+            TextColumn("{task.description}"),
+            SpinnerColumn(),
+            TimeElapsedColumn(),
+        ) as p,
+        HeuristAPIConnection(
+            db=credentials.get_database(),
+            login=credentials.get_login(),
+            password=credentials.get_password(),
+        ) as client,
+    ):
         _ = p.add_task(f"Get Records of type {rty}", total=1)
         records = client.get_records(rty)
     # If no records of this type have been entered, stop.
