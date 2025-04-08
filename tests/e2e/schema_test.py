@@ -77,7 +77,7 @@ class OnlineSchemaCommand(SchemaBase):
         self.tempdir.mkdir(exist_ok=True)
         try:
             self.credentials = CredentialHandler()
-        except MissingParameterException:
+        except SystemExit():
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
