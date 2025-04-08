@@ -6,7 +6,6 @@ from pathlib import Path
 
 from heurist.api.credentials import CredentialHandler
 from heurist.cli.schema import schema_command
-from heurist.api.exceptions import MissingParameterException
 from heurist.validators.record_validator import VALIDATION_LOG
 
 
@@ -77,7 +76,7 @@ class OnlineSchemaCommand(SchemaBase):
         self.tempdir.mkdir(exist_ok=True)
         try:
             self.credentials = CredentialHandler()
-        except SystemExit(MissingParameterException):
+        except Exception:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
