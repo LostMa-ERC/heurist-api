@@ -2,7 +2,6 @@ import unittest
 
 from heurist.api.credentials import CredentialHandler
 from heurist.cli.schema import get_database_schema
-from heurist.api.exceptions import MissingParameterException
 
 
 class SchemaTest(unittest.TestCase):
@@ -10,7 +9,7 @@ class SchemaTest(unittest.TestCase):
     def setUp(self):
         try:
             self.credentials = CredentialHandler()
-        except MissingParameterException:
+        except SystemExit:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
