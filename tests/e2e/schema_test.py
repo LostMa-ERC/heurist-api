@@ -1,6 +1,7 @@
 import csv
 import unittest
 import json
+import pytest
 
 from pathlib import Path
 
@@ -76,7 +77,7 @@ class OnlineSchemaCommand(SchemaBase):
         self.tempdir.mkdir(exist_ok=True)
         try:
             self.credentials = CredentialHandler()
-        except Exception:
+        except pytest.raises(SystemExit):
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
