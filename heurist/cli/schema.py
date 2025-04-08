@@ -64,7 +64,7 @@ def schema_command(
 ):
     # Set up the output directory
     if not outdir:
-        outdir = f"{credentials.db}_schema"
+        outdir = f"{credentials.get_database()}_schema"
     DIR = Path(outdir)
     DIR.mkdir(exist_ok=True)
 
