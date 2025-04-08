@@ -17,7 +17,7 @@ class MissingParameterException(Exception):
 
     def __init__(self, parameter: str, env_file: str):
         self.message = f"""MissingParameter Exception.
-\tMissing parameter '{parameter}'.
+\tMissing the variable '{parameter}'.
 \tTried looking in the env file '{env_file}'.
 """
         super().__init__(self.message)

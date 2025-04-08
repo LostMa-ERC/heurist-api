@@ -1,12 +1,12 @@
 import csv
 import unittest
 import json
-import pytest
 
 from pathlib import Path
 
 from heurist.api.credentials import CredentialHandler
 from heurist.cli.schema import schema_command
+
 from heurist.validators.record_validator import VALIDATION_LOG
 
 
@@ -77,7 +77,7 @@ class OnlineSchemaCommand(SchemaBase):
         self.tempdir.mkdir(exist_ok=True)
         try:
             self.credentials = CredentialHandler()
-        except pytest.raises(SystemExit):
+        except SystemExit:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
