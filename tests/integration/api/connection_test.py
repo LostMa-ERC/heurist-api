@@ -5,8 +5,6 @@ import os
 from heurist.api.credentials import CredentialHandler
 from heurist.api.connection import HeuristAPIConnection
 
-from heurist.api.exceptions import MissingParameterException, AuthenticationError
-
 IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
 
 
@@ -52,19 +50,19 @@ class ConnectionWithoutEnvVars(unittest.TestCase):
         return super().setUp()
 
     def test_missing_login(self):
-        with pytest.raises(MissingParameterException):
+        with pytest.raises(SystemExit):
             CredentialHandler(login=None, debugging=True)
 
     def test_missing_db_name(self):
-        with pytest.raises(MissingParameterException):
+        with pytest.raises(SystemExit):
             CredentialHandler(database_name=None, debugging=True)
 
     def test_missing_password(self):
-        with pytest.raises(MissingParameterException):
+        with pytest.raises(SystemExit):
             CredentialHandler(password=None, debugging=True)
 
     def test_invalid_database_credentials(self):
-        with pytest.raises(AuthenticationError):
+        with pytest.raises(SystemExit):
             CredentialHandler(
                 database_name="test_db",
                 login="test_user",

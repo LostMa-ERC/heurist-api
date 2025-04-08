@@ -6,7 +6,9 @@ class AuthenticationError(Exception):
     """Error raised when unable to authenticate Heurist login."""
 
     def __init__(self, message):
-        self.message = message
+        self.message = """Authentication Error.
+\tFailed to authenticate Heurist user login.
+"""
         super().__init__(self.message)
 
 
@@ -14,7 +16,10 @@ class MissingParameterException(Exception):
     """Exception raised for a missing parameter."""
 
     def __init__(self, parameter: str, env_file: str):
-        self.message = f"Missing parameter: {parameter}\nTried looking at: {env_file}"
+        self.message = f"""MissingParameter Exception.
+\tMissing parameter '{parameter}'.
+\tTried looking in the file '{env_file}'.
+"""
         super().__init__(self.message)
 
 
@@ -24,5 +29,14 @@ class ReadTimeout(Exception):
     """
 
     def __init__(self, url: str, timeout: int):
-        self.message = f"The URL whose data took too long (> {timeout} seconds) to read:\n\n{url}\n"
+        message = f"""ReadTimeout Error.
+\tHeurist's server took too long (> {timeout} seconds) to send data from the following \
+URL:
+{url}
+Solutions:
+\t1. Try running the command again and hope the server / your internet is faster.
+\t2. Set the READTIMEOUT environment variable and run the command again, in the same \
+line, i.e. 'READTIMEOUT=20 heurist' or 'READTIMEOUT=20 python'.
+"""
+        self.message = message
         super().__init__(self.message)

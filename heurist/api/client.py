@@ -6,6 +6,7 @@ import requests
 
 from heurist.api.exceptions import APIException, ReadTimeout
 from heurist.api.url_builder import URLBuilder
+from heurist.api.constants import READTIMEOUT
 
 
 class HeuristAPIClient:
@@ -13,12 +14,16 @@ class HeuristAPIClient:
     Client for Heurist API.
     """
 
-    timeout = 10
-
-    def __init__(self, database_name: str, session: requests.Session) -> None:
+    def __init__(
+        self,
+        database_name: str,
+        session: requests.Session,
+        timeout_seconds: int | None = READTIMEOUT,
+    ) -> None:
         self.database_name = database_name
         self.url_builder = URLBuilder(database_name=database_name)
         self.session = session
+        self.timeout = timeout_seconds
 
     def get_response_content(self, url: str) -> ByteString | None:
         """Request resources from the Heurist server.
@@ -33,13 +38,17 @@ class HeuristAPIClient:
         try:
             response = self.session.get(url, timeout=(self.timeout))
         except requests.exceptions.ReadTimeout:
-            raise ReadTimeout(url=url, timeout=self.timeout)
+            e = ReadTimeout(url=url, timeout=self.timeout)
+            raise SystemExit(e)
         if not response:
-            raise APIException("No response.")
+            e = APIException("No response.")
+            raise SystemExit(e)
         elif response.status_code != 200:
-            raise APIException(f"Status {response.status_code}")
+            e = APIException(f"Status {response.status_code}")
+            raise SystemExit(e)
         elif "Cannot connect to database" == response.content.decode("utf-8"):
-            raise APIException("Could not connect to database.")
+            e = APIException("Could not connect to database.")
+            raise SystemExit(e)
         else:
             return response.content
 

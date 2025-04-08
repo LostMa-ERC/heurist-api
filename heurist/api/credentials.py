@@ -34,7 +34,8 @@ class CredentialHandler:
             # Confirm that the environment variable is set
             v = self.get_var(key=key)
             if not v or v == "":
-                raise MissingParameterException(parameter=key, env_file=self.env_file)
+                e = MissingParameterException(parameter=key, env_file=self.env_file)
+                raise SystemExit(e)
 
     def test_connection(self) -> None:
         with HeuristAPIConnection(
