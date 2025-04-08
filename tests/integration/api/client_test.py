@@ -10,7 +10,7 @@ from lxml import etree
 
 from heurist.api.credentials import CredentialHandler
 from heurist.api.connection import HeuristAPIConnection
-from heurist.api.exceptions import AuthenticationError, MissingParameterException
+from heurist.api.exceptions import AuthenticationError
 
 
 TEST_RECORD_TYPE = 103
@@ -22,7 +22,7 @@ class ClientUnitTest(unittest.TestCase):
         CredentialHandler._reset_envvars()
         try:
             self.credentials = CredentialHandler()
-        except MissingParameterException:
+        except SystemExit:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."
