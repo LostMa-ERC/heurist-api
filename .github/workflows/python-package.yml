@@ -42,13 +42,9 @@ jobs:
           poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-      - name: Test with environment variables
+      - name: Test
         run: |
           export DB_LOGIN=$HEURIST_USER
           export DB_PASSWORD=$HEURIST_PASS
           export DB_NAME=api_dev
-          poetry run pytest tests/e2e
-      - name: Test without environment variables
-        run: |
-          poetry run pytest tests/unit
-          poetry run pytest tests/integration/api
+          poetry run pytest

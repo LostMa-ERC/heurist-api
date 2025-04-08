@@ -4,7 +4,6 @@ from pathlib import Path
 import duckdb
 
 from heurist.api.credentials import CredentialHandler
-from heurist.api.exceptions import MissingParameterException
 from heurist.cli.load import load_command
 
 
@@ -12,7 +11,7 @@ class DownloadCommand(unittest.TestCase):
     def setUp(self):
         try:
             self.credentials = CredentialHandler(database_name="api_dev")
-        except MissingParameterException:
+        except SystemExit:
             self.skipTest(
                 "Connection could not be established.\nCannot test client without \
                     database connection."

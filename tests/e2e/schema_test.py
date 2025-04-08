@@ -10,17 +10,25 @@ from heurist.cli.schema import schema_command
 from heurist.validators.record_validator import VALIDATION_LOG
 
 
-class SchemaBase(unittest.TestCase):
+class OnlineSchemaCommand(unittest.TestCase):
     tempdir = Path(__file__).parent.joinpath("temp")
     tempfile_json = tempdir.joinpath("recordTypes.json")
-    debugging = False
+
+    def setUp(self):
+        self.tempdir.mkdir(exist_ok=True)
+        try:
+            self.credentials = CredentialHandler()
+        except SystemExit:
+            self.skipTest(
+                "Connection could not be established.\nCannot test client without \
+                    database connection."
+            )
 
     def tearDown(self):
         for f in self.tempdir.iterdir():
             f.unlink(missing_ok=True)
         self.tempdir.rmdir()
         VALIDATION_LOG.unlink(missing_ok=True)
-        CredentialHandler._reset_envvars()
         return super().tearDown()
 
     def json(self):
@@ -49,50 +57,6 @@ class SchemaBase(unittest.TestCase):
                 reader = csv.DictReader(f)
                 row_count = len([_ for r in reader])
                 self.assertGreater(row_count, 0)
-
-
-class OfflineSchemaCommand(SchemaBase):
-    def setUp(self):
-        self.tempdir.mkdir(exist_ok=True)
-        self.credentials = CredentialHandler(
-            database_name="test_db",
-            login="test_login",
-            password="test_pass",
-        )
-
-    def test_json(self):
-        self.json()
-
-    def test_csv(self):
-        self.csv()
-
-    def tearDown(self):
-        """Reset environment variables"""
-        CredentialHandler._reset_envvars()
-        return super().tearDown()
-
-
-class OnlineSchemaCommand(SchemaBase):
-    def setUp(self):
-        self.tempdir.mkdir(exist_ok=True)
-        try:
-            self.credentials = CredentialHandler()
-        except SystemExit:
-            self.skipTest(
-                "Connection could not be established.\nCannot test client without \
-                    database connection."
-            )
-
-    def test_json(self):
-        self.json()
-
-    def test_csv(self):
-        self.csv()
-
-    def tearDown(self):
-        """Reset environment variables"""
-        CredentialHandler._reset_envvars()
-        return super().tearDown()
 
 
 if __name__ == "__main__":
