@@ -7,6 +7,7 @@ Declare the login credentials in a .env file
 
 import unittest
 from lxml import etree
+from requests.exceptions import ConnectTimeout
 
 from heurist.api.credentials import CredentialHandler
 from heurist.api.connection import HeuristAPIConnection
@@ -17,7 +18,7 @@ TEST_RECORD_TYPE = 103
 TEST_USER = 2
 
 
-class ClientUnitTest(unittest.TestCase):
+class CredentialHandlerTest(unittest.TestCase):
     def setUp(self) -> None:
         CredentialHandler._reset_envvars()
         try:
@@ -53,6 +54,31 @@ class ClientUnitTest(unittest.TestCase):
             actual = record.get("rec_AddedByUGrpID")
             self.assertEqual(expected, actual)
 
+
+class ClientUnitTest(unittest.TestCase):
+    def setUp(self) -> None:
+        CredentialHandler._reset_envvars()
+        try:
+            self.credentials = CredentialHandler()
+        except SystemExit:
+            self.skipTest(
+                "Connection could not be established.\nCannot test client without \
+                    database connection."
+            )
+
+        try:
+            with HeuristAPIConnection(
+                db=self.credentials.get_database(),
+                login=self.credentials.get_login(),
+                password=self.credentials.get_password(),
+            ) as _:
+                pass
+        except ConnectTimeout:
+            self.skipTest(
+                "Connection could not be established.\nCannot test client without \
+                        database connection."
+            )
+
     def test_hml_export(self):
         """Test the API client's ability to extract the database schema."""
 
@@ -63,13 +89,7 @@ class ClientUnitTest(unittest.TestCase):
         ) as client:
 
             # Confirm that the client receives bytes data.
-            try:
-                hml_bytes = client.get_structure()
-            except AuthenticationError:
-                self.skipTest(
-                    "Connection could not be established.\nCannot test client without \
-                        database connection."
-                )
+            hml_bytes = client.get_structure()
             self.assertIsInstance(hml_bytes, bytes)
 
         # Confirm that the data is the <hml_structure> XML.
@@ -85,13 +105,7 @@ class ClientUnitTest(unittest.TestCase):
             login=self.credentials.get_login(),
             password=self.credentials.get_password(),
         ) as client:
-            try:
-                records = client.get_records(record_type_id=TEST_RECORD_TYPE)
-            except AuthenticationError:
-                self.skipTest(
-                    "Connection could not be established.\nCannot test client without \
-                        database connection."
-                )
+            records = client.get_records(record_type_id=TEST_RECORD_TYPE)
 
         # Confirm that the data is a JSON array.
         self.assertIsInstance(records, list)
@@ -107,15 +121,8 @@ class ClientUnitTest(unittest.TestCase):
         ) as client:
 
             # Confirm that the client receives bytes data.
-            try:
-                records = client.get_records(
-                    record_type_id=TEST_RECORD_TYPE, form="xml"
-                )
-            except AuthenticationError:
-                self.skipTest(
-                    "Connection could not be established.\nCannot test client without \
-                        database connection."
-                )
+            records = client.get_records(record_type_id=TEST_RECORD_TYPE, form="xml")
+
         self.assertIsInstance(records, bytes)
 
         # Confirm that the data is a record XML.

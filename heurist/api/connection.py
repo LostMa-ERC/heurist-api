@@ -51,7 +51,7 @@ class HeuristAPIConnection:
         }
         try:
             response = self.session.post(url=url, data=body, timeout=self._posttimeout)
-        except Exception as e:
+        except requests.exceptions.ConnectTimeout as e:
             print(
                 "\nUnable to log in to Heurist Huma-Num server. \
                   Connection timed out."
