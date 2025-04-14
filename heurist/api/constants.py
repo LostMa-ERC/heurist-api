@@ -15,3 +15,5 @@ if isinstance(timeout_var, str):
     timeout_var = int(timeout_var)
 
 READTIMEOUT = timeout_var
+
+MAX_RETRY = 3

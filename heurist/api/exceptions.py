@@ -1,3 +1,6 @@
+from .constants import MAX_RETRY
+
+
 class APIException(Exception):
     """Problem calling Heurist API."""
 
@@ -30,13 +33,13 @@ class ReadTimeout(Exception):
 
     def __init__(self, url: str, timeout: int):
         message = f"""ReadTimeout Error.
-\tHeurist's server took too long (> {timeout} seconds) to send data from the following \
-URL:
+\tOn all {MAX_RETRY} tries, Heurist's server took too long (> {timeout} seconds) to \
+send data from the following URL:
 {url}
 Solutions:
 \t1. Try running the command again and hope the server / your internet is faster.
-\t2. Set the READTIMEOUT environment variable and run the command again, in the same \
-line, i.e. 'READTIMEOUT=20 heurist' or 'READTIMEOUT=20 python'.
+\t2. Set the READTIMEOUT environment variable immediately before the command and run it\
+ again, i.e. 'READTIMEOUT=20 heurist download'.
 """
         self.message = message
         super().__init__(self.message)

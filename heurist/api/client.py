@@ -3,10 +3,12 @@
 import json
 from typing import Literal, ByteString
 import requests
+from tenacity import retry, stop_after_attempt, retry_if_exception_type, RetryError
 
 from heurist.api.exceptions import APIException, ReadTimeout
 from heurist.api.url_builder import URLBuilder
-from heurist.api.constants import READTIMEOUT
+from heurist.api.constants import READTIMEOUT, MAX_RETRY
+from heurist.api.utils import log_attempt_number
 
 
 class HeuristAPIClient:
@@ -25,6 +27,15 @@ class HeuristAPIClient:
         self.session = session
         self.timeout = timeout_seconds
 
+    @retry(
+        retry=retry_if_exception_type(requests.exceptions.ReadTimeout),
+        stop=stop_after_attempt(MAX_RETRY),
+        after=log_attempt_number,
+    )
+    def call_heurist_api(self, url: str) -> ByteString | None:
+        response = self.session.get(url, timeout=(self.timeout))
+        return response
+
     def get_response_content(self, url: str) -> ByteString | None:
         """Request resources from the Heurist server.
 
@@ -36,8 +47,8 @@ class HeuristAPIClient:
         """
 
         try:
-            response = self.session.get(url, timeout=(self.timeout))
-        except requests.exceptions.ReadTimeout:
+            response = self.call_heurist_api(url=url)
+        except RetryError:
             e = ReadTimeout(url=url, timeout=self.timeout)
             raise SystemExit(e)
         if not response:
