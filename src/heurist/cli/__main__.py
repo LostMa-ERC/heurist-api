@@ -10,7 +10,8 @@ from heurist.cli.records import rty_command
 from heurist.cli.schema import schema_command
 from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 
-__identifier__ = importlib.metadata.version("heurist-api")
+# This name must match the package name ('name' kwarg) in the TOML file.
+__identifier__ = importlib.metadata.version("heurist")
 
 
 # =========================== #
