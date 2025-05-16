@@ -2,10 +2,10 @@ name: Release
 
 on:
     push:
-        # tags:
-        #     - 'v*'
-        # paths:
-        #   - ".github/workflows/pypi-release.yml"
+        tags:
+            - 'v*'
+        paths:
+          - ".github/workflows/pypi-release.yml"
     workflow_call:
 
 jobs:
@@ -16,6 +16,7 @@ jobs:
 
   test-pypi:
     name: Publish to Test PyPI
+    needs: test
     runs-on: ubuntu-latest
     # Environment and permissions trusted publishing.
     environment:
