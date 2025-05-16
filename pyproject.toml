@@ -1,5 +1,5 @@
 [project]
-name = "heurist-api"
+name = "heurist"
 version = "0.0.1a25"
 description = "ETL data pipeline tool for Heurist database."
 keywords = [ "duckdb", "etl" ]
