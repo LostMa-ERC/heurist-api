@@ -47,6 +47,6 @@ dev = [
 heurist = "heurist.cli.__main__:cli"
 
 [[tool.uv.index]]
-name = "heurist"
+name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"

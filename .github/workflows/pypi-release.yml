@@ -2,10 +2,10 @@ name: Release
 
 on:
     push:
-        tags:
-            - 'v*'
-        paths:
-          - ".github/workflows/pypi-release.yml"
+        # tags:
+        #     - 'v*'
+        # paths:
+        #   - ".github/workflows/pypi-release.yml"
     workflow_call:
 
 jobs:
@@ -28,4 +28,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
       - run: uv build
-      - run: uv publish --trusted-publishing always
+      - run: uv publish --index testpypi dist/*
+      # - run: uv publish --trusted-publishing always
