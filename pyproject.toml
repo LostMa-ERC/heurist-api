@@ -50,3 +50,12 @@ heurist = "heurist.cli.__main__:cli"
 name = "testpypi"
 url = "https://test.pypi.org/legacy/"
 publish-url = "https://test.pypi.org/legacy/"
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src/heurist"]
+addopts = '--doctest-modules --doctest-glob="*.md"'
+doctest_optionflags = [
+    "ELLIPSIS",
+    "NORMALIZE_WHITESPACE",
+    "IGNORE_EXCEPTION_DETAIL"
+]

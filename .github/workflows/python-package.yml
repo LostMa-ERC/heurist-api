@@ -41,5 +41,4 @@ jobs:
           export DB_LOGIN=$HEURIST_USER
           export DB_PASSWORD=$HEURIST_PASS
           export DB_NAME=api_dev
-          uv run pytest tests/
-          uv run pytest src/
+          uv run pytest
