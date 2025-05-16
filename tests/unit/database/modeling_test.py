@@ -3,7 +3,7 @@ import unittest
 import duckdb
 
 from heurist.validators.record_validator import VALIDATION_LOG
-from heurist.mock_data import DB_STRUCTURE_XML
+from mock_data import DB_STRUCTURE_XML
 from heurist.database.database import TransformedDatabase
 
 

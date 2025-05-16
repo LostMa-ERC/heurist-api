@@ -1,6 +1,6 @@
 import unittest
 
-from heurist.mock_data import DB_STRUCTURE_XML
+from mock_data import DB_STRUCTURE_XML
 from heurist.database.basedb import HeuristDatabase
 
 

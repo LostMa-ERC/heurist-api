@@ -31,7 +31,7 @@ DATE_DEFAULT = {
 
 class TestFile(unittest.TestCase):
     def setUp(self):
-        from heurist.mock_data.file.single import DETAIL
+        from mock_data.file.single import DETAIL
 
         self.detail = DETAIL
 
@@ -43,7 +43,7 @@ class TestFile(unittest.TestCase):
 
 class TestEnum(unittest.TestCase):
     def setUp(self):
-        from heurist.mock_data.enum.single import DETAIL
+        from mock_data.enum.single import DETAIL
 
         self.detail = DETAIL
 
@@ -55,7 +55,7 @@ class TestEnum(unittest.TestCase):
 
 class TestGeo(unittest.TestCase):
     def setUp(self):
-        from heurist.mock_data.geo.single import DETAIL_POINT, DETAIL_POLYGON
+        from mock_data.geo.single import DETAIL_POINT, DETAIL_POLYGON
 
         self.point_detail = DETAIL_POINT
         self.polygon_detail = DETAIL_POLYGON
@@ -136,7 +136,7 @@ class TestDate(unittest.TestCase):
 
 class TestResource(unittest.TestCase):
     def setUp(self):
-        from heurist.mock_data.resource.single import DETAIL
+        from mock_data.resource.single import DETAIL
 
         self.detail = DETAIL
 

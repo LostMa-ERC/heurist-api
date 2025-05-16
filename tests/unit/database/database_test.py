@@ -1,6 +1,6 @@
 import unittest
 
-from heurist.mock_data import DB_STRUCTURE_XML, RECORD_JSON
+from mock_data import DB_STRUCTURE_XML, RECORD_JSON
 from heurist.database.database import TransformedDatabase
 from heurist.validators.record_validator import VALIDATION_LOG
 

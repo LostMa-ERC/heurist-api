@@ -11,7 +11,7 @@ class RecTypes(BaseXmlModel):
             Record Types.
 
     Examples:
-        >>> from heurist.mock_data import DB_STRUCTURE_XML
+        >>> from mock_data import DB_STRUCTURE_XML
         >>> from heurist.models.structural import HMLStructure
         >>>
         >>>

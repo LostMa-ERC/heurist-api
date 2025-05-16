@@ -85,7 +85,7 @@ WHERE table_name like '{table_name}'
 
         Examples:
             >>> # Set up the database class and parse a table model.
-            >>> from heurist.mock_data import DB_STRUCTURE_XML
+            >>> from mock_data import DB_STRUCTURE_XML
             >>> db = HeuristDatabase(hml_xml=DB_STRUCTURE_XML)
             >>> model = db.hml.RecTypeGroups.rtg
             >>>

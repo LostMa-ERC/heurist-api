@@ -49,7 +49,7 @@ class DetailValidator:
         Extract the value of a geo field.
 
         Examples:
-            >>> from heurist.mock_data.geo.single import DETAIL_POINT
+            >>> from mock_data.geo.single import DETAIL_POINT
             >>> DetailValidator.convert(DETAIL_POINT)
             'POINT(2.19726563 48.57478991)'
 
@@ -71,13 +71,13 @@ class DetailValidator:
 
         Examples:
             >>> # Test temporal object
-            >>> from heurist.mock_data.date.compound_single import DETAIL
+            >>> from mock_data.date.compound_single import DETAIL
             >>> value = DetailValidator.convert(DETAIL)
             >>> value['start']['earliest']
             datetime.datetime(1180, 1, 1, 0, 0)
 
             >>> # Test direct date value
-            >>> from heurist.mock_data.date.simple_single import DETAIL
+            >>> from mock_data.date.simple_single import DETAIL
             >>> value = DetailValidator.convert(DETAIL)
             >>> value['value']
             datetime.datetime(2024, 3, 19, 0, 0)

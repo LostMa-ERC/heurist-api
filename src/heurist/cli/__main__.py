@@ -10,7 +10,7 @@ from heurist.cli.records import rty_command
 from heurist.cli.schema import schema_command
 from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 
-__identifier__ = importlib.metadata.version("heurist")
+__identifier__ = importlib.metadata.version("heurist-api")
 
 
 # =========================== #

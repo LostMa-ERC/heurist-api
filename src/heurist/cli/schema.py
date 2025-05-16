@@ -27,7 +27,7 @@ def get_database_schema(
 ) -> TransformedDatabase:
     # If testing, load the mock database XML schema
     if debugging:
-        from heurist.mock_data import DB_STRUCTURE_XML
+        from mock_data import DB_STRUCTURE_XML
 
         db = TransformedDatabase(
             hml_xml=DB_STRUCTURE_XML, record_type_groups=record_groups
