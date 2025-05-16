@@ -1,6 +1,6 @@
 [project]
 name = "heurist"
-version = "0.0.1a25"
+version = "0.1.0"
 description = "ETL data pipeline tool for Heurist database."
 keywords = [ "duckdb", "etl" ]
 dynamic = [ "readme" ]
