@@ -24,9 +24,9 @@ Install the project and set up the environment.
 
 If you're using VS Code, apply the example settings.
 
-```shell
-mkdir .vscode
-cp vscode-settings.example.json .vscode/settings.json
+```console
+$ mkdir .vscode
+$ cp vscode-settings.example.json .vscode/settings.json
 ```
 
 ### Git & Python
@@ -35,26 +35,27 @@ cp vscode-settings.example.json .vscode/settings.json
 
 Clone the repository.
 
-```shell
-git clone git@github.com:LostMa-ERC/heurist-etl-pipeline.git
+```console
+$ git clone git@github.com:LostMa-ERC/heurist-etl-pipeline.git
 ```
 
 #### Virtual Environment
 
-Set up a virtual Python environment and install the package.
+Set up a virtual Python environment and install the package. I recommend using [`uv`](https://docs.astral.sh/uv/), which is what the CI workflows use on GitHub Actions.
 
-```shell
-pip install --upgrade pip poetry
-poetry install
+```console
+$ uv venv --python 3.13
+$ source .venv/bin/activate
+(venv) $ uv pip install -e .
 ```
 
 #### Development branch
 
 Move to the git repository's development (`dev`) branch. If you've never worked on the development branch, create it with `checkout -b` instead of `checkout`.
 
-```shell
-git checkout dev
-git pull
+```console
+$ git checkout dev
+$ git pull
 ```
 
 ---
@@ -97,11 +98,11 @@ with open(sql_file) as f:
 ### Linting
 
 ```console
-poetry run flake8 --extend-exclude ./heurist/mock_data/ --max-line-length 88
+$ uv run ruff check src/
 ```
 
 ### Testing
 
 ```console
-poetry run pytest
+$ uv run pytest
 ```

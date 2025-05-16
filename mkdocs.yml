@@ -17,13 +17,13 @@ plugins:
   - search
   - gen-files:
       scripts:
-      - scripts/gen_ref_pages.py
+      - src/scripts/gen_ref_pages.py
   - literate-nav:
       nav_file: SUMMARY.md
   - mkdocstrings:
       handlers:
         python:
-          paths: ["./heurist"]
+          paths: ["./src/heurist"]
           options:
             docstring_options:
               ignore_init_summary: false

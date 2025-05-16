@@ -1,20 +1,10 @@
 # Badges
 
-This repository has 2 generated badges related to testing coverage. They require the `coverage` and `genbadge` Python libraries.
+This repository has 2 generated badges related to testing coverage. They require the `coverage` and `genbadge` Python libraries. These are installed with the package in the `dev` dependency group.
 
-## Set up development environment
 
-In your virtual Python environment, run the following:
-
-```shell
-pip install --upgrade pip poetry
-poetry install
-```
-
-## Generate badges
-
-Run the prepared `gen_badges.sh` script in the `./scripts` directory at the root of the GitHub repository.
+In you virtual Python environment, with the package installed, run the `gen_badges.sh` script in the `scripts` directory.
 
 ```shell
-bash ./scripts/gen_badges.sh
+bash ./src/scripts/gen_badges.sh
 ```
