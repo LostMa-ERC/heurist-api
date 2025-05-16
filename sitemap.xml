@@ -2,214 +2,218 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/legal/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/development/code_of_conduct/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/development/contributing/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/development/coverage/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/development/publishing/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/development/heuristdb/temporal/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/SUMMARY/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/api/client/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/api/connection/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/api/constants/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/api/credentials/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/api/exceptions/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/api/url_builder/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
+    </url>
+    <url>
+         <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/api/utils/</loc>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/database/basedb/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/database/database/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/dynamic/annotation/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/dynamic/create_model/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/dynamic/date/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/dynamic/type/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/DetailTypes/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/RecStructure/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/RecTypeGroups/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/RecTypes/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/Terms/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/dty/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/hml_structure/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/rst/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/rtg/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/rty/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/trm/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/models/structural/utils/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/schema/models/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/schema/rel_to_dict/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/sql/sql_safety/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/utils/constants/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/utils/rel_to_dict_array/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/validators/detail_validator/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/validators/exceptions/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/validators/parse_heurist_date/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/validators/record_validator/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/reference/workflows/etl/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/module/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/records/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/rstudio/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/schema/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/download/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/download/date_validation/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/download/export_csv/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/download/group_types/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/download/logs/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
     <url>
          <loc>https://lostma-erc.github.io/heurist-etl-pipeline/usage/download/user_filter/</loc>
-         <lastmod>2025-04-07</lastmod>
+         <lastmod>2025-05-16</lastmod>
     </url>
 </urlset>
