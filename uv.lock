@@ -160,8 +160,8 @@ wheels = [
 ]
 
 [[package]]
-name = "heurist-api"
-version = "0.0.1a25"
+name = "heurist"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
