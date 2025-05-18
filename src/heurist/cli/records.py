@@ -1,5 +1,5 @@
 """
-CLI command for extracting, transforming, and loading remote Heurist data.
+CLI command for downloading one requested record type's data.
 """
 
 import json

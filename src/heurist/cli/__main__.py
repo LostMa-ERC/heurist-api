@@ -1,3 +1,7 @@
+"""
+CLI commands for extracting, transforming, and loading remote Heurist data.
+"""
+
 import importlib.metadata
 
 import click
