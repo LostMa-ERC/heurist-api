@@ -20,4 +20,5 @@ repos:
     # uv version.
     rev: 0.7.5
     hooks:
+      # Update the uv lockfile
       - id: uv-lock
