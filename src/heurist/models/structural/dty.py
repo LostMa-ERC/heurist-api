@@ -1,10 +1,9 @@
 from datetime import datetime
 from typing import List, Literal, Optional
 
+from heurist.models.structural.utils import split_ids
 from pydantic import field_validator
 from pydantic_xml import BaseXmlModel, element
-
-from heurist.models.structural.utils import split_ids
 
 
 class DTY(BaseXmlModel, tag="dty", search_mode="unordered"):

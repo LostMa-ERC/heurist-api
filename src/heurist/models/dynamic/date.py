@@ -1,8 +1,8 @@
 from datetime import datetime
-from pydantic import BaseModel, Field, BeforeValidator
-from typing import Optional, Annotated
+from typing import Annotated, Optional
 
 from heurist.validators import parse_heurist_date
+from pydantic import BaseModel, BeforeValidator, Field
 
 PROFILE_MAP = {"0": "flat", "1": "central", "2": "slowStart", "3": "slowFinish"}
 DETERMINATION_MAP = {

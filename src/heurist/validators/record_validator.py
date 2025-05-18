@@ -1,13 +1,12 @@
 import logging
 import os
-
-from pydantic import BaseModel
 from pathlib import Path
 
-from heurist.validators.detail_validator import DetailValidator
 from heurist.models.dynamic.annotation import PydanticField
 from heurist.models.dynamic.type import FieldType
+from heurist.validators.detail_validator import DetailValidator
 from heurist.validators.exceptions import RepeatedValueInSingularDetailType
+from pydantic import BaseModel
 
 VALIDATION_LOG = Path.cwd().joinpath("validation.log")
 

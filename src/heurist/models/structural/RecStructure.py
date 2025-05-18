@@ -1,6 +1,5 @@
-from pydantic_xml import BaseXmlModel, element
-
 from heurist.models.structural.rst import RST
+from pydantic_xml import BaseXmlModel, element
 
 
 class RecStructure(BaseXmlModel):

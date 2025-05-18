@@ -1,12 +1,10 @@
 import csv
-import unittest
 import json
-
+import unittest
 from pathlib import Path
 
 from heurist.api.credentials import CredentialHandler
 from heurist.cli.schema import schema_command
-
 from heurist.validators.record_validator import VALIDATION_LOG
 
 

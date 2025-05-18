@@ -1,7 +1,7 @@
 """Class for converting a record's detail before the Pydantic model validation."""
 
-from heurist.models.dynamic.type import FieldType
 from heurist.models.dynamic.date import TemporalObject
+from heurist.models.dynamic.type import FieldType
 
 
 class DetailValidator:

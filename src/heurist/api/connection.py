@@ -1,11 +1,10 @@
 """Heurist API session"""
 
 import requests
-from requests import Session
-
-from heurist.api.exceptions import AuthenticationError
 from heurist.api.client import HeuristAPIClient
 from heurist.api.constants import READTIMEOUT
+from heurist.api.exceptions import AuthenticationError
+from requests import Session
 
 
 class HeuristAPIConnection:

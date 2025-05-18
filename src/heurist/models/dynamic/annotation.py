@@ -1,9 +1,8 @@
 from typing import Any, Optional
 
-from pydantic import Field
-
 from heurist.models.dynamic.type import FieldType
 from heurist.sql.sql_safety import SafeSQLName
+from pydantic import Field
 
 
 class PydanticField:

@@ -1,6 +1,5 @@
-from pydantic_xml import BaseXmlModel, element
-
 from heurist.models.structural.trm import TRM
+from pydantic_xml import BaseXmlModel, element
 
 
 class Terms(BaseXmlModel):

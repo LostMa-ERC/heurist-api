@@ -1,6 +1,5 @@
-from pydantic_xml import BaseXmlModel, element
-
 from heurist.models.structural.rty import RTY
+from pydantic_xml import BaseXmlModel, element
 
 
 class RecTypes(BaseXmlModel):

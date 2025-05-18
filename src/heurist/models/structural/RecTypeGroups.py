@@ -1,6 +1,5 @@
-from pydantic_xml import BaseXmlModel, element
-
 from heurist.models.structural.rtg import RTG
+from pydantic_xml import BaseXmlModel, element
 
 
 class RecTypeGroups(BaseXmlModel):

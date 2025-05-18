@@ -1,9 +1,9 @@
-import unittest
-import pytest
 import os
+import unittest
 
-from heurist.api.credentials import CredentialHandler
+import pytest
 from heurist.api.connection import HeuristAPIConnection
+from heurist.api.credentials import CredentialHandler
 
 IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
 

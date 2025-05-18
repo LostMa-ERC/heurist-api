@@ -1,9 +1,9 @@
 import duckdb
 import polars as pl
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
+from heurist.models.structural.hml_structure import HMLStructure
 from pydantic_xml import BaseXmlModel
 
-from heurist.models.structural.hml_structure import HMLStructure
 from heurist.sql import RECORD_TYPE_SCHEMA
 
 

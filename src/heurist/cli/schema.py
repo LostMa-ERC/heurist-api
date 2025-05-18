@@ -5,6 +5,8 @@ about the Heurist database structure.
 
 from pathlib import Path
 
+from heurist.api.connection import HeuristAPIConnection
+from heurist.api.credentials import CredentialHandler
 from rich.progress import (
     BarColumn,
     MofNCompleteColumn,
@@ -14,8 +16,6 @@ from rich.progress import (
     TimeElapsedColumn,
 )
 
-from heurist.api.credentials import CredentialHandler
-from heurist.api.connection import HeuristAPIConnection
 from heurist.database import TransformedDatabase
 from heurist.schema import output_csv, output_json
 

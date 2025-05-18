@@ -1,14 +1,19 @@
 """Heurist API client"""
 
 import json
-from typing import Literal, ByteString
-import requests
-from tenacity import retry, stop_after_attempt, retry_if_exception_type, RetryError
+from typing import ByteString, Literal
 
+import requests
+from heurist.api.constants import MAX_RETRY, READTIMEOUT
 from heurist.api.exceptions import APIException, ReadTimeout
 from heurist.api.url_builder import URLBuilder
-from heurist.api.constants import READTIMEOUT, MAX_RETRY
 from heurist.api.utils import log_attempt_number
+from tenacity import (
+    RetryError,
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+)
 
 
 class HeuristAPIClient:

@@ -1,7 +1,7 @@
 import unittest
 
-from heurist.validators.record_validator import RecordValidator, VALIDATION_LOG
 from heurist.models.dynamic import HeuristRecord
+from heurist.validators.record_validator import VALIDATION_LOG, RecordValidator
 
 # Result of joining the database schema tables for a detail that takes only 1 value.
 LIMITED_METADATA = [
@@ -55,7 +55,6 @@ RECORDS = [
 
 
 class ValidRepeatedDetailTest(unittest.TestCase):
-
     def test(self):
         hr = HeuristRecord(
             rty_ID=100, rty_Name="Example", detail_metadata=REPEATED_METADATA
