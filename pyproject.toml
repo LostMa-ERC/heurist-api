@@ -37,10 +37,15 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
     packages = ["src/heurist", "src/mock_data"]
 
+
+[tool.poetry.group.dev.dependencies]
+
+
 [dependency-groups]
 dev = [
     "coverage>=7.8.0",
     "genbadge[coverage]>=1.1.2",
+    "isort>=6.0.1",
     "mkdocs>=1.6.1",
     "mkdocs-gen-files>=0.5.0",
     "mkdocs-literate-nav>=0.6.2",
@@ -48,11 +53,18 @@ dev = [
     "mkdocstrings-python>=1.16.10",
     "pymdown-extensions>=10.15",
     "pytest>=8.3.5",
+    "pre-commit>=4.2.0",
     "ruff>=0.11.10",
+    "uv>=0.7.5",
 ]
 
 [project.scripts]
 heurist = "heurist.cli.__main__:cli"
+
+[tool.isort]
+profile = "black"
+line_length = 79
+src_paths = ["heurist", "tests"]
 
 [[tool.uv.index]]
 name = "testpypi"

@@ -1,19 +1,18 @@
 """
-CLI command for extracting, transforming, and loading remote Heurist data.
+CLI command for downloading one requested record type's data.
 """
 
 import json
 from pathlib import Path
 
+from heurist.api.connection import HeuristAPIConnection
+from heurist.api.credentials import CredentialHandler
 from rich.progress import (
     Progress,
     SpinnerColumn,
     TextColumn,
     TimeElapsedColumn,
 )
-
-from heurist.api.connection import HeuristAPIConnection
-from heurist.api.credentials import CredentialHandler
 
 
 def rty_command(

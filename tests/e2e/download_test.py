@@ -2,7 +2,6 @@ import unittest
 from pathlib import Path
 
 import duckdb
-
 from heurist.api.credentials import CredentialHandler
 from heurist.cli.load import load_command
 

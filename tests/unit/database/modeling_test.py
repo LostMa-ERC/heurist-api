@@ -1,10 +1,10 @@
 import unittest
 
 import duckdb
-
 from heurist.validators.record_validator import VALIDATION_LOG
-from mock_data import DB_STRUCTURE_XML
+
 from heurist.database.database import TransformedDatabase
+from mock_data import DB_STRUCTURE_XML
 
 
 class ModelingTest(unittest.TestCase):

@@ -1,7 +1,7 @@
-from pydantic import BaseModel, Field, create_model as pydantic_create_model
-
 from heurist.models.dynamic.annotation import PydanticField
 from heurist.sql.sql_safety import SafeSQLName
+from pydantic import BaseModel, Field
+from pydantic import create_model as pydantic_create_model
 
 
 class HeuristRecord:

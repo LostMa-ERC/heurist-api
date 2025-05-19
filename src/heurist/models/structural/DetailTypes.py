@@ -1,6 +1,5 @@
-from pydantic_xml import BaseXmlModel, element
-
 from heurist.models.structural.dty import DTY
+from pydantic_xml import BaseXmlModel, element
 
 
 class DetailTypes(BaseXmlModel):

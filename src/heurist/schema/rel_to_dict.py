@@ -1,7 +1,6 @@
 import duckdb
-
-from heurist.utils.rel_to_dict_array import rel_to_dict_array
 from heurist.schema.models import DTY, RTY
+from heurist.utils.rel_to_dict_array import rel_to_dict_array
 
 
 def convert_rty_description(description: duckdb.DuckDBPyRelation) -> dict:

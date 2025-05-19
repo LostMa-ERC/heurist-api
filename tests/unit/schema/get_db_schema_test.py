@@ -5,7 +5,6 @@ from heurist.cli.schema import get_database_schema
 
 
 class SchemaTest(unittest.TestCase):
-
     def setUp(self):
         try:
             self.credentials = CredentialHandler()

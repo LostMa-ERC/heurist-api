@@ -1,15 +1,14 @@
 """
-CLI command for extracting, transforming, and loading remote Heurist data.
+CLI command for downloading all requested record types' data.
 """
 
 from pathlib import Path
 
 import duckdb
-
-from heurist.api.credentials import CredentialHandler
 from heurist.api.connection import HeuristAPIConnection
-from heurist.workflows import extract_transform_load
+from heurist.api.credentials import CredentialHandler
 from heurist.utils.constants import DEFAULT_RECORD_GROUPS
+from heurist.workflows import extract_transform_load
 
 
 def load_command(

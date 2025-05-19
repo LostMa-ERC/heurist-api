@@ -1,7 +1,8 @@
 import os
+
 from dotenv import find_dotenv, load_dotenv
-from heurist.api.exceptions import MissingParameterException
 from heurist.api.connection import HeuristAPIConnection
+from heurist.api.exceptions import MissingParameterException
 
 
 class CredentialHandler:
@@ -17,7 +18,6 @@ class CredentialHandler:
         password: str | None = None,
         debugging: bool = False,
     ):
-
         if not debugging:
             load_dotenv(self.env_file)
 

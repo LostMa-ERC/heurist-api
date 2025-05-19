@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 file_path_record_type_schema = Path(__file__).parent.joinpath(
     "selectRecordTypeSchema.sql"
 )

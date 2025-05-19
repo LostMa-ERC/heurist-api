@@ -1,9 +1,9 @@
 import pandas as pd
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
-
 from heurist.database.basedb import HeuristDatabase
 from heurist.models.dynamic import HeuristRecord
 from heurist.validators.record_validator import RecordValidator
+
 from heurist.sql import RECORD_BY_GROUP_TYPE, RECORD_TYPE_METADATA
 
 

@@ -1,7 +1,7 @@
+from datetime import datetime
+
 import dateutil.parser
 import dateutil.relativedelta
-
-from datetime import datetime
 
 
 def parse_heurist_date(repr: str | int | float | None) -> datetime | None:

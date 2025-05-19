@@ -6,13 +6,12 @@ Declare the login credentials in a .env file
 """
 
 import unittest
+
+from heurist.api.connection import HeuristAPIConnection
+from heurist.api.credentials import CredentialHandler
+from heurist.api.exceptions import AuthenticationError
 from lxml import etree
 from requests.exceptions import ConnectTimeout
-
-from heurist.api.credentials import CredentialHandler
-from heurist.api.connection import HeuristAPIConnection
-from heurist.api.exceptions import AuthenticationError
-
 
 TEST_RECORD_TYPE = 103
 TEST_USER = 2
@@ -87,7 +86,6 @@ class ClientUnitTest(unittest.TestCase):
             login=self.credentials.get_login(),
             password=self.credentials.get_password(),
         ) as client:
-
             # Confirm that the client receives bytes data.
             hml_bytes = client.get_structure()
             self.assertIsInstance(hml_bytes, bytes)
@@ -119,7 +117,6 @@ class ClientUnitTest(unittest.TestCase):
             login=self.credentials.get_login(),
             password=self.credentials.get_password(),
         ) as client:
-
             # Confirm that the client receives bytes data.
             records = client.get_records(record_type_id=TEST_RECORD_TYPE, form="xml")
 

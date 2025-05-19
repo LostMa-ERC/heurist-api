@@ -1,10 +1,13 @@
 """
-CLI command for extracting, transforming, and loading details
-about the Heurist database structure.
+CLI command for downloading details about a Heurist database schema.
 """
 
 from pathlib import Path
 
+from heurist.api.connection import HeuristAPIConnection
+from heurist.api.credentials import CredentialHandler
+from heurist.database import TransformedDatabase
+from heurist.schema import output_csv, output_json
 from rich.progress import (
     BarColumn,
     MofNCompleteColumn,
@@ -13,11 +16,6 @@ from rich.progress import (
     TextColumn,
     TimeElapsedColumn,
 )
-
-from heurist.api.credentials import CredentialHandler
-from heurist.api.connection import HeuristAPIConnection
-from heurist.database import TransformedDatabase
-from heurist.schema import output_csv, output_json
 
 
 def get_database_schema(
