@@ -2,11 +2,8 @@ name: Release
 
 on:
     push:
-        paths:
-          - '.github/workflows/pypi-release.yml'
         tags:
           - 'v*'
-    workflow_call:
 
 jobs:
   # Check that everything works as expected
@@ -14,20 +11,37 @@ jobs:
     name: Tests
     uses: ./.github/workflows/python-package.yml
 
-  test-pypi:
-    name: Publish to Test PyPI
+  pypi:
+    name: Publish to PyPI
     needs: test
     runs-on: ubuntu-latest
-    # Environment and permissions trusted publishing.
+    # Environment and permissions for trusted publishing
     environment:
-      # This environment was creatd in the GitHub repository under Settings -> Environments
-      # And it's been added as a trusted publisher for the project on TestPyPI
-      name: testpypi
+     # This environment was creatd in the GitHub repository under Settings -> Environments
+     # And it's been added as a trusted publisher for the project on PyPI
+     name: pypi
     permissions:
       id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
       - run: uv build
-      - run: uv publish --index testpypi dist/*
-      # - run: uv publish --trusted-publishing always
+      - run: uv publish --trusted-publishing always
+
+  # test-pypi:
+  #   name: Publish to Test PyPI
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   # Environment and permissions trusted publishing.
+  #   environment:
+  #     # This environment was creatd in the GitHub repository under Settings -> Environments
+  #     # And it's been added as a trusted publisher for the project on TestPyPI
+  #     name: testpypi
+  #   permissions:
+  #     id-token: write
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: astral-sh/setup-uv@v3
+  #     - run: uv build
+  #     - run: uv publish --index testpypi dist/*
+  #     # - run: uv publish --trusted-publishing always
