@@ -5,6 +5,7 @@ CLI commands for extracting, transforming, and loading remote Heurist data.
 import importlib.metadata
 
 import click
+from heurist import PACKAGE_NAME
 from heurist.api.credentials import CredentialHandler
 from heurist.api.exceptions import MissingParameterException
 from heurist.cli.load import load_command
@@ -14,7 +15,7 @@ from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 from rich.console import Console
 
 # This name must match the package name ('name' kwarg) in the TOML file.
-__identifier__ = importlib.metadata.version("heurist")
+__identifier__ = importlib.metadata.version(PACKAGE_NAME)
 
 
 # =========================== #

@@ -1,5 +1,6 @@
 import duckdb
 from heurist.api.connection import HeuristAPIConnection
+from heurist.database import TransformedDatabase
 from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 from rich.progress import (
     BarColumn,
@@ -9,8 +10,6 @@ from rich.progress import (
     TextColumn,
     TimeElapsedColumn,
 )
-
-from heurist.database import TransformedDatabase
 
 
 def extract_transform_load(

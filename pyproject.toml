@@ -1,6 +1,6 @@
 [project]
 name = "heurist-api"
-version = "0.1.1"
+version = "0.1.2"
 description = "API wrapper and CLI for Heurist database."
 keywords = [ "duckdb", "etl" ]
 dynamic = [ "readme" ]
@@ -37,10 +37,6 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
     packages = ["src/heurist", "src/mock_data"]
 
-
-[tool.poetry.group.dev.dependencies]
-
-
 [dependency-groups]
 dev = [
     "coverage>=7.8.0",
@@ -59,7 +55,7 @@ dev = [
 ]
 
 [project.scripts]
-hapi = "heurist.cli.__main__:cli"
+heurist = "heurist.cli.__main__:cli"
 
 [tool.isort]
 profile = "black"
