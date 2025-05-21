@@ -5,7 +5,7 @@ on:
         paths:
           - '.github/workflows/pypi-release.yml'
         tags:
-            - 'v*'
+          - 'v*'
     workflow_call:
 
 jobs:
