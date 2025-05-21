@@ -1,10 +1,10 @@
-# Heurist ETL
+# Heurist API
 
 [![Python package](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml/badge.svg)](https://github.com/LostMa-ERC/heurist-etl-pipeline/actions/workflows/python-package.yml) [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![coverage](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/coverage-badge.svg)](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/coverage-badge.svg)
 [![tests](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/tests-badge.svg)](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/tests-badge.svg)
 
-This Python package Extracts, Transforms, and Loads (ETL) data from a Heurist database server into a local [DuckDB](https://duckdb.org) database file.
+This Python package provides an API wrapper for Heurist as well as a command-line interface (CLI) that Extracts, Transforms, and Loads (ETL) data from a Heurist database server into a local [DuckDB](https://duckdb.org) database file.
 
 - [Installation & configuration](usage/index.md#installation)
 - [Basic command-line usage](usage/index.md#cli-commands)
