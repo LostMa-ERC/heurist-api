@@ -1,5 +1,5 @@
 [project]
-name = "heurist"
+name = "heurist-api"
 version = "0.1.1"
 description = "ETL data pipeline tool for Heurist database."
 keywords = [ "duckdb", "etl" ]
@@ -25,10 +25,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://lostma-erc.github.io/heurist-etl-pipeline/"
-Documentation = "https://lostma-erc.github.io/heurist-etl-pipeline/"
-Repository = "https://github.com/LostMa-ERC/heurist-etl-pipeline"
-Issues = "https://github.com/LostMa-ERC/heurist-etl-pipeline/issues"
+Homepage = "https://lostma-erc.github.io/heurist-api/"
+Documentation = "https://lostma-erc.github.io/heurist-api/"
+Repository = "https://github.com/LostMa-ERC/heurist-api"
+Issues = "https://github.com/LostMa-ERC/heurist-api/issues"
 
 [build-system]
 requires = ["hatchling"]
@@ -59,7 +59,7 @@ dev = [
 ]
 
 [project.scripts]
-heurist = "heurist.cli.__main__:cli"
+hapi = "heurist.cli.__main__:cli"
 
 [tool.isort]
 profile = "black"
