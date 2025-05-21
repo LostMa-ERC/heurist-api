@@ -1,7 +1,7 @@
 [project]
 name = "heurist-api"
 version = "0.1.1"
-description = "ETL data pipeline tool for Heurist database."
+description = "API wrapper and CLI for Heurist database."
 keywords = [ "duckdb", "etl" ]
 dynamic = [ "readme" ]
 license = { file = "LICENSE" }
