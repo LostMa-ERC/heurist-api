@@ -1,5 +1,5 @@
 site_name: Heurist ETL
-site_url: https://lostma-erc.github.io/heurist-etl-pipeline/
+site_url: https://lostma-erc.github.io/heurist-api/
 
 theme:
   name: material
@@ -78,4 +78,4 @@ nav:
   - Coverage: development/coverage.md
   - Publishing: development/publishing.md
 - Credits: legal.md
-- GitHub: https://github.com/LostMa-ERC/heurist-etl-pipeline
+- GitHub: https://github.com/LostMa-ERC/heurist-api
