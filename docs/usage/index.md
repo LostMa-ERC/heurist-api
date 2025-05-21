@@ -9,7 +9,7 @@ Secondarily, you can also exploit certain modules, such as the API client, for y
 ### Requirements
 
 - Python version 3.10 or greater
-- Virtual Python environment, i.e. [`pyenv`](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation).
+- A way to manage your virtual Python environment, i.e. [`pyenv`](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation).
 
 ### Steps
 
@@ -17,14 +17,11 @@ Secondarily, you can also exploit certain modules, such as the API client, for y
     - Need help installing Python? Check out the [Real Python](https://realpython.com/installing-python/) blog's tutorial.
 2. Create a new virtual environment for the package. Then activate it.
     - What's the simplest way? Check out [Real Python](https://realpython.com/python-virtual-environments-a-primer/)'s thorough blog post.
-    - I recommend naming the environment `heurist`.
-3. Use `pip install` to install the `heurist` Python package.
+    - I recommend naming the environment `heurist-api`.
+3. Use `pip install` to install the `heurist-api` Python package.
 
 ```console
-$ pip install \
---index-url https://test.pypi.org/simple/ \
---extra-index-url https://pypi.org/simple \
-heurist
+$ pip install heurist-api
 ```
 
 ## Configure the CLI

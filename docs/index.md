@@ -14,10 +14,7 @@ This Python package Extracts, Transforms, and Loads (ETL) data from a Heurist da
 [![Logo](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png)](https://github.com/LostMa-ERC/heurist-etl-pipeline/raw/main/docs/assets/logo-transparent-1.png)
 
 ```shell
-$ pip install \
---index-url https://test.pypi.org/simple/ \
---extra-index-url https://pypi.org/simple \
-heurist
+$ pip install heurist-api
 ```
 
 ## Commands

@@ -8,9 +8,23 @@
 
 Extract, transform, and load data from your Heurist database into local formats. Great for freeing up your data analysis pipeline!
 
-## Documentation
+## Quick Start
 
-For information about installation, usage, etc., navigate to the documentation site below:
+Install (Python version +3.10) with pip.
+
+```shell
+pip install heurist-api
+```
+
+Download your record types in a [DuckDB](https://duckdb.org/) database file.
+
+```shell
+heurist -d 'YOUR.DATABASE' -u 'YOUR.LOGIN' -p 'YOUR.PASSWORD' download -f 'FILE.DB'
+```
+
+## Full Documentation
+
+For detailed information about installation, usage, etc., navigate to the documentation site below:
 
 - [Documentation](https://lostma-erc.github.io/heurist-etl-pipeline/)
 
