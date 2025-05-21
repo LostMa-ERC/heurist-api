@@ -2,10 +2,10 @@ name: Release
 
 on:
     push:
+        paths:
+          - '.github/workflows/pypi-release.yml'
         tags:
             - 'v*'
-        paths:
-          - ".github/workflows/pypi-release.yml"
     workflow_call:
 
 jobs:
