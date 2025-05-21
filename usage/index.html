@@ -2460,7 +2460,7 @@
 <h3 id="requirements">Requirements</h3>
 <ul>
 <li>Python version 3.10 or greater</li>
-<li>Virtual Python environment, i.e. <a href="https://github.com/pyenv/pyenv?tab=readme-ov-file#installation"><code>pyenv</code></a>.</li>
+<li>A way to manage your virtual Python environment, i.e. <a href="https://github.com/pyenv/pyenv?tab=readme-ov-file#installation"><code>pyenv</code></a>.</li>
 </ul>
 <h3 id="steps">Steps</h3>
 <ol>
@@ -2470,15 +2470,12 @@
 </li>
 <li>Create a new virtual environment for the package. Then activate it.<ul>
 <li>What's the simplest way? Check out <a href="https://realpython.com/python-virtual-environments-a-primer/">Real Python</a>'s thorough blog post.</li>
-<li>I recommend naming the environment <code>heurist</code>.</li>
+<li>I recommend naming the environment <code>heurist-api</code>.</li>
 </ul>
 </li>
-<li>Use <code>pip install</code> to install the <code>heurist</code> Python package.</li>
+<li>Use <code>pip install</code> to install the <code>heurist-api</code> Python package.</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
---index-url<span class="w"> </span>https://test.pypi.org/simple/<span class="w"> </span><span class="se">\</span>
---extra-index-url<span class="w"> </span>https://pypi.org/simple<span class="w"> </span><span class="se">\</span>
-heurist
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>heurist-api
 </code></pre></div>
 <h2 id="configure-the-cli">Configure the CLI</h2>
 <p>All of the <code>heurist</code> subcommands require connecting to your Heurist database.</p>
