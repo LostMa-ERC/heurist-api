@@ -20,6 +20,8 @@ class TransformedDatabase(HeuristDatabase):
     ) -> None:
         super().__init__(hml_xml, conn, db)
 
+        self.conn.execute("SET GLOBAL pandas_analyze_sample=100000")
+
         # Create an empty index of targeted record types' Pydantic models
         self.pydantic_models = {}
 
