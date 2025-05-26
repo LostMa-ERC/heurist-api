@@ -26,7 +26,7 @@ heurist -d 'YOUR.DATABASE' -u 'YOUR.LOGIN' -p 'YOUR.PASSWORD' download -f 'FILE.
 
 For detailed information about installation, usage, etc., navigate to the documentation site below:
 
-- [Documentation](https://lostma-erc.github.io/heurist-etl-pipeline/)
+- [Documentation](https://lostma-erc.github.io/heurist-api/)
 
 ## License
 
