@@ -1,0 +1,10 @@
+2025-05-26 18:50 - WARNING -
+	[rec_Type 104]
+	[rec_ID 834]
+	The detail 'note' is limited to a maximum of 1 values.
+	Count of values = 3.
+2025-05-26 18:50 - WARNING -
+	[rec_Type 104]
+	[rec_ID 834]
+	The detail 'contam' is limited to a maximum of 1 values.
+	Count of values = 2.
