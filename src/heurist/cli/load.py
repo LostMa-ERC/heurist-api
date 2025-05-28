@@ -43,7 +43,7 @@ def load_command(
         )
 
     # Show the results of the created DuckDB database
-    with duckdb.connect(duckdb_database_connection_path) as new_conn:
+    with duckdb.connect(duckdb_database_connection_path, read_only=True) as new_conn:
         tables = [t[0] for t in new_conn.sql("show tables;").fetchall()]
         with open(VALIDATION_LOG) as f:
             log = f.readlines()
