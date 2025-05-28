@@ -8,7 +8,7 @@ from heurist.validators.detail_validator import DetailValidator
 from heurist.validators.exceptions import RepeatedValueInSingularDetailType
 from pydantic import BaseModel
 
-handlers = [logging.FileHandler(filename=VALIDATION_LOG, mode="w", delay=True)]
+handlers = [logging.FileHandler(filename=VALIDATION_LOG, mode="w")]
 if os.getenv("HEURIST_STREAM_LOG") == "True":
     handlers.append(logging.StreamHandler())
 

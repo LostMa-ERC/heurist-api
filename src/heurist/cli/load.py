@@ -45,8 +45,11 @@ def load_command(
     # Show the results of the created DuckDB database
     with duckdb.connect(duckdb_database_connection_path, read_only=True) as new_conn:
         tables = [t[0] for t in new_conn.sql("show tables;").fetchall()]
-        with open(VALIDATION_LOG) as f:
-            log = f.readlines()
+        if VALIDATION_LOG.is_file():
+            with open(VALIDATION_LOG) as f:
+                log = f.readlines()
+        else:
+            log = []
         show_summary_in_console(tables=tables, log_lines=log)
 
         # If writing to CSV files, write only tables of record types
@@ -62,7 +65,7 @@ def load_command(
                 new_conn.table(table_name).sort("H-ID").write_csv(str(fp))
 
 
-def show_summary_in_console(tables: list[str], log_lines: list[str]):
+def show_summary_in_console(tables: list[str], log_lines: list):
     console = Console()
     t0 = Panel(
         Columns(tables, equal=True, expand=True),
