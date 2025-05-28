@@ -1,6 +1,6 @@
 [project]
 name = "heurist-api"
-version = "0.2.2"
+version = "0.2.2a0"
 keywords = [ "duckdb", "etl" ]
 readme = "README.md"
 dynamic = ["description"]
