@@ -7,8 +7,14 @@ from pathlib import Path
 import duckdb
 from heurist.api.connection import HeuristAPIConnection
 from heurist.api.credentials import CredentialHandler
+from heurist.log import log_summary
+from heurist.log.constants import VALIDATION_LOG
 from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 from heurist.workflows import extract_transform_load
+from rich.columns import Columns
+from rich.console import Console, Group
+from rich.padding import Padding
+from rich.panel import Panel
 
 
 def load_command(
@@ -38,9 +44,10 @@ def load_command(
 
     # Show the results of the created DuckDB database
     with duckdb.connect(duckdb_database_connection_path) as new_conn:
-        tables = new_conn.sql("show tables;")
-        print("\nCreated the following tables")
-        print(tables)
+        tables = [t[0] for t in new_conn.sql("show tables;").fetchall()]
+        with open(VALIDATION_LOG) as f:
+            log = f.readlines()
+        show_summary_in_console(tables=tables, log_lines=log)
 
         # If writing to CSV files, write only tables of record types
         if outdir:
@@ -53,3 +60,15 @@ def load_command(
                     continue
                 fp = outdir.joinpath(f"{table_name}.csv")
                 new_conn.table(table_name).sort("H-ID").write_csv(str(fp))
+
+
+def show_summary_in_console(tables: list[str], log_lines: list[str]):
+    console = Console()
+    t0 = Panel(
+        Columns(tables, equal=True, expand=True),
+        title="SQL Tables",
+        subtitle="Saved in DuckDB database file.",
+    )
+    t1, t2 = log_summary(lines=log_lines)
+    panel_group = Group(Padding(t0, 1), t1, Padding(t2, 1))
+    console.print(panel_group)

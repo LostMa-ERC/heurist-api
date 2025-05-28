@@ -1,14 +1,12 @@
 import logging
 import os
-from pathlib import Path
 
+from heurist.log.constants import VALIDATION_LOG
 from heurist.models.dynamic.annotation import PydanticField
 from heurist.models.dynamic.type import FieldType
 from heurist.validators.detail_validator import DetailValidator
 from heurist.validators.exceptions import RepeatedValueInSingularDetailType
 from pydantic import BaseModel
-
-VALIDATION_LOG = Path.cwd().joinpath("validation.log")
 
 handlers = [logging.FileHandler(filename=VALIDATION_LOG, mode="w", delay=True)]
 if os.getenv("HEURIST_STREAM_LOG") == "True":
