@@ -421,7 +421,7 @@ wheels = [
 
 [[package]]
 name = "heurist-api"
-version = "0.2.3a0"
+version = "0.2.3"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
