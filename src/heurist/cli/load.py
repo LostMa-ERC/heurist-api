@@ -56,13 +56,12 @@ def load_command(
         if outdir:
             outdir = Path(outdir)
             outdir.mkdir(exist_ok=True)
-            for tup in tables.fetchall():
-                table_name = tup[0]
+            for table in tables:
                 # Skip the schema tables
-                if table_name in ["rtg", "rst", "rty", "dty", "trm"]:
+                if table in ["rtg", "rst", "rty", "dty", "trm"]:
                     continue
-                fp = outdir.joinpath(f"{table_name}.csv")
-                new_conn.table(table_name).sort("H-ID").write_csv(str(fp))
+                fp = outdir.joinpath(f"{table}.csv")
+                new_conn.table(table).sort("H-ID").write_csv(str(fp))
 
 
 def show_summary_in_console(tables: list[str], log_lines: list):
