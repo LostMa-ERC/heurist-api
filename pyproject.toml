@@ -6,6 +6,7 @@ readme = "README.md"
 dynamic = ["description"]
 license = { file = "LICENSE" }
 authors = [
+    {name = "Kelly Christensen", email = "kelly.christensen@chartes.psl.eu"},
     {name = "Virgile Reignier", email = "virgile.reignier@chartes.psl.eu"}
 ]
 requires-python = ">=3.10"
