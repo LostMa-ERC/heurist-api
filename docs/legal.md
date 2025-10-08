@@ -9,6 +9,7 @@ This Python package is distributed with the [Creative Commons' Attribution-Share
 - Architect: [Kelly Christensen](https://github.com/kat-kel)
 - Maintainers:
     - [Kelly Christensen](https://github.com/kat-kel)
+    - [Virgile Reignier](https://github.com/virgile-reignier)
 - Development context:
     - [LostMa project](https://lostma-erc.github.io)
     - Project leader: [Jean-Baptiste Camps](https://github.com/Jean-Baptiste-Camps)
