@@ -19,7 +19,7 @@ pip install heurist-api
 Download your record types in a [DuckDB](https://duckdb.org/) database file.
 
 ```shell
-heurist -d 'YOUR.DATABASE' -u 'YOUR.LOGIN' -p 'YOUR.PASSWORD' download -f 'FILE.DB'
+heurist -d 'YOUR.DATABASE' -l 'YOUR.LOGIN' -p 'YOUR.PASSWORD' download -f 'FILE.DB'
 ```
 
 ## Full Documentation
