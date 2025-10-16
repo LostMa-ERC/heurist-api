@@ -13,7 +13,7 @@ from pydantic_xml import BaseXmlModel, element
 
 
 class HMLStructure(BaseXmlModel, tag="hml_structure", search_mode="unordered"):
-    """Parent dataclass forr modeling the entire Heurist database structure.
+    """Parent dataclass for modeling the entire Heurist database structure.
 
     Attributes:
         detail_types (DetailTypes): model for data nested in the DetailTypes tag.
