@@ -102,7 +102,7 @@ WHERE table_name like '{table_name}'
         self.delete_existing_table(name)
 
         # Convert the model to a dataframe and register it for duckdb
-        df = pl.DataFrame(model, infer_schema_length=None)
+        df = pl.DataFrame(model)
         assert df.shape[0] > 1
 
         # Create table from model dataframe
