@@ -1,7 +1,7 @@
 import unittest
 
 from heurist.api.credentials import CredentialHandler
-from heurist.cli.schema import get_database_schema
+from heurist.schema.export import get_database_schema
 
 
 class SchemaTest(unittest.TestCase):
