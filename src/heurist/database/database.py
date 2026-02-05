@@ -4,6 +4,7 @@ from heurist.database.basedb import HeuristDatabase
 from heurist.models.dynamic import HeuristRecord
 from heurist.sql import RECORD_BY_GROUP_TYPE, RECORD_TYPE_METADATA
 from heurist.validators.record_validator import RecordValidator
+from heurist.utils.constants import DEFAULT_RECORD_GROUPS
 
 
 class TransformedDatabase(HeuristDatabase):
@@ -16,7 +17,7 @@ class TransformedDatabase(HeuristDatabase):
         hml_xml: bytes,
         conn: DuckDBPyConnection | None = None,
         db: str | None = ":memory:",
-        record_type_groups: list[str] = ["My record types"],
+        record_type_groups: tuple = DEFAULT_RECORD_GROUPS,
     ) -> None:
         super().__init__(hml_xml, conn, db)
 

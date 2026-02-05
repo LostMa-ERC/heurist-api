@@ -37,7 +37,7 @@ def output_json(descriptions: list[duckdb.DuckDBPyRelation], fp: Path) -> None:
 
 
 def get_database_schema(
-    record_groups: list,
+    record_groups: tuple,
     db_name:str,
     login: str,
     password: str,
@@ -77,7 +77,7 @@ def export_schema(
     db_name:str,
     login: str,
     password: str,
-    record_group: list,
+    record_group: tuple,
     outdir: str,
     output_type: str,
     debugging: bool = False,

@@ -8,7 +8,7 @@ from heurist.schema import export_schema
 
 def schema_command(
     credentials: CredentialHandler,
-    record_group: list,
+    record_group: tuple,
     outdir: str,
     output_type: str,
     debugging: bool = False,

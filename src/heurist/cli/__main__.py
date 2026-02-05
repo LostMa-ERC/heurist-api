@@ -123,7 +123,7 @@ def records(ctx, record_type, outfile):
     required=False,
     type=click.STRING,
     multiple=True,
-    default=["My record types"],
+    default=DEFAULT_RECORD_GROUPS,
     show_default=True,
     help="Group name of the record types to be described. \
         Can be declared multiple times for multiple groups.",
