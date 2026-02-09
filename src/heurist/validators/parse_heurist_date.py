@@ -40,7 +40,7 @@ def parse_heurist_date(repr: str | int | float | None) -> datetime | None:
 
     # If the Heurist representation is a year, change it to the start of
     # the year.
-    if len(repr) == 4:
+    if len(repr) <= 4:
         iso_str = f"{repr}-01-01"
         return dateutil.parser.parse(iso_str)
 
