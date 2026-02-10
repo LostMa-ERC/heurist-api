@@ -51,6 +51,8 @@ def parse_heurist_date(repr: str | int | float | None) -> datetime | None:
     elif "." in repr:
         splits = repr.split(".")
         year, smaller_than_year = splits[0], splits[1]
+        if len(year) <= 2:
+            year = "00" + year
         if len(smaller_than_year) == 2:
             iso_str = f"{year}-{smaller_than_year}-01"
         elif len(smaller_than_year) == 4:
