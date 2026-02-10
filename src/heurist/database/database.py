@@ -1,4 +1,5 @@
 import pandas as pd
+import warnings
 from duckdb import DuckDBPyConnection, DuckDBPyRelation
 from heurist.database.basedb import HeuristDatabase
 from heurist.models.dynamic import HeuristRecord
@@ -80,7 +81,13 @@ class TransformedDatabase(HeuristDatabase):
         # Transform the sequence of dictionaries into a Pandas dataframe
         try:
             df = pd.DataFrame(model_dict_sequence)
-            df = df.convert_dtypes(dtype_backend="numpy_nullable")
+            with warnings.catch_warnings():
+                warnings.filterwarnings(
+                    "ignore",
+                    message="invalid value encountered in cast",
+                    category=RuntimeWarning,
+                )
+                df = df.convert_dtypes(dtype_backend="numpy_nullable")
             assert df.shape[1] > 0
         except Exception as e:
             from pprint import pprint
