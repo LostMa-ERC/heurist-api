@@ -8,7 +8,7 @@ class HeuristRecord:
     def __init__(self, rty_Name: str, rty_ID: int, detail_metadata: list[dict]):
         self.rty_ID = rty_ID
         # Create an SQL-safe name to give the model when it's serialized to a table
-        self.table_name = SafeSQLName().create_table_name(record_name=rty_Name)
+        self.table_name = SafeSQLName().safe_table_name(record_name=rty_Name)
         # Create the Pydantic model
         self.model = create_record_type_model(
             model_name=self.table_name, detail_metadata=detail_metadata

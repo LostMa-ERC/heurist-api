@@ -56,7 +56,7 @@ class SafeSQLName:
         capitalized_words = ["".join(w[0].capitalize() + w[1:] for w in words)]
         return "".join(capitalized_words)
 
-    def create_column_name(self, field_name: str, field_type: str = None) -> str:
+    def safe_column_name(self, field_name: str, field_type: str = None) -> str:
         """
         Create an SQL-safe column name for the Pydantic data field.
 
@@ -77,7 +77,7 @@ class SafeSQLName:
             final_name = simplified_name
         return final_name
 
-    def create_table_name(self, record_name: str) -> str:
+    def safe_table_name(self, record_name: str) -> str:
         """
         Create SQL-safe table name for the record's data model.
 

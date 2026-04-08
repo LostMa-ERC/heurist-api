@@ -19,7 +19,7 @@ from rich.progress import (
 def output_csv(dp: Path, descriptions: list[duckdb.DuckDBPyRelation]) -> None:
     for rel in descriptions:
         name = rel.select("rty_Name").limit(1).fetchone()[0]
-        safe_name = SafeSQLName().create_table_name(name)
+        safe_name = SafeSQLName().safe_table_name(name)
         fp = dp.joinpath(safe_name).with_suffix(".csv")
         rel.write_csv(file_name=str(fp), header=True)
 

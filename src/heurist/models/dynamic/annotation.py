@@ -36,7 +36,7 @@ class PydanticField:
 
     @property
     def serlialization_alias(self) -> str:
-        return SafeSQLName().create_column_name(
+        return SafeSQLName().safe_column_name(
             field_name=self.rst_DisplayName, field_type=self.dty_Type
         )
 
