@@ -83,7 +83,7 @@ class SafeSQLName:
 
         Examples:
         >>> heurist_name = "Sequence"
-        >>> SafeSQLName().create_table_name(heurist_name)
+        >>> SafeSQLName().safe_table_name(heurist_name)
         'SequenceTable'
 
         Args:
