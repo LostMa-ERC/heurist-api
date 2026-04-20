@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime
+from heurist.models.dynamic import HistoricalDate
 
 from heurist.validators.detail_validator import DetailValidator
 
@@ -87,7 +87,7 @@ class TestDate(unittest.TestCase):
         }
         self.expected_result.update(
             {
-                "value": datetime(2024, 3, 19, 0, 0),
+                "value": {"year":2024, "month":3, "day":19},
             }
         )
         actual_result = DetailValidator.validate_date(detail)
@@ -107,27 +107,27 @@ class TestDate(unittest.TestCase):
                     "profile": "3",
                 },
                 "determination": "2",
-                "estMinDate": 1180,
+                "estMinDate": -1180,
                 "estMaxDate": 1250.1231,
             },
         }
         self.expected_result.update(
             {
                 "start": {
-                    "earliest": datetime(1180, 1, 1, 0, 0),
-                    "latest": datetime(1231, 1, 1, 0, 0),
+                    "earliest": {"year":1180, "month":None, "day":None},
+                    "latest": {"year":1231, "month":None, "day":None},
                     "estProfile": "central",
                     "estDetermination": None,  # Don't forget to keep this null
                 },
                 "end": {
-                    "earliest": datetime(1246, 1, 1, 0, 0),
-                    "latest": datetime(1250, 1, 1, 0, 0),
+                    "earliest": {"year":1246, "month":None, "day":None},
+                    "latest": {"year":1250, "month":None, "day":None},
                     "estProfile": "slowFinish",
                     "estDetermination": None,  # Don't forget to keep this null
                 },
                 "estDetermination": "conjecture",
-                "estMinDate": datetime(1180, 1, 1, 0, 0),
-                "estMaxDate": datetime(1250, 12, 31, 0, 0),
+                "estMinDate": {"year":-1180, "month":None, "day":None},
+                "estMaxDate": {"year":1250, "month":12, "day":31},
             }
         )
         actual_result = DetailValidator.validate_date(detail)
