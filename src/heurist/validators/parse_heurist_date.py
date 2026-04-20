@@ -1,75 +1,68 @@
-from datetime import datetime
+import re
+from heurist.models.dynamic import HistoricalDate
 
-import dateutil.parser
-import dateutil.relativedelta
+FLOAT_RE = re.compile(r"^(-?\d+)\.(\d{2}|\d{4})$")
+ISO_RE = re.compile(r"^(-?\d+)(?:-(\d{1,2})(?:-(\d{1,2}))?)?$")
 
-
-def parse_heurist_date(repr: str | int | float | None) -> datetime | None:
+def parse_heurist_date(h_date: str | int | float | None) -> HistoricalDate | None:
     """
-    Convert Heurist's partial date representations to an ISO string format.
+    Convert Heurist's partial date representations to an ISO-compatible format.
 
     Examples:
         >>> # Test a string representation of a date
         >>> v = "2024-03-19"
         >>> parse_heurist_date(v)
-        datetime.datetime(2024, 3, 19, 0, 0)
+        HistoricalDate.iso = 2024-03-19
 
         >>> # Test an integer representation of a year, i.e. circa 1188
         >>> v = 1188
         >>> parse_heurist_date(v)
-        datetime.datetime(1188, 1, 1, 0, 0)
+        HistoricalDate.iso = 1188-01-01
 
         >>> # Test a float representation of a date
         >>> v = 1250.1231
         >>> parse_heurist_date(v)
-        datetime.datetime(1250, 12, 31, 0, 0)
+        HistoricalDate.iso = 1250-12-31
 
     Args:
-        repr (str | int | float): Heurist representation \
+        h_date (str | int | float): Heurist representation \
             of a date.
 
     Returns:
-        datetime | None: Parsed date.
+        HistoricalDate | None: Parsed date.
     """
 
-    if not repr:
-        return
+    if h_date is None:
+        return None
 
     # Affirm Heurist's representation of the date is a Python string
-    repr = str(repr)
+    h_date = str(h_date).strip()
 
-    # If the Heurist representation is a year, change it to the start of
-    # the year.
-    if len(repr) <= 4:
-        if len(repr) <= 2:
-            repr = "00" + repr
-        iso_str = f"{repr}-01-01"
-        return dateutil.parser.parse(iso_str)
+    m = FLOAT_RE.match(h_date)
+    if m:
+        year = int(m.group(1))
+        rest = m.group(2)
 
-    # If the Heurist representation is a float, parse the month and day
-    # shown after the decimal.
-    elif "." in repr:
-        splits = repr.split(".")
-        year, smaller_than_year = splits[0], splits[1]
-        if len(year) <= 2:
-            year = "00" + year
-        if len(smaller_than_year) == 2:
-            iso_str = f"{year}-{smaller_than_year}-01"
-        elif len(smaller_than_year) == 4:
-            iso_str = f"{year}-{smaller_than_year[:2]}-{smaller_than_year[2:]}"
+        if len(rest) == 2:
+            month = int(rest)
+            day = None
+        elif len(rest) == 4:
+            month = int(rest[:2])
+            day = int(rest[2:])
         else:
-            raise ValueError(repr)
-        return dateutil.parser.parse(iso_str)
+            raise ValueError(f"Invalid date: {h_date}")
 
-    # If the Heurist representation is a year and month, add the day
-    # (first of the month)
-    parts = repr.split("-")
-    if len(parts) == 2:
-        iso_str = f"{repr}-01"
-        return dateutil.parser.parser(iso_str)
-
-    # If no other conditions have been met, the representation is already in
-    # ISO format YYYY-MM-DD.
     else:
-        iso_str = repr
-        return dateutil.parser.parse(iso_str)
+        m = ISO_RE.match(h_date)
+        if not m:
+            raise ValueError(f"Invalid date: {h_date}")
+
+        year = int(m.group(1))
+        month = int(m.group(2)) if m.group(2) is not None else None
+        day = int(m.group(3)) if m.group(3) is not None else None
+
+    return HistoricalDate(
+        year=year,
+        month=month,
+        day=day
+    )

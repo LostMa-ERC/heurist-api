@@ -1,8 +1,8 @@
-from datetime import datetime
 from typing import Annotated, Optional
 
 from heurist.validators import parse_heurist_date
 from pydantic import BaseModel, BeforeValidator, Field
+from heurist.models.dynamic import HistoricalDate
 
 PROFILE_MAP = {"0": "flat", "1": "central", "2": "slowStart", "3": "slowFinish"}
 DETERMINATION_MAP = {
@@ -23,7 +23,7 @@ def parse_determination(value) -> str | None:
         return DETERMINATION_MAP[value]
 
 
-HeuristDate = Annotated[datetime, BeforeValidator(parse_heurist_date)]
+HeuristDate = Annotated[HistoricalDate, BeforeValidator(parse_heurist_date)]
 HeuristProfile = Annotated[str, BeforeValidator(parse_profile)]
 HeuristDetermination = Annotated[str, BeforeValidator(parse_determination)]
 
@@ -48,14 +48,14 @@ class Timestamp(BaseModel):
 class TemporalObject(BaseModel):
     comment: Optional[str] = Field(default=None)
     value: Optional[HeuristDate] = Field(default=None)
-    start: Optional[DateLimit] = Field(default=DateLimit(**{}))
-    end: Optional[DateLimit] = Field(default=DateLimit(**{}))
+    start: Optional[DateLimit] = Field(default_factory=DateLimit)
+    end: Optional[DateLimit] = Field(default_factory=DateLimit)
     estDetermination: Optional[HeuristDetermination] = Field(
         default=None, validation_alias="determination"
     )
     estProfile: Optional[HeuristProfile] = Field(
         default=None, validation_alias="profile"
     )
-    timestamp: Optional[Timestamp] = Field(default=Timestamp(**{}))
+    timestamp: Optional[Timestamp] = Field(default_factory=Timestamp)
     estMinDate: Optional[HeuristDate] = Field(default=None)
     estMaxDate: Optional[HeuristDate] = Field(default=None)
