@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 
 
 class HistoricalDate(BaseModel):
@@ -6,6 +6,7 @@ class HistoricalDate(BaseModel):
     month: int | None = None
     day: int | None = None
 
+    @computed_field
     @property
     def iso(self) -> str:
         month = self.month or 1
