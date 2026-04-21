@@ -74,13 +74,13 @@ class DetailValidator:
             >>> from mock_data.date.compound_single import DETAIL
             >>> value = DetailValidator.convert(DETAIL)
             >>> value['start']['earliest']
-            {'year': 1180, 'month': None, 'day': None}
+            {'year': 1180, 'month': None, 'day': None, 'iso': '1180-01-01'}
 
             >>> # Test direct date value
             >>> from mock_data.date.simple_single import DETAIL
             >>> value = DetailValidator.convert(DETAIL)
             >>> value['value']
-            {'year': 2024, 'month': 3, 'day': 19}
+            {'year': 2024, 'month': 3, 'day': 19, 'iso': '2024-03-19'}
 
         Args:
             detail (dict): Record's detail.
