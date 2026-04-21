@@ -12,17 +12,17 @@ def parse_heurist_date(h_date: str | int | float | None) -> HistoricalDate | Non
         >>> # Test a string representation of a date
         >>> v = "2024-03-19"
         >>> parse_heurist_date(v)
-        HistoricalDate(year=2024, month=3, day=19)
+        HistoricalDate(year=2024, month=3, day=19, iso='2024-03-19')
 
         >>> # Test an integer representation of a year, i.e. circa 1188
         >>> v = 1188
         >>> parse_heurist_date(v)
-        HistoricalDate(year=1188, month=None, day=None)
+        HistoricalDate(year=1188, month=None, day=None, iso='1188-01-01')
 
         >>> # Test a float representation of a date
         >>> v = 1250.1231
         >>> parse_heurist_date(v)
-        HistoricalDate(year=1250, month=12, day=31)
+        HistoricalDate(year=1250, month=12, day=31, iso='1250-12-31')
 
     Args:
         h_date (str | int | float): Heurist representation \
