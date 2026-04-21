@@ -87,7 +87,7 @@ class TestDate(unittest.TestCase):
         }
         self.expected_result.update(
             {
-                "value": {"year":2024, "month":3, "day":19},
+                "value": {"year":2024, "month":3, "day":19, 'iso': '2024-03-19'},
             }
         )
         actual_result = DetailValidator.validate_date(detail)
@@ -114,20 +114,20 @@ class TestDate(unittest.TestCase):
         self.expected_result.update(
             {
                 "start": {
-                    "earliest": {"year":1180, "month":None, "day":None},
-                    "latest": {"year":1231, "month":None, "day":None},
+                    "earliest": {"year":1180, "month":None, "day":None, 'iso': '1180-01-01'},
+                    "latest": {"year":1231, "month":None, "day":None, 'iso': '1231-01-01'},
                     "estProfile": "central",
                     "estDetermination": None,  # Don't forget to keep this null
                 },
                 "end": {
-                    "earliest": {"year":1246, "month":None, "day":None},
-                    "latest": {"year":1250, "month":None, "day":None},
+                    "earliest": {"year":1246, "month":None, "day":None, 'iso': '1246-01-01'},
+                    "latest": {"year":1250, "month":None, "day":None, 'iso': '1250-01-01'},
                     "estProfile": "slowFinish",
                     "estDetermination": None,  # Don't forget to keep this null
                 },
                 "estDetermination": "conjecture",
-                "estMinDate": {"year":-1180, "month":None, "day":None},
-                "estMaxDate": {"year":1250, "month":12, "day":31},
+                "estMinDate": {"year":-1180, "month":None, "day":None, 'iso': '-1180-01-01'},
+                "estMaxDate": {"year":1250, "month":12, "day":31, 'iso': '1250-12-31'},
             }
         )
         actual_result = DetailValidator.validate_date(detail)
