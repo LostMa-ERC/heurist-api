@@ -15,6 +15,22 @@ class DetailValidator:
 
     direct_values = ["freetext", "blocktext", "integer", "boolean", "float"]
 
+    @staticmethod
+    def parse_pipe_date(value: str) -> dict:
+        """
+        Some date data are registered in Heurist in a different format.
+        Ex. |VER=1|TYP=p|TPQ=1449-01-01|TAQ=1480-12-31
+        This format need to be converted in a regular format to be compatible with Heurist-API
+        """
+        parts = value.strip("|").split("|")
+        data = dict(part.split("=", 1) for part in parts if "=" in part)
+        return {
+            "start": {"earliest": data.get("TPQ")},
+            "end": {"latest": data.get("TAQ")},
+            "estMinDate": data.get("TPQ"),
+            "estMaxDate": data.get("TAQ"),
+        }
+
     @classmethod
     def validate_file(cls, detail: dict) -> str:
         """
@@ -88,11 +104,16 @@ class DetailValidator:
         Returns:
             dict: Structured metadata for a Heurist date object.
         """
+        value = detail.get("value")
 
-        if isinstance(detail.get("value"), dict):
-            model = TemporalObject.model_validate(detail["value"])
+        if isinstance(value, dict):
+            raw_temporal_object = value
+        elif isinstance(value, str) and value.startswith("|VER="):
+            raw_temporal_object = cls.parse_pipe_date(value)
         else:
-            model = TemporalObject.model_validate(detail)
+            raw_temporal_object = detail
+
+        model = TemporalObject.model_validate(raw_temporal_object)
         return model.model_dump(by_alias=True)
 
     @classmethod
