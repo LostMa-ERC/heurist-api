@@ -10,7 +10,7 @@ RECORD_JSON_EXPORT_PATH = "/hserv/controller/record_output.php"
 
 STRUCTURE_EXPORT_PATH = "/hserv/structure/export/getDBStructureAsXML.php"
 
-timeout_var = os.environ.get("READTIMEOUT", 10)
+timeout_var = os.environ.get("READTIMEOUT", 20)
 if isinstance(timeout_var, str):
     timeout_var = int(timeout_var)
 
