@@ -4,6 +4,7 @@ import unittest
 import pytest
 from heurist.api.connection import HeuristAPIConnection
 from heurist.api.credentials import CredentialHandler
+from heurist.api.exceptions import AuthenticationError
 
 IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
 
@@ -62,7 +63,7 @@ class ConnectionWithoutEnvVars(unittest.TestCase):
             CredentialHandler(password=None, debugging=True)
 
     def test_invalid_database_credentials(self):
-        with pytest.raises(SystemExit):
+        with pytest.raises(AuthenticationError):
             CredentialHandler(
                 database_name="test_db",
                 login="test_user",
