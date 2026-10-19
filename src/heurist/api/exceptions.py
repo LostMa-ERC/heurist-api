@@ -8,11 +8,11 @@ class APIException(Exception):
 class AuthenticationError(Exception):
     """Error raised when unable to authenticate Heurist login."""
 
-    def __init__(self, message):
-        self.message = """Authentication Error.
-\tFailed to authenticate Heurist user login.
-"""
-        super().__init__(self.message)
+    def __init__(
+        self,
+        message: str = "Failed to authenticate Heurist user login.",
+    ) -> None:
+        super().__init__(message)
 
 
 class MissingParameterException(Exception):

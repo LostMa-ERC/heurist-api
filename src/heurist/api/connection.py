@@ -4,7 +4,6 @@ import requests
 from heurist.api.client import HeuristAPIClient
 from heurist.api.constants import READTIMEOUT
 from heurist.api.exceptions import AuthenticationError
-from requests import Session
 
 
 class HeuristAPIConnection:
@@ -28,9 +27,12 @@ class HeuristAPIConnection:
                 establishing a login connection.
 
         Raises:
-            e: If the requests method fails, raise that exception.
-            AuthenticationError: If the Heurist server returns a bad status code, \
-                raise an exception.
+            requests.exceptions.RequestException:
+                If the HTTP request fails.
+            requests.exceptions.HTTPError:
+                If the Heurist server returns a 5xx status code.
+            AuthenticationError:
+                If the Heurist server returns an unsuccessful status code below 500.
         """
 
         self.db = db
@@ -38,34 +40,49 @@ class HeuristAPIConnection:
         self.__password = password
         self._readtimeout = read_timeout
         self._posttimeout = post_timeout
+        self.session: requests.Session | None = None
 
-    def __enter__(self) -> Session:
+    def __enter__(self) -> HeuristAPIClient:
         self.session = requests.Session()
-        url = "https://heurist.huma-num.fr/heurist/api/login"
+        url = "https://heurist.huma-num.fr/heurist/hserv/controller/usr_info.php"
 
         body = {
             "db": self.db,
-            "login": self.__login,
+            "username": self.__login,
             "password": self.__password,
+            "session_type": "remember",
+            "a": "login",
         }
         try:
-            response = self.session.post(url=url, data=body, timeout=self._posttimeout)
-        except requests.exceptions.ConnectTimeout as e:
-            print(
-                "\nUnable to log in to Heurist Huma-Num server. \
-                  Connection timed out."
+            response = self.session.post(
+                url=url,
+                data=body,
+                timeout=self._posttimeout,
             )
-            raise e
-        if response.status_code != 200:
-            message = response.json()["message"]
-            e = AuthenticationError(message)
-            raise SystemExit(e)
+            response.raise_for_status()
+            try:
+                data = response.json()
+            except requests.exceptions.JSONDecodeError as e:
+                raise AuthenticationError(
+                    "Heurist returned an invalid authentication response."
+                ) from e
 
-        return HeuristAPIClient(
-            database_name=self.db,
-            session=self.session,
-            timeout_seconds=self._readtimeout,
-        )
+            if data.get("status") != "ok":
+                raise AuthenticationError(
+                    data.get("message", "Heurist authentication failed.")
+                )
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.session.close()
+            return HeuristAPIClient(
+                database_name=self.db,
+                session=self.session,
+                timeout_seconds=self._readtimeout,
+            )
+        except Exception:
+            self.session.close()
+            self.session = None
+            raise
+
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+        if self.session is not None:
+            self.session.close()
+            self.session = None
